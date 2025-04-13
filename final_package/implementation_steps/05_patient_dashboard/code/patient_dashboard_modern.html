@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bệnh nhân Dashboard - Hệ thống Quản lý Sức khỏe Online</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #2c7be5;
+            --secondary: #6c757d;
+            --success: #00d97e;
+            --info: #39afd1;
+            --warning: #f6c343;
+            --danger: #e63757;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --topbar-height: 70px;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #495057;
+            background-color: #f9fbfd;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar */
+        .navbar {
+            height: var(--topbar-height);
+            background-color: white;
+            border-bottom: 1px solid #e3e6ec;
+            padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+        
+        .navbar-brand img {
+            margin-right: 10px;
+        }
+        
+        .navbar-search {
+            position: relative;
+            max-width: 300px;
+        }
+        
+        .navbar-search-input {
+            padding-left: 40px;
+            background-color: #f8f9fa;
+            border: 1px solid #e3e6ec;
+            border-radius: 50rem;
+        }
+        
+        .navbar-search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+        
+        .navbar-icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            margin-left: 10px;
+        }
+        
+        .navbar-icon-btn:hover {
+            background-color: #f8f9fa;
+            color: var(--primary);
+        }
+        
+        .navbar-icon-btn .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 0.65rem;
+        }
+        
+        .navbar-user {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+        
+        .navbar-user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+        
+        .navbar-user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .navbar-user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        .navbar-user-role {
+            font-size: 0.75rem;
+            color: #6c757d;
+            margin: 0;
+        }
+        
+        .nav-link {
+            color: #495057;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+            background-color: rgba(44, 123, 229, 0.1);
+        }
+        
+        .nav-link.active {
+            color: var(--primary);
+            background-color: rgba(44, 123, 229, 0.1);
+        }
+        
+        .nav-link i {
+            margin-right: 0.5rem;
+        }
+        
+        /* Content */
+        .content {
+            padding: 20px;
+        }
+        
+        /* Cards */
+        .card {
+            border: none;
+            border-radius: 0.75rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            margin-bottom: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            background-color: transparent;
+            border-bottom: 1px solid #e3e6ec;
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        /* Health metrics card */
+        .metric-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        
+        .metric-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: rgba(44, 123, 229, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-change {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+        }
+        
+        .metric-change i {
+            margin-right: 0.25rem;
+        }
+        
+        .metric-change.positive {
+            color: var(--success);
+        }
+        
+        .metric-change.negative {
+            color: var(--danger);
+        }
+        
+        .metric-change.neutral {
+            color: var(--secondary);
+        }
+        
+        /* Reminder card */
+        .reminder-card {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: white;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            margin-bottom: 1rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .reminder-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+        
+        .reminder-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(44, 123, 229, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .reminder-info {
+            flex: 1;
+        }
+        
+        .reminder-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .reminder-details {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+        
+        .reminder-time {
+            font-size: 0.875rem;
+            color: var(--primary);
+            font-weight: 500;
+            white-space: nowrap;
+            margin-left: 1rem;
+        }
+        
+        /* Doctor card */
+        .doctor-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        
+        .doctor-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            border: 3px solid white;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+        
+        .doctor-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .doctor-specialty {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+        
+        .doctor-rating {
+            color: var(--warning);
+            margin-bottom: 1rem;
+        }
+        
+        .doctor-actions {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .doctor-action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            background-color: var(--primary);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin: 0 0.25rem;
+        }
+        
+        .doctor-action-btn:hover {
+            background-color: #1a68d1;
+        }
+        
+        /* Health chart */
+        .health-chart-legend {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .health-chart-legend-item {
+            display: flex;
+            align-items: center;
+            margin: 0 0.5rem;
+        }
+        
+        .health-chart-legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .health-chart-legend-text {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+        
+        /* Appointment card */
+        .appointment-card {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: white;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            margin-bottom: 1rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .appointment-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+        
+        .appointment-doctor {
+            display: flex;
+            align-items: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .appointment-doctor-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 0.5rem;
+        }
+        
+        .appointment-info {
+            flex: 1;
+        }
+        
+        .appointment-doctor-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .appointment-details {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+        
+        .appointment-time {
+            font-size: 0.875rem;
+            color: var(--primary);
+            font-weight: 500;
+            white-space: nowrap;
+            margin-left: 1rem;
+        }
+        
+        .appointment-status {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 0.375rem;
+            margin-left: 1rem;
+        }
+        
+        .appointment-status.confirmed {
+            background-color: rgba(0, 217, 126, 0.1);
+            color: var(--success);
+        }
+        
+        .appointment-status.pending {
+            background-color: rgba(246, 195, 67, 0.1);
+            color: var(--warning);
+        }
+        
+        .appointment-status.cancelled {
+            background-color: rgba(230, 55, 87, 0.1);
+            color: var(--danger);
+        }
+        
+        /* Consultation card */
+        .consultation-card {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: white;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            margin-bottom: 1rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .consultation-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+        
+        .consultation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .consultation-title {
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+        
+        .consultation-date {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+        
+        .consultation-doctor {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .consultation-doctor-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 0.5rem;
+        }
+        
+        .consultation-doctor-name {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+        
+        .consultation-question {
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .consultation-answer {
+            font-size: 0.875rem;
+            padding: 0.5rem;
+            background-color: #f8f9fa;
+            border-radius: 0.375rem;
+            margin-bottom: 0;
+        }
+        
+        .consultation-status {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 0.375rem;
+        }
+        
+        .consultation-status.answered {
+            background-color: rgba(0, 217, 126, 0.1);
+            color: var(--success);
+        }
+        
+        .consultation-status.pending {
+            background-color: rgba(246, 195, 67, 0.1);
+            color: var(--warning);
+        }
+        
+        /* Article card */
+        .article-card {
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .article-img {
+            height: 180px;
+            object-fit: cover;
+            width: 100%;
+        }
+        
+        .article-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .article-excerpt {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
+        
+        .article-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .article-author-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 0.5rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .navbar-search {
+                display: none;
+            }
+            
+            .navbar-user-info {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="images/logo.png" alt="Logo" height="30">
+                <span>HealthCare</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="navbar-search d-none d-lg-block">
+                <i class="fas fa-search navbar-search-icon"></i>
+                <input type="text" class="form-control navbar-search-input" placeholder="Tìm kiếm...">
+            </div>
+            
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            <i class="fas fa-home"></i> Trang chủ
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-heartbeat"></i> Hồ sơ sức khỏe
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-calendar-check"></i> Lịch hẹn
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-comment-medical"></i> Tư vấn
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-user-md"></i> Bác sĩ
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex align-items-center">
+                    <button class="navbar-icon-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge bg-danger">3</span>
+                    </button>
+                    
+                    <button class="navbar-icon-btn">
+                        <i class="fas fa-envelope"></i>
+                        <span class="badge bg-primary">2</span>
+                    </button>
+                    
+                    <div class="dropdown">
+                        <div class="navbar-user" data-bs-toggle="dropdown">
+                            <img src="images/patient-avatar.jpg" alt="Avatar" class="navbar-user-avatar">
+                            <div class="navbar-user-info">
+                                <h6 class="navbar-user-name">Nguyễn Văn A</h6>
+                                <p class="navbar-user-role">Bệnh nhân</p>
+                            </div>
+                        </div>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-user me-2"></i> Hồ sơ cá nhân
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-cog me-2"></i> Cài đặt tài khoản
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-list me-2"></i> Hoạt động
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-sign-out-alt me-2"></i> Đăng xuất
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="content">
+        <div class="container">
+            <!-- Welcome Banner -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8">
+                            <h2 class="mb-3">Xin chào, Nguyễn Văn A!</h2>
+                            <p class="mb-4">Chào mừng bạn quay trở lại với hệ thống quản lý sức khỏe. Hãy theo dõi sức khỏe của bạn và đặt lịch hẹn với bác sĩ khi cần thiết.</p>
+                            <div class="d-flex">
+                                <a href="#" class="btn btn-primary me-2">
+                                    <i class="fas fa-calendar-plus me-2"></i> Đặt lịch hẹn
+                                </a>
+                                <a href="#" class="btn btn-outline-primary">
+                                    <i class="fas fa-comment-medical me-2"></i> Đặt câu hỏi
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 d-none d-lg-block">
+                            <img src="images/welcome-illustration.svg" alt="Welcome" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Health Metrics -->
+            <h5 class="mb-3">Chỉ số sức khỏe của bạn</h5>
+            <div class="row g-3 mb-4">
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-weight"></i>
+                        </div>
+                        <div class="metric-value">75 kg</div>
+                        <div class="metric-title">Cân nặng</div>
+                        <div class="metric-change negative">
+                            <i class="fas fa-arrow-up"></i> 2 kg
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-ruler-vertical"></i>
+                        </div>
+                        <div class="metric-value">175 cm</div>
+                        <div class="metric-title">Chiều cao</div>
+                        <div class="metric-change neutral">
+                            <i class="fas fa-equals"></i> 0 cm
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div class="metric-value">24.5</div>
+                        <div class="metric-title">BMI</div>
+                        <div class="metric-change negative">
+                            <i class="fas fa-arrow-up"></i> 0.7
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <div class="metric-value">72 bpm</div>
+                        <div class="metric-title">Nhịp tim</div>
+                        <div class="metric-change positive">
+                            <i class="fas fa-arrow-down"></i> 3 bpm
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <div class="metric-value">120/80</div>
+                        <div class="metric-title">Huyết áp</div>
+                        <div class="metric-change positive">
+                            <i class="fas fa-arrow-down"></i> 5 mmHg
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <div class="metric-value">5.5 mmol/L</div>
+                        <div class="metric-title">Đường huyết</div>
+                        <div class="metric-change positive">
+                            <i class="fas fa-arrow-down"></i> 0.3 mmol/L
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Health Chart and Reminders -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Biểu đồ theo dõi sức khỏe</h5>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    3 tháng gần đây
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a class="dropdown-item" href="#">30 ngày gần đây</a>
+                                    <a class="dropdown-item" href="#">3 tháng gần đây</a>
+                                    <a class="dropdown-item" href="#">6 tháng gần đây</a>
+                                    <a class="dropdown-item" href="#">Năm nay</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="health-chart-legend">
+                                <div class="health-chart-legend-item">
+                                    <div class="health-chart-legend-color" style="background-color: #2c7be5;"></div>
+                                    <div class="health-chart-legend-text">Cân nặng</div>
+                                </div>
+                                <div class="health-chart-legend-item">
+                                    <div class="health-chart-legend-color" style="background-color: #00d97e;"></div>
+                                    <div class="health-chart-legend-text">Huyết áp</div>
+                                </div>
+                                <div class="health-chart-legend-item">
+                                    <div class="health-chart-legend-color" style="background-color: #f6c343;"></div>
+                                    <div class="health-chart-legend-text">Đường huyết</div>
+                                </div>
+                            </div>
+                            <canvas id="healthChart" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Nhắc nhở</h5>
+                            <a href="#" class="btn btn-sm btn-primary">Xem tất cả</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="reminder-card">
+                                <div class="reminder-icon">
+                                    <i class="fas fa-pills"></i>
+                                </div>
+                                <div class="reminder-info">
+                                    <h6 class="reminder-title">Uống thuốc huyết áp</h6>
+                                    <p class="reminder-details">Uống 1 viên sau bữa sáng</p>
+                                </div>
+                                <div class="reminder-time">08:00</div>
+                            </div>
+                            
+                            <div class="reminder-card">
+                                <div class="reminder-icon">
+                                    <i class="fas fa-walking"></i>
+                                </div>
+                                <div class="reminder-info">
+                                    <h6 class="reminder-title">Tập thể dục</h6>
+                                    <p class="reminder-details">Đi bộ 30 phút</p>
+                                </div>
+                                <div class="reminder-time">17:00</div>
+                            </div>
+                            
+                            <div class="reminder-card">
+                                <div class="reminder-icon">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <div class="reminder-info">
+                                    <h6 class="reminder-title">Đo đường huyết</h6>
+                                    <p class="reminder-details">Trước bữa tối</p>
+                                </div>
+                                <div class="reminder-time">18:00</div>
+                            </div>
+                            
+                            <div class="reminder-card">
+                                <div class="reminder-icon">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="reminder-info">
+                                    <h6 class="reminder-title">Lịch hẹn khám</h6>
+                                    <p class="reminder-details">Bs. Nguyễn Văn B - Khám định kỳ</p>
+                                </div>
+                                <div class="reminder-time">Ngày mai</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Upcoming Appointments -->
+            <h5 class="mb-3">Lịch hẹn sắp tới</h5>
+            <div class="row g-3 mb-4">
+                <div class="col-12">
+                    <div class="appointment-card">
+                        <div class="appointment-doctor">
+                            <img src="images/doctor-1.jpg" alt="Doctor" class="appointment-doctor-avatar">
+                        </div>
+                        <div class="appointment-info">
+                            <h6 class="appointment-doctor-name">Bs. Nguyễn Văn B</h6>
+                            <p class="appointment-details">Khám định kỳ - Theo dõi huyết áp</p>
+                        </div>
+                        <div class="appointment-time">12/04/2025 09:00</div>
+                        <div class="appointment-status confirmed">Đã xác nhận</div>
+                    </div>
+                    
+                    <div class="appointment-card">
+                        <div class="appointment-doctor">
+                            <img src="images/doctor-2.jpg" alt="Doctor" class="appointment-doctor-avatar">
+                        </div>
+                        <div class="appointment-info">
+                            <h6 class="appointment-doctor-name">Bs. Trần Thị C</h6>
+                            <p class="appointment-details">Tư vấn dinh dưỡng</p>
+                        </div>
+                        <div class="appointment-time">15/04/2025 14:30</div>
+                        <div class="appointment-status pending">Chờ xác nhận</div>
+                    </div>
+                    
+                    <div class="appointment-card">
+                        <div class="appointment-doctor">
+                            <img src="images/doctor-3.jpg" alt="Doctor" class="appointment-doctor-avatar">
+                        </div>
+                        <div class="appointment-info">
+                            <h6 class="appointment-doctor-name">Bs. Lê Văn D</h6>
+                            <p class="appointment-details">Khám mắt định kỳ</p>
+                        </div>
+                        <div class="appointment-time">20/04/2025 10:00</div>
+                        <div class="appointment-status confirmed">Đã xác nhận</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Consultations -->
+            <h5 class="mb-3">Tư vấn gần đây</h5>
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <div class="consultation-card">
+                        <div class="consultation-header">
+                            <h6 class="consultation-title">Đau đầu và chóng mặt</h6>
+                            <span class="consultation-status answered">Đã trả lời</span>
+                        </div>
+                        <div class="consultation-doctor">
+                            <img src="images/doctor-1.jpg" alt="Doctor" class="consultation-doctor-avatar">
+                            <span class="consultation-doctor-name">Bs. Nguyễn Văn B</span>
+                        </div>
+                        <p class="consultation-question">Tôi bị đau đầu và chóng mặt khi đứng dậy đột ngột. Tình trạng này kéo dài khoảng 1 tuần nay. Tôi nên làm gì?</p>
+                        <p class="consultation-answer">Tình trạng của bạn có thể là do hạ huyết áp tư thế. Hãy đứng dậy từ từ, uống đủ nước và theo dõi huyết áp. Nếu tình trạng kéo dài, bạn nên đến khám trực tiếp để được kiểm tra cụ thể hơn.</p>
+                        <div class="consultation-date mt-2 text-end">05/04/2025</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="consultation-card">
+                        <div class="consultation-header">
+                            <h6 class="consultation-title">Vấn đề về giấc ngủ</h6>
+                            <span class="consultation-status pending">Chờ trả lời</span>
+                        </div>
+                        <div class="consultation-doctor">
+                            <img src="images/doctor-2.jpg" alt="Doctor" class="consultation-doctor-avatar">
+                            <span class="consultation-doctor-name">Bs. Trần Thị C</span>
+                        </div>
+                        <p class="consultation-question">Gần đây tôi khó ngủ và thường xuyên thức giấc giữa đêm. Tôi đã thử uống sữa ấm trước khi ngủ nhưng không hiệu quả. Bác sĩ có thể tư vấn giúp tôi cách cải thiện giấc ngủ không?</p>
+                        <div class="consultation-date mt-2 text-end">10/04/2025</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recommended Doctors -->
+            <h5 class="mb-3">Bác sĩ được đề xuất</h5>
+            <div class="row g-3 mb-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card doctor-card">
+                        <img src="images/doctor-1.jpg" alt="Doctor" class="doctor-avatar">
+                        <h6 class="doctor-name">Bs. Nguyễn Văn B</h6>
+                        <p class="doctor-specialty">Tim mạch</p>
+                        <div class="doctor-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="ms-1">4.5</span>
+                        </div>
+                        <div class="doctor-actions">
+                            <button class="doctor-action-btn">
+                                <i class="fas fa-calendar-plus"></i>
+                            </button>
+                            <button class="doctor-action-btn">
+                                <i class="fas fa-comment-medical"></i>
+                            </button>
+                            <button class="doctor-action-btn">
+                                <i class="fas fa-user"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3">
+                    <div class="card doctor-card">
+                        <img src="images/doctor-2.jpg" alt="Doctor" class="doctor-avatar">
+                        <h6 class="doctor-name">Bs. Trần Thị C</h6>
+                        <p class="doctor-specialty">Dinh dưỡng</p>
+                        <div class="doctor-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="ms-1">5.0</span>
+                        </div>
+                        <div class="doctor-actions">
+                            <button class="doctor-action-btn">
+                                <i class="fas fa-calendar-plus"></i>
+                            </button>
+                            <button class="doctor-action-btn">
+                                <i class="fas fa-comment-medical"></i>
+                            </button>
+                            <button class="doctor-action-btn">
+                                <i class="fas fa-user"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3">
+                    <div class="card doctor-card">
+                        <img src="images/doctor-3.jpg" alt="Doctor" class="doctor-avatar">
+                        <h6 class="doctor-name">Bs. Lê Văn D</h6>
+                        <p class="doctor-specialty">Nhãn khoa</p>
+                        <div class="doctor-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span class="ms-1">4.0</span>
+                        </div>
+                        <div class="doctor-actions">
+                            <button class="doctor-action-btn">
+                                <i class="fas fa-calendar-plus"></i>
+                            </button>
+                            <button class="doctor-action-btn">
+                                <i class="fas fa-comment-medical"></i>
+                            </button>
+                            <button class="doctor-action-btn">
+                                <i class="fas fa-user"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3">
+                    <div class="card doctor-card">
+                        <img src="images/doctor-4.jpg" alt="Doctor" class="doctor-avatar">
+                        <h6 class="doctor-name">Bs. Phạm Thị E</h6>
+                        <p class="doctor-specialty">Da liễu</p>
+                        <div class="doctor-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="ms-1">4.7</span>
+                        </div>
+                        <div class="doctor-actions">
+                            <button class="doctor-action-btn">
+                                <i class="fas fa-calendar-plus"></i>
+                            </button>
+                            <button class="doctor-action-btn">
+                                <i class="fas fa-comment-medical"></i>
+                            </button>
+                            <button class="doctor-action-btn">
+                                <i class="fas fa-user"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Health Articles -->
+            <h5 class="mb-3">Bài viết sức khỏe</h5>
+            <div class="row g-3 mb-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card article-card">
+                        <img src="images/article-1.jpg" alt="Article" class="article-img">
+                        <div class="card-body">
+                            <h6 class="article-title">5 cách đơn giản để kiểm soát huyết áp mà không cần dùng thuốc</h6>
+                            <p class="article-excerpt">Huyết áp cao là một trong những vấn đề sức khỏe phổ biến nhất hiện nay. Bài viết này sẽ giới thiệu 5 cách đơn giản giúp bạn kiểm soát huyết áp một cách tự nhiên...</p>
+                            <div class="article-meta">
+                                <div class="article-author">
+                                    <img src="images/doctor-1.jpg" alt="Author" class="article-author-avatar">
+                                    <span>Bs. Nguyễn Văn B</span>
+                                </div>
+                                <div>08/04/2025</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card article-card">
+                        <img src="images/article-2.jpg" alt="Article" class="article-img">
+                        <div class="card-body">
+                            <h6 class="article-title">Chế độ ăn uống cho người bị tiểu đường</h6>
+                            <p class="article-excerpt">Tiểu đường là bệnh mãn tính phổ biến ảnh hưởng đến cách cơ thể chuyển hóa đường. Chế độ ăn uống đóng vai trò quan trọng trong việc kiểm soát bệnh...</p>
+                            <div class="article-meta">
+                                <div class="article-author">
+                                    <img src="images/doctor-2.jpg" alt="Author" class="article-author-avatar">
+                                    <span>Bs. Trần Thị C</span>
+                                </div>
+                                <div>05/04/2025</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card article-card">
+                        <img src="images/article-3.jpg" alt="Article" class="article-img">
+                        <div class="card-body">
+                            <h6 class="article-title">Bảo vệ mắt trong thời đại công nghệ số</h6>
+                            <p class="article-excerpt">Thời gian sử dụng thiết bị điện tử ngày càng tăng có thể gây ra nhiều vấn đề về mắt. Bài viết này sẽ hướng dẫn bạn cách bảo vệ đôi mắt của mình...</p>
+                            <div class="article-meta">
+                                <div class="article-author">
+                                    <img src="images/doctor-3.jpg" alt="Author" class="article-author-avatar">
+                                    <span>Bs. Lê Văn D</span>
+                                </div>
+                                <div>01/04/2025</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    
+    <!-- Custom Script -->
+    <script>
+        // Health Chart
+        const healthCtx = document.getElementById('healthChart').getContext('2d');
+        const healthChart = new Chart(healthCtx, {
+            type: 'line',
+            data: {
+                labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4'],
+                datasets: [
+                    {
+                        label: 'Cân nặng (kg)',
+                        data: [72, 73, 74, 75],
+                        borderColor: '#2c7be5',
+                        backgroundColor: 'rgba(44, 123, 229, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    },
+                    {
+                        label: 'Huyết áp (mmHg)',
+                        data: [130, 125, 122, 120],
+                        borderColor: '#00d97e',
+                        backgroundColor: 'rgba(0, 217, 126, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    },
+                    {
+                        label: 'Đường huyết (mmol/L)',
+                        data: [6.2, 6.0, 5.8, 5.5],
+                        borderColor: '#f6c343',
+                        backgroundColor: 'rgba(246, 195, 67, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        grid: {
+                            borderDash: [2, 4],
+                            drawBorder: false
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false,
+                            drawBorder: false
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

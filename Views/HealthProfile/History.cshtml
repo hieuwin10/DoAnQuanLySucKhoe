@@ -1,0 +1,53 @@
+@model IEnumerable<DoAnChamSocSucKhoe.Models.LichSuSucKhoe>
+
+@{
+    ViewData["Title"] = "Lịch sử sức khỏe";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">@ViewData["Title"]</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Ngày khám</th>
+                                    <th>Cân nặng (kg)</th>
+                                    <th>Chiều cao (cm)</th>
+                                    <th>Đường huyết (mmol/L)</th>
+                                    <th>Huyết áp tâm thu (mmHg)</th>
+                                    <th>Huyết áp tâm trương (mmHg)</th>
+                                    <th>Nhịp tim (lần/phút)</th>
+                                    <th>Ghi chú</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.NgayDo.ToString("dd/MM/yyyy")</td>
+                                        <td>@item.CanNang</td>
+                                        <td>@item.ChieuCao</td>
+                                        <td>@item.DuongHuyet</td>
+                                        <td>@item.HuyetApTamThu</td>
+                                        <td>@item.HuyetApTamTruong</td>
+                                        <td>@item.NhipTim</td>
+                                        <td>@item.GhiChu</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a asp-action="Index" class="btn btn-primary">Quay lại</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

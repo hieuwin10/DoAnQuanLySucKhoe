@@ -1,0 +1,100 @@
+@{
+    ViewData["Title"] = "Liên hệ";
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h1 class="display-4 mb-4">Liên hệ với chúng tôi</h1>
+            <p class="lead">Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn.</p>
+            
+            <div class="contact-info mt-4">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="fas fa-map-marker-alt fa-2x text-primary me-3"></i>
+                    <div>
+                        <h5>Địa chỉ</h5>
+                        <p>123 Đường ABC, Quận XYZ, TP.HCM</p>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mb-3">
+                    <i class="fas fa-phone fa-2x text-primary me-3"></i>
+                    <div>
+                        <h5>Điện thoại</h5>
+                        <p>0123 456 789</p>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mb-3">
+                    <i class="fas fa-envelope fa-2x text-primary me-3"></i>
+                    <div>
+                        <h5>Email</h5>
+                        <p>info@healthcare.com</p>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mb-3">
+                    <i class="fas fa-clock fa-2x text-primary me-3"></i>
+                    <div>
+                        <h5>Giờ làm việc</h5>
+                        <p>Thứ 2 - Thứ 6: 8:00 - 17:00</p>
+                        <p>Thứ 7: 8:00 - 12:00</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-links mt-4">
+                <h5>Theo dõi chúng tôi</h5>
+                <a href="#" class="me-3"><i class="fab fa-facebook fa-2x"></i></a>
+                <a href="#" class="me-3"><i class="fab fa-twitter fa-2x"></i></a>
+                <a href="#" class="me-3"><i class="fab fa-instagram fa-2x"></i></a>
+                <a href="#" class="me-3"><i class="fab fa-linkedin fa-2x"></i></a>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title mb-4">Gửi tin nhắn cho chúng tôi</h3>
+                    <form>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Họ và tên</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Điện thoại</label>
+                            <input type="tel" class="form-control" id="phone">
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Tiêu đề</label>
+                            <input type="text" class="form-control" id="subject" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Nội dung</label>
+                            <textarea class="form-control" id="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Gửi tin nhắn</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.424602928456!2d106.6957723152608!3d10.7770089923197!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f46f9b9b9b9%3A0x9b9b9b9b9b9b9b9b!2s123%20ABC%20Street%2C%20District%20XYZ%2C%20Ho%20Chi%20Minh%20City!5e0!3m2!1sen!2s!4v1620000000000!5m2!1sen!2s" 
+                        width="100%" 
+                        height="450" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div> 

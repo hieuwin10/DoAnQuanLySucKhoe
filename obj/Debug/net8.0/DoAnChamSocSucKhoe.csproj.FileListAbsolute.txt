@@ -1,0 +1,9 @@
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net8.0\DoAnChamSocSucKhoe.csproj.AssemblyReference.cache
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net8.0\DoAnChamSocSucKhoe.GeneratedMSBuildEditorConfig.editorconfig
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net8.0\DoAnChamSocSucKhoe.AssemblyInfoInputs.cache
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net8.0\DoAnChamSocSucKhoe.AssemblyInfo.cs
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net8.0\DoAnChamSocSucKhoe.csproj.CoreCompileInputs.cache
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net8.0\DoAnChamSocSucKhoe.MvcApplicationPartsAssemblyInfo.cs
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net8.0\DoAnChamSocSucKhoe.MvcApplicationPartsAssemblyInfo.cache
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net8.0\DoAnChamSocSucKhoe.RazorAssemblyInfo.cache
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net8.0\DoAnChamSocSucKhoe.RazorAssemblyInfo.cs
