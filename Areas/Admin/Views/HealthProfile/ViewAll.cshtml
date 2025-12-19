@@ -1,0 +1,354 @@
+@using DoAnChamSocSucKhoe.Models
+@model IEnumerable<HoSoSucKhoe>
+
+@{
+    ViewData["Title"] = "Tất Cả Hồ Sơ Sức Khỏe";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-file-medical text-primary me-2"></i>Tất Cả Hồ Sơ Sức Khỏe
+            </h1>
+            <p class="text-muted mt-1">Quản lý chi tiết tất cả hồ sơ sức khỏe của bệnh nhân</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-action="Index" class="btn btn-outline-primary">
+                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+            </a>
+            <a asp-action="Statistics" class="btn btn-success">
+                <i class="fas fa-chart-bar me-2"></i>Thống Kê
+            </a>
+        </div>
+    </div>
+
+    <!-- Search and Filters -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">
+                <i class="fas fa-search me-2"></i>Tìm Kiếm & Lọc
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="searchInput" class="form-label">Tìm theo tên bệnh nhân</label>
+                    <input type="text" id="searchInput" class="form-control" placeholder="Nhập tên bệnh nhân...">
+                </div>
+                <div class="col-md-3">
+                    <label for="statusFilter" class="form-label">Trạng thái</label>
+                    <select id="statusFilter" class="form-select">
+                        <option value="">Tất cả</option>
+                        <option value="Tốt">Tốt</option>
+                        <option value="Cần chú ý">Cần chú ý</option>
+                        <option value="Nguy hiểm">Nguy hiểm</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="sortBy" class="form-label">Sắp xếp theo</label>
+                    <select id="sortBy" class="form-select">
+                        <option value="name">Tên A-Z</option>
+                        <option value="date">Ngày cập nhật</option>
+                        <option value="bmi">BMI</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <!-- Results Summary -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="text-muted">
+                <i class="fas fa-list me-1"></i>Hiển thị <strong>@Model.Count()</strong> hồ sơ
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="exportBtn">
+                    <i class="fas fa-download me-1"></i>Xuất Excel
+                </button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="printBtn">
+                    <i class="fas fa-print me-1"></i>In
+                </button>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="dataTable">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>
+                                    <i class="fas fa-user me-1"></i>Bệnh Nhân
+                                </th>
+                                <th>
+                                    <i class="fas fa-ruler-vertical me-1"></i>Chiều Cao
+                                </th>
+                                <th>
+                                    <i class="fas fa-weight me-1"></i>Cân Nặng
+                                </th>
+                                <th>
+                                    <i class="fas fa-calculator me-1"></i>BMI
+                                </th>
+                                <th>
+                                    <i class="fas fa-heartbeat me-1"></i>Huyết Áp
+                                </th>
+                                <th>
+                                    <i class="fas fa-tint me-1"></i>Đường Huyết
+                                </th>
+                                <th>
+                                    <i class="fas fa-thermometer-half me-1"></i>Trạng Thái
+                                </th>
+                                <th>
+                                    <i class="fas fa-calendar me-1"></i>Cập Nhật
+                                </th>
+                                <th>
+                                    <i class="fas fa-cogs me-1"></i>Thao Tác
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="profileTable">
+                            @foreach (var profile in Model)
+                            {
+                                var bmi = profile.CanNang > 0 && profile.ChieuCao > 0
+                                    ? Convert.ToDouble(profile.CanNang) / Math.Pow((double)profile.ChieuCao / 100, 2)
+                                    : 0;
+                                var bmiClass = bmi < 18.5 ? "underweight" : bmi < 25 ? "normal" : bmi < 30 ? "overweight" : "obese";
+
+                                <tr class="profile-row" data-status="@profile.TrangThai" data-name="@profile.NguoiDung?.HoTen">
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="@(string.IsNullOrEmpty(profile.NguoiDung?.AnhDaiDien) ? "/images/BN.png" : profile.NguoiDung.AnhDaiDien)" 
+                                                 alt="Avatar" 
+                                                 class="rounded-circle me-3" 
+                                                 width="40" 
+                                                 height="40"
+                                                 style="object-fit: cover;">
+                                            <div>
+                                                <div class="fw-bold">@profile.NguoiDung?.HoTen</div>
+                                                <small class="text-muted">ID: @profile.NguoiDungId</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>@profile.ChieuCao cm</td>
+                                    <td>@profile.CanNang kg</td>
+                                    <td>
+                                        <span class="badge bg-@GetBMIClass(bmi) fs-6">
+                                            @(bmi > 0 ? bmi.ToString("F1") : "N/A")
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light text-dark border">
+                                            @profile.HuyetApTamThu/@profile.HuyetApTamTruong mmHg
+                                        </span>
+                                    </td>
+                                    <td>@profile.DuongHuyet mg/dL</td>
+                                    <td>
+                                        <span class="badge bg-@GetStatusClass(profile.TrangThai)">
+                                            @profile.TrangThai
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <div>@profile.NgayCapNhat.ToString("dd/MM/yyyy")</div>
+                                            <small class="text-muted">@profile.NgayCapNhat.ToString("HH:mm")</small>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a asp-action="Details" asp-route-id="@profile.HoSoSucKhoeId"
+                                               class="btn btn-sm btn-outline-info" title="Xem chi tiết">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <button class="btn btn-sm btn-outline-warning" title="Chỉnh sửa"
+                                                    onclick="alert('Tính năng đang phát triển')">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" title="Xóa"
+                                                    onclick="return confirm('Bạn có chắc muốn xóa hồ sơ này?')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <span class="page-link">
+                        <i class="fas fa-chevron-left me-1"></i>Trước
+                    </span>
+                </li>
+                <li class="page-item active">
+                    <span class="page-link">1</span>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">
+                        Tiếp<i class="fas fa-chevron-right ms-1"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    }
+    else
+    {
+        <!-- Empty State -->
+        <div class="card shadow">
+            <div class="card-body text-center py-5">
+                <i class="fas fa-file-medical fa-4x text-muted mb-4"></i>
+                <h4 class="text-muted">Không có hồ sơ sức khỏe nào</h4>
+                <p class="text-muted mb-4">Chưa có bệnh nhân nào tạo hồ sơ sức khỏe trong hệ thống.</p>
+                <a asp-action="Index" class="btn btn-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Quay lại Dashboard
+                </a>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const statusFilter = document.getElementById('statusFilter');
+            const sortBy = document.getElementById('sortBy');
+            const table = document.getElementById('dataTable');
+            const rows = Array.from(document.querySelectorAll('.profile-row'));
+
+            function filterAndSort() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const statusValue = statusFilter.value;
+                const sortValue = sortBy.value;
+
+                // Filter
+                rows.forEach(row => {
+                    const name = row.dataset.name?.toLowerCase() || '';
+                    const status = row.dataset.status || '';
+                    const matchesSearch = name.includes(searchTerm);
+                    const matchesStatus = !statusValue || status === statusValue;
+
+                    row.style.display = matchesSearch && matchesStatus ? '' : 'none';
+                });
+
+                // Sort visible rows
+                const tbody = document.getElementById('profileTable');
+                const visibleRows = rows.filter(row => row.style.display !== 'none');
+
+                visibleRows.sort((a, b) => {
+                    switch(sortValue) {
+                        case 'name':
+                            return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+                        case 'date':
+                            // Would need actual date comparison in real implementation
+                            return 0;
+                        case 'bmi':
+                            // Would need BMI comparison in real implementation
+                            return 0;
+                        default:
+                            return 0;
+                    }
+                });
+
+                visibleRows.forEach(row => tbody.appendChild(row));
+            }
+
+            searchInput.addEventListener('input', filterAndSort);
+            statusFilter.addEventListener('change', filterAndSort);
+            sortBy.addEventListener('change', filterAndSort);
+
+            // Export functionality (placeholder)
+            document.getElementById('exportBtn').addEventListener('click', function() {
+                alert('Tính năng xuất Excel đang được phát triển');
+            });
+
+            // Print functionality
+            document.getElementById('printBtn').addEventListener('click', function() {
+                window.print();
+            });
+        });
+    </script>
+}
+
+@functions {
+    private string GetStatusClass(string? status)
+    {
+        return status?.ToLower() switch
+        {
+            "Tốt" => "success",
+            "Cần chú ý" => "warning",
+            "Nguy hiểm" => "danger",
+            _ => "secondary"
+        };
+    }
+
+    private string GetBMIClass(double bmi)
+    {
+        if (bmi < 18.5) return "warning";
+        if (bmi < 25) return "success";
+        if (bmi < 30) return "warning";
+        return "danger";
+    }
+}
+
+<style>
+    .table th {
+        border-top: none;
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .table td {
+        vertical-align: middle;
+    }
+
+    .badge {
+        font-size: 0.75rem;
+    }
+
+    .btn-group .btn {
+        margin-right: 2px;
+    }
+
+    .pagination .page-link {
+        color: #5a5c69;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #4e73df;
+        border-color: #4e73df;
+    }
+
+    .text-gray-800 {
+        color: #5a5c69 !important;
+    }
+
+    @@media print {
+        .btn, .card-header, nav, .sidebar {
+            display: none !important;
+        }
+
+        .card {
+            border: none !important;
+            box-shadow: none !important;
+        }
+    }
+</style>

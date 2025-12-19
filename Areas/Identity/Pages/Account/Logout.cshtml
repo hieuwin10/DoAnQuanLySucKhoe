@@ -1,0 +1,22 @@
+@page
+@using DoAnChamSocSucKhoe.Areas.Identity.Pages.Account
+@model LogoutModel
+@{
+    ViewData["Title"] = "Đăng xuất";
+}
+
+<header>
+    <h1>@ViewData["Title"]</h1>
+    @{
+        if (User.Identity?.IsAuthenticated == true)
+        {
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
+                <button type="submit" class="btn btn-primary">Click vào đây để đăng xuất</button>
+            </form>
+        }
+        else
+        {
+            <p>Bạn đã đăng xuất thành công.</p>
+        }
+    }
+</header>

@@ -1,0 +1,147 @@
+@model DoAnChamSocSucKhoe.Areas.Admin.Models.CreatePatientViewModel
+
+@{
+    ViewData["Title"] = "Thêm bệnh nhân mới";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-plus me-2"></i>Thêm bệnh nhân mới
+            </h1>
+            <p class="text-muted mb-0">Thêm thông tin bệnh nhân mới vào hệ thống</p>
+        </div>
+        <a href="@Url.Action("Index")" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Quay lại danh sách
+        </a>
+    </div>
+
+    <!-- Create Form -->
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thông tin bệnh nhân</h6>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-action="Create">
+                        @Html.AntiForgeryToken()
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="HoTen" class="form-label"></label>
+                                    <input asp-for="HoTen" class="form-control" placeholder="Nhập họ tên đầy đủ">
+                                    <span asp-validation-for="HoTen" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Email" class="form-label"></label>
+                                    <input asp-for="Email" type="email" class="form-control" placeholder="Nhập địa chỉ email">
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="UserName" class="form-label"></label>
+                                    <input asp-for="UserName" class="form-control" placeholder="Nhập tên đăng nhập">
+                                    <span asp-validation-for="UserName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="PhoneNumber" class="form-label"></label>
+                                    <input asp-for="PhoneNumber" class="form-control" placeholder="Nhập số điện thoại">
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Password" class="form-label"></label>
+                                    <input asp-for="Password" type="password" class="form-control" placeholder="Nhập mật khẩu">
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="ConfirmPassword" class="form-label"></label>
+                                    <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Xác nhận mật khẩu">
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="GioiTinh" class="form-label"></label>
+                                    <select asp-for="GioiTinh" class="form-select">
+                                        <option value="">Chọn giới tính</option>
+                                        <option value="Nam">Nam</option>
+                                        <option value="Nữ">Nữ</option>
+                                        <option value="Khác">Khác</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="NgaySinh" class="form-label"></label>
+                                    <input asp-for="NgaySinh" type="date" class="form-control">
+                                    <span asp-validation-for="NgaySinh" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="DiaChi" class="form-label"></label>
+                            <textarea asp-for="DiaChi" class="form-control" rows="3" placeholder="Nhập địa chỉ"></textarea>
+                            <span asp-validation-for="DiaChi" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="AnhDaiDien" class="form-label"></label>
+                            <input asp-for="AnhDaiDien" class="form-control" placeholder="URL ảnh đại diện (tùy chọn)">
+                            <div class="form-text">Để trống để sử dụng ảnh mặc định</div>
+                        </div>
+
+                        <!-- Submit Buttons -->
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="@Url.Action("Index")" class="btn btn-secondary">
+                                <i class="fas fa-times me-2"></i>Hủy
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Tạo bệnh nhân
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Form validation
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(e) {
+                if (!form.checkValidity()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            });
+        });
+    </script>
+}

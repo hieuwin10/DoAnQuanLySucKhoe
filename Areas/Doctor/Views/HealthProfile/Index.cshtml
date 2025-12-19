@@ -1,0 +1,40 @@
+@model IEnumerable<NguoiDung>
+
+@{
+    ViewData["Title"] = "Danh Sách Bệnh Nhân";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Danh Sách Bệnh Nhân</h2>
+
+    <div class="mb-3">
+        <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm theo tên...">
+    </div>
+
+    <div class="row" id="patientList">
+        @foreach (var patient in Model)
+        {
+            <div class="col-md-4 mb-3 patient-card">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <h5 class="card-title">@patient.HoTen</h5>
+                        <p class="card-text">Email: @patient.Email</p>
+                        <a href="@Url.Action("Details", "HealthProfile", new { id = patient.Id })" class="btn btn-primary btn-sm">Xem Chi Tiết</a>
+                        <a href="@Url.Action("Update", "HealthProfile", new { id = patient.Id })" class="btn btn-warning btn-sm">Cập Nhật</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    document.getElementById('searchInput').addEventListener('input', function() {
+        var filter = this.value.toLowerCase();
+        var cards = document.querySelectorAll('.patient-card');
+        cards.forEach(function(card) {
+            var text = card.textContent.toLowerCase();
+            card.style.display = text.includes(filter) ? '' : 'none';
+        });
+    });
+</script>

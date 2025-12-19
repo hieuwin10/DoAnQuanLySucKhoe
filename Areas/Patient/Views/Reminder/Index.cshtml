@@ -1,0 +1,192 @@
+﻿@model IEnumerable<DoAnChamSocSucKhoe.Models.NhacNhoSucKhoe>
+
+@{
+    ViewData["Title"] = "Tất cả nhắc nhở sức khỏe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-hero">
+    <div class="container">
+        <h2><i class="fas fa-bell me-2"></i>Quản lý Nhắc nhở Sức khỏe</h2>
+        <p class="mb-0">Theo dõi và quản lý các lời nhắc chăm sóc sức khỏe của bạn</p>
+    </div>
+</div>
+
+<div class="container main-container">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>@TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- Search and Filter -->
+    <div class="search-box-container">
+        <form method="get" asp-action="Index" class="row g-3">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0"><i class="fas fa-search text-muted"></i></span>
+                    <input type="text" class="form-control border-start-0 ps-0" name="searchTerm" 
+                           value="@ViewBag.SearchTerm" placeholder="Tìm kiếm...">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" name="statusFilter">
+                    <option value="all" selected="@(ViewBag.StatusFilter == "all" ? "selected" : null)">Tất cả trạng thái</option>
+                    <option value="pending" selected="@(ViewBag.StatusFilter == "pending" ? "selected" : null)">Chưa hoàn thành</option>
+                    <option value="completed" selected="@(ViewBag.StatusFilter == "completed" ? "selected" : null)">Đã hoàn thành</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" name="typeFilter">
+                    <option value="all" selected="@(ViewBag.TypeFilter == "all" ? "selected" : null)">Tất cả loại</option>
+                    <option value="Uống thuốc" selected="@(ViewBag.TypeFilter == "Uống thuốc" ? "selected" : null)">Uống thuốc</option>
+                    <option value="Tập thể dục" selected="@(ViewBag.TypeFilter == "Tập thể dục" ? "selected" : null)">Tập thể dục</option>
+                    <option value="Kiểm tra sức khỏe" selected="@(ViewBag.TypeFilter == "Kiểm tra sức khỏe" ? "selected" : null)">Kiểm tra sức khỏe</option>
+                    <option value="Khác" selected="@(ViewBag.TypeFilter == "Khác" ? "selected" : null)">Khác</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100 rounded-pill">
+                    <i class="fas fa-filter me-2"></i>Lọc
+                </button>
+            </div>
+        </form>
+        <div class="mt-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div>
+                <span class="text-muted">Tổng số: <strong>@ViewBag.TotalItems</strong> nhắc nhở</span>
+            </div>
+            <a asp-action="Create" class="btn btn-success rounded-pill px-4">
+                <i class="fas fa-plus me-2"></i>Thêm nhắc nhở mới
+            </a>
+        </div>
+    </div>
+
+    <!-- Reminders List -->
+    @if (Model != null && Model.Any())
+    {
+        <div class="row">
+            @foreach (var reminder in Model)
+            {
+                var iconClass = reminder.LoaiNhacNho switch
+                {
+                    "Uống thuốc" => "bg-gradient-primary",
+                    "Tập thể dục" => "bg-gradient-danger-real",
+                    "Kiểm tra sức khỏe" => "bg-gradient-info",
+                    _ => "bg-gradient-warning"
+                };
+
+                var iconName = reminder.LoaiNhacNho switch
+                {
+                    "Uống thuốc" => "fa-pills",
+                    "Tập thể dục" => "fa-dumbbell",
+                    "Kiểm tra sức khỏe" => "fa-heartbeat",
+                    _ => "fa-bell"
+                };
+
+                var statusBadge = reminder.DaThucHien ? "bg-success" : "bg-warning text-dark";
+                var statusText = reminder.DaThucHien ? "Đã hoàn thành" : "Chưa hoàn thành";
+                var borderClass = reminder.DaThucHien ? "border-success" : "border-primary";
+
+                <div class="col-12">
+                    <div class="feature-card p-3 mb-3" style="border-left: 4px solid @(reminder.DaThucHien ? "#198754" : "#0d6efd");">
+                        <div class="d-flex align-items-start">
+                            <div class="feature-icon-box @iconClass mb-0 me-3" style="width: 50px; height: 50px; font-size: 1.5rem; margin-left: 0; margin-right: 0;">
+                                <i class="fas @iconName"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h5 class="mb-1 fw-bold">@reminder.TieuDe</h5>
+                                        <span class="badge bg-primary rounded-pill">@reminder.LoaiNhacNho</span>
+                                    </div>
+                                    <span class="badge @statusBadge rounded-pill">@statusText</span>
+                                </div>
+                                <p class="text-muted mb-2">@reminder.NoiDung</p>
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    <small class="text-muted">
+                                        <i class="fas fa-clock me-1"></i>
+                                        @reminder.ThoiGian.ToString("dd/MM/yyyy HH:mm")
+                                    </small>
+                                    <div class="btn-group" role="group">
+                                        <a asp-action="Details" asp-route-id="@reminder.NhacNhoSucKhoeId" 
+                                           class="btn btn-sm btn-outline-primary rounded-start-pill" title="Xem chi tiết">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-action="Edit" asp-route-id="@reminder.NhacNhoSucKhoeId" 
+                                           class="btn btn-sm btn-outline-secondary" title="Chỉnh sửa">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@reminder.NhacNhoSucKhoeId" 
+                                           class="btn btn-sm btn-outline-danger rounded-end-pill" title="Xóa">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Pagination -->
+        @if (ViewBag.TotalPages > 1)
+        {
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link rounded-circle mx-1" asp-action="Index" 
+                           asp-route-searchTerm="@ViewBag.SearchTerm"
+                           asp-route-statusFilter="@ViewBag.StatusFilter"
+                           asp-route-typeFilter="@ViewBag.TypeFilter"
+                           asp-route-pageNumber="@(ViewBag.CurrentPage - 1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                            <a class="page-link rounded-circle mx-1" asp-action="Index" 
+                               asp-route-searchTerm="@ViewBag.SearchTerm"
+                               asp-route-statusFilter="@ViewBag.StatusFilter"
+                               asp-route-typeFilter="@ViewBag.TypeFilter"
+                               asp-route-pageNumber="@i">@i</a>
+                        </li>
+                    }
+
+                    <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                        <a class="page-link rounded-circle mx-1" asp-action="Index" 
+                           asp-route-searchTerm="@ViewBag.SearchTerm"
+                           asp-route-statusFilter="@ViewBag.StatusFilter"
+                           asp-route-typeFilter="@ViewBag.TypeFilter"
+                           asp-route-pageNumber="@(ViewBag.CurrentPage + 1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        }
+    }
+    else
+    {
+        <div class="feature-card text-center py-5">
+            <div class="feature-icon-box bg-secondary mb-3" style="width: 80px; height: 80px; font-size: 2.5rem;">
+                <i class="fas fa-bell-slash"></i>
+            </div>
+            <h4>Chưa có nhắc nhở nào</h4>
+            <p class="text-muted">Bạn chưa có lời nhắc nào. Hãy tạo nhắc nhở mới để theo dõi sức khỏe của mình!</p>
+            <a asp-action="Create" class="btn btn-primary rounded-pill px-4 mt-3">
+                <i class="fas fa-plus me-2"></i>Tạo nhắc nhở đầu tiên
+            </a>
+        </div>
+    }
+
+    <div class="text-center mt-4 mb-4">
+        <a asp-area="Patient" asp-controller="HealthProfile" asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+            <i class="fas fa-heartbeat me-2"></i>Quay lại Hồ sơ sức khỏe
+        </a>
+    </div>
+</div>

@@ -1,0 +1,122 @@
+@model DoAnChamSocSucKhoe.Areas.Doctor.Models.DoctorProfileViewModel
+
+@{
+    ViewData["Title"] = "Hồ sơ cá nhân";
+    Layout = "~/Areas/Doctor/Views/Shared/_DoctorLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Hồ sơ cá nhân</h1>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-xl-4 col-md-12 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                         @if (!string.IsNullOrEmpty(Model.HinhAnh))
+                        {
+                            <img src="@Model.HinhAnh" alt="Avatar" class="img-profile rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+                        }
+                        else
+                        {
+                             <div class="avatar-circle-lg bg-primary text-white mx-auto d-flex align-items-center justify-content-center" style="width: 150px; height: 150px; border-radius: 50%; font-size: 64px;">
+                                @(Model.HoTen?.Substring(0, 1) ?? "?")
+                            </div>
+                        }
+                    </div>
+                    <h5 class="font-weight-bold text-dark">@Model.HoTen</h5>
+                    <p class="text-muted">@Model.ChuyenKhoa</p>
+                    <div class="text-left mt-4">
+                        <p><strong>Email:</strong> @Model.Email</p>
+                        <p><strong>SĐT:</strong> @Model.SoDienThoai</p>
+                        <p><strong>Nơi công tác:</strong> @Model.NoiCongTac</p>
+                         <p><strong>Trạng thái:</strong> 
+                            @if(Model.TrangThai) { <span class="badge bg-success">Đang hoạt động</span> } else { <span class="badge bg-danger">Tạm nghỉ</span> }
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-8 col-md-12 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Cập nhật thông tin</h6>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Profile" method="post" enctype="multipart/form-data">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="HoTen" class="form-label control-label">Họ và tên</label>
+                                <input asp-for="HoTen" class="form-control" />
+                                <span asp-validation-for="HoTen" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="SoDienThoai" class="form-label control-label">Số điện thoại</label>
+                                <input asp-for="SoDienThoai" class="form-control" />
+                                <span asp-validation-for="SoDienThoai" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="ChuyenKhoa" class="form-label control-label">Chuyên khoa</label>
+                                <input asp-for="ChuyenKhoa" class="form-control" />
+                                <span asp-validation-for="ChuyenKhoa" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="NoiCongTac" class="form-label control-label">Nơi công tác</label>
+                                <input asp-for="NoiCongTac" class="form-control" />
+                                <span asp-validation-for="NoiCongTac" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="KinhNghiem" class="form-label control-label">Kinh nghiệm</label>
+                            <input asp-for="KinhNghiem" class="form-control" />
+                            <span asp-validation-for="KinhNghiem" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="ChungChi" class="form-label control-label">Chứng chỉ / Bằng cấp</label>
+                            <input asp-for="ChungChi" class="form-control" />
+                            <span asp-validation-for="ChungChi" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="MoTa" class="form-label control-label">Giới thiệu bản thân</label>
+                            <textarea asp-for="MoTa" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="MoTa" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="HinhAnhFile" class="form-label control-label">Thay đổi ảnh đại diện</label>
+                            <input asp-for="HinhAnhFile" class="form-control" type="file" accept="image/*" />
+                            <span asp-validation-for="HinhAnhFile" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i> Lưu thay đổi
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

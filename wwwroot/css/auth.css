@@ -1,0 +1,111 @@
+/* Auth container */
+.auth-container {
+    min-height: calc(100vh - 60px);
+    display: flex;
+    align-items: center;
+}
+
+/* Card styling */
+.card {
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Form controls */
+.form-floating > .form-control,
+.form-floating > .form-select {
+    height: calc(3.5rem + 2px);
+    line-height: 1.25;
+}
+
+.form-floating > label {
+    padding: 1rem 0.75rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Buttons */
+.btn-lg {
+    padding: 0.8rem 1rem;
+    font-size: 1.1rem;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+    transform: translateY(-2px);
+}
+
+/* Links */
+a {
+    color: #0d6efd;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: #0a58ca;
+    text-decoration: underline;
+}
+
+/* Validation */
+.text-danger {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* Profile picture */
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* Password strength meter */
+.password-strength-meter {
+    height: 4px;
+    background-color: #eee;
+    border-radius: 2px;
+    margin-top: 0.5rem;
+}
+
+.password-strength-meter div {
+    height: 100%;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.password-strength-weak { width: 25%; background-color: #dc3545; }
+.password-strength-fair { width: 50%; background-color: #ffc107; }
+.password-strength-good { width: 75%; background-color: #28a745; }
+.password-strength-strong { width: 100%; background-color: #198754; }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1.5rem;
+    }
+    
+    .btn-lg {
+        padding: 0.6rem 0.8rem;
+        font-size: 1rem;
+    }
+} 

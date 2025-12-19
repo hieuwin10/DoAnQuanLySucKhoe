@@ -1,0 +1,210 @@
+@model DoAnChamSocSucKhoe.Areas.Admin.Models.SecuritySettingsViewModel
+
+@{
+    ViewData["Title"] = "Cài đặt Bảo mật";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-shield-alt me-2"></i>Cài đặt Bảo mật
+            </h1>
+            <p class="text-muted mb-0">Quản lý các chính sách bảo mật và xác thực</p>
+        </div>
+    </div>
+
+    <!-- Settings Navigation -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index")">
+                                <i class="fas fa-cog me-2"></i>Tổng quan
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Email")">
+                                <i class="fas fa-envelope me-2"></i>Email
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="@Url.Action("Security")">
+                                <i class="fas fa-shield-alt me-2"></i>Bảo mật
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Backup")">
+                                <i class="fas fa-database me-2"></i>Sao lưu
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Security Settings Form -->
+    <form method="post" class="row">
+        @Html.AntiForgeryToken()
+
+        <!-- Password Policy -->
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Chính sách mật khẩu</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="PasswordMinLength" class="form-label">Độ dài mật khẩu tối thiểu</label>
+                            @Html.TextBoxFor(m => m.PasswordMinLength, new { @class = "form-control", type = "number", min = "6", max = "128" })
+                            @Html.ValidationMessageFor(m => m.PasswordMinLength, "", new { @class = "text-danger" })
+                            <div class="form-text">Khuyến nghị: 8-12 ký tự</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Yêu cầu ký tự</label>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-check">
+                                        @Html.CheckBoxFor(m => m.PasswordRequireUppercase, new { @class = "form-check-input" })
+                                        <label class="form-check-label" for="PasswordRequireUppercase">
+                                            Chữ hoa (A-Z)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-check">
+                                        @Html.CheckBoxFor(m => m.PasswordRequireLowercase, new { @class = "form-check-input" })
+                                        <label class="form-check-label" for="PasswordRequireLowercase">
+                                            Chữ thường (a-z)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-6">
+                                    <div class="form-check">
+                                        @Html.CheckBoxFor(m => m.PasswordRequireDigit, new { @class = "form-check-input" })
+                                        <label class="form-check-label" for="PasswordRequireDigit">
+                                            Chữ số (0-9)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-check">
+                                        @Html.CheckBoxFor(m => m.PasswordRequireNonAlphanumeric, new { @class = "form-check-input" })
+                                        <label class="form-check-label" for="PasswordRequireNonAlphanumeric">
+                                            Ký tự đặc biệt (!@@#...)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Lockout Policy -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Chính sách khóa tài khoản</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="MaxLoginAttempts" class="form-label">Số lần đăng nhập sai tối đa</label>
+                            @Html.TextBoxFor(m => m.MaxLoginAttempts, new { @class = "form-control", type = "number", min = "3", max = "10" })
+                            @Html.ValidationMessageFor(m => m.MaxLoginAttempts, "", new { @class = "text-danger" })
+                            <div class="form-text">Sau khi vượt quá, tài khoản sẽ bị khóa</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="LockoutDurationMinutes" class="form-label">Thời gian khóa (phút)</label>
+                            @Html.TextBoxFor(m => m.LockoutDurationMinutes, new { @class = "form-control", type = "number", min = "5", max = "1440" })
+                            @Html.ValidationMessageFor(m => m.LockoutDurationMinutes, "", new { @class = "text-danger" })
+                            <div class="form-text">Thời gian tài khoản bị khóa</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Security & Actions -->
+        <div class="col-lg-4">
+            <!-- Two-Factor Authentication -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-warning">Xác thực hai yếu tố</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(m => m.EnableTwoFactorAuth, new { @class = "form-check-input" })
+                            <label class="form-check-label" for="EnableTwoFactorAuth">
+                                <i class="fas fa-mobile-alt me-2"></i>Bật xác thực hai yếu tố (2FA)
+                            </label>
+                        </div>
+                        <div class="form-text">
+                            Yêu cầu mã xác thực từ ứng dụng di động khi đăng nhập
+                        </div>
+                    </div>
+
+                    @if (Model.EnableTwoFactorAuth)
+                    {
+                        <div class="alert alert-info small">
+                            <i class="fas fa-info-circle me-1"></i>
+                            <strong>2FA đã bật:</strong> Người dùng cần cài đặt ứng dụng như Google Authenticator hoặc Microsoft Authenticator.
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning small">
+                            <i class="fas fa-exclamation-triangle me-1"></i>
+                            <strong>Khuyến nghị:</strong> Bật 2FA để tăng cường bảo mật tài khoản.
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Security Recommendations -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-info">Khuyến nghị bảo mật</h6>
+                </div>
+                <div class="card-body">
+                    <ul class="small mb-0">
+                        <li class="mb-2">
+                            <i class="fas fa-check-circle text-success me-1"></i>
+                            Sử dụng mật khẩu mạnh với ít nhất 8 ký tự
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check-circle text-success me-1"></i>
+                            Bật xác thực hai yếu tố
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check-circle text-success me-1"></i>
+                            Giới hạn số lần đăng nhập sai
+                        </li>
+                        <li class="mb-0">
+                            <i class="fas fa-check-circle text-success me-1"></i>
+                            Thường xuyên thay đổi mật khẩu
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-save me-2"></i>Lưu cài đặt
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

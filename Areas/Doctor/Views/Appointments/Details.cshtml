@@ -1,0 +1,117 @@
+@model DoAnChamSocSucKhoe.Models.LichHen
+
+@{
+    ViewData["Title"] = "Chi tiết lịch hẹn";
+    Layout = "~/Areas/Doctor/Views/Shared/_DoctorLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="mb-4">
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Quay lại danh sách
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Thông tin lịch hẹn #@Model.LichHenId</h6>
+                    <span class="badge @(Model.TrangThai == "Đã xác nhận" ? "bg-success" : Model.TrangThai == "Chờ xác nhận" ? "bg-warning" : "bg-secondary")">
+                        @Model.TrangThai
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="small text-muted font-weight-bold">Thời gian</label>
+                            <div class="h5">@Model.NgayGioHen.ToString("dd/MM/yyyy HH:mm")</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="small text-muted font-weight-bold">Hình thức</label>
+                            <div class="h5">
+                                @if (Model.LoaiLichHen == "Online")
+                                {
+                                    <span class="text-info"><i class="fas fa-video me-1"></i> Tư vấn Online</span>
+                                }
+                                else
+                                {
+                                    <span class="text-secondary"><i class="fas fa-hospital me-1"></i> Khám tại phòng khám</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="small text-muted font-weight-bold">Địa điểm/Link</label>
+                        <div>@Model.DiaDiem</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="small text-muted font-weight-bold">Lý do khám</label>
+                        <div class="p-3 bg-light rounded text-dark">@Model.LyDo</div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.GhiChu))
+                    {
+                        <div class="mb-3">
+                            <label class="small text-muted font-weight-bold">Ghi chú thêm</label>
+                            <div>@Model.GhiChu</div>
+                        </div>
+                    }
+                </div>
+            </div>
+            
+             <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Kết quả khám (Chẩn đoán & Đơn thuốc)</h6>
+                </div>
+                <div class="card-body">
+                    <form asp-action="UpdateDiagnosis" method="post">
+                        <input type="hidden" name="id" value="@Model.LichHenId" />
+                        <div class="mb-3">
+                            <label for="ChanDoan" class="form-label font-weight-bold">Chẩn đoán</label>
+                            <textarea class="form-control" id="ChanDoan" name="chanDoan" rows="3">@Model.ChanDoan</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="DonThuoc" class="form-label font-weight-bold">Đơn thuốc / Chỉ định</label>
+                            <textarea class="form-control" id="DonThuoc" name="donThuoc" rows="5">@Model.DonThuoc</textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i> Lưu kết quả
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thông tin bệnh nhân</h6>
+                </div>
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <div class="avatar-circle-lg bg-primary text-white mx-auto d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; border-radius: 50%; font-size: 32px;">
+                            @(Model.NguoiDung?.HoTen?.Substring(0, 1) ?? "?")
+                        </div>
+                    </div>
+                    <h5 class="font-weight-bold">@Model.NguoiDung?.HoTen</h5>
+                    <p class="text-muted">@Model.NguoiDung?.Email</p>
+                    <p class="text-muted">@Model.NguoiDung?.PhoneNumber</p>
+                    
+                    <hr />
+                    
+                    <div class="text-left">
+                        <a asp-controller="HealthRecords" asp-action="Details" asp-route-id="@Model.NguoiDungId" class="btn btn-info btn-block w-100 mb-2">
+                            <i class="fas fa-file-medical-alt me-1"></i> Xem hồ sơ sức khỏe
+                        </a>
+                        <a asp-controller="Chat" asp-action="ChatWithPatient" asp-route-patientId="@Model.NguoiDungId" class="btn btn-primary btn-block w-100">
+                            <i class="fas fa-comments me-1"></i> Nhắn tin
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+@using DoAnChamSocSucKhoe.Models
+@model IEnumerable<LichSuHoSoSucKhoe>
+
+@{
+    ViewData["Title"] = "Lịch Sử Hồ Sơ Sức Khỏe";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Lịch Sử Thay Đổi Hồ Sơ Sức Khỏe</h2>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Ngày Thay Đổi</th>
+                                <th>Loại Thay Đổi</th>
+                                <th>Nội Dung Thay Đổi</th>
+                                <th>Người Thay Đổi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var history in Model.OrderByDescending(h => h.NgayThayDoi))
+                            {
+                                <tr>
+                                    <td>@history.NgayThayDoi.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>
+                                        <span class="badge bg-@GetBadgeClass(history.LoaiThayDoi)">
+                                            @history.LoaiThayDoi
+                                        </span>
+                                    </td>
+                                    <td>@history.ThayDoiNoiDung</td>
+                                    <td>@history.NguoiThayDoi?.HoTen ?? "Hệ thống"</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> Chưa có lịch sử thay đổi nào.
+        </div>
+    }
+
+    <div class="mt-4">
+        <a asp-action="Index" class="btn btn-primary">
+            <i class="fas fa-arrow-left"></i> Quay Lại Hồ Sơ
+        </a>
+        <a asp-action="Edit" class="btn btn-success">
+            <i class="fas fa-edit"></i> Cập Nhật Hồ Sơ
+        </a>
+    </div>
+</div>
+
+@functions {
+    private string GetBadgeClass(string? loaiThayDoi)
+    {
+        return loaiThayDoi switch
+        {
+            "Tạo mới" => "success",
+            "Cập nhật" => "primary",
+            "Bác sĩ cập nhật" => "warning",
+            "Ghi chú y khoa" => "info",
+            _ => "secondary"
+        };
+    }
+}

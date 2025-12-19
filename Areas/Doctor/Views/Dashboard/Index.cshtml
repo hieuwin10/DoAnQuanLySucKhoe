@@ -1,0 +1,239 @@
+@model DoAnChamSocSucKhoe.Areas.Doctor.Models.DoctorDashboardViewModel
+@{
+    ViewData["Title"] = "Bảng điều khiển";
+}
+
+
+    <!-- Content -->
+    
+        <!-- Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="mb-1">Bảng điều khiển</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                        <li class="breadcrumb-item active">Bảng điều khiển</li>
+                    </ol>
+                </nav>
+            </div>
+            <div>
+                <button class="btn btn-outline-secondary me-2">
+                    <i class="fas fa-download me-1"></i> Xuất báo cáo
+                </button>
+                <button class="btn btn-success">
+                    <i class="fas fa-sync-alt me-1"></i> Làm mới
+                </button>
+            </div>
+        </div>
+        
+        <!-- Stats Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="card stats-card h-100">
+                    <div class="card-body stats-card-body">
+                        <h6 class="stats-card-title">Bệnh nhân</h6>
+                        <h3 class="stats-card-value">@Model.Stats.TotalPatients</h3>
+                        <div class="stats-card-change positive">
+                            <i class="fas fa-arrow-up"></i> 8.2% so với tháng trước
+                        </div>
+                        <div class="stats-card-icon">
+                            <i class="fas fa-user-injured"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="card stats-card h-100">
+                    <div class="card-body stats-card-body">
+                        <h6 class="stats-card-title">Lịch hẹn hôm nay</h6>
+                        <h3 class="stats-card-value">@Model.Stats.TodayAppointments</h3>
+                        <div class="stats-card-change positive">
+                            <i class="fas fa-arrow-up"></i> 3 so với hôm qua
+                        </div>
+                        <div class="stats-card-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="card stats-card h-100">
+                    <div class="card-body stats-card-body">
+                        <h6 class="stats-card-title">Tư vấn mới</h6>
+                        <h3 class="stats-card-value">@Model.Stats.ActiveConsultations</h3>
+                        <div class="stats-card-change positive">
+                            <i class="fas fa-arrow-up"></i> 2 so với hôm qua
+                        </div>
+                        <div class="stats-card-icon">
+                            <i class="fas fa-comment-medical"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="card stats-card h-100">
+                    <div class="card-body stats-card-body">
+                        <h6 class="stats-card-title">Đánh giá</h6>
+                        <h3 class="stats-card-value">4.8</h3>
+                        <div class="stats-card-change positive">
+                            <i class="fas fa-arrow-up"></i> 0.2 so với tháng trước
+                        </div>
+                        <div class="stats-card-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Calendar and Today's Schedule -->
+        <div class="row g-3 mb-4">
+            <div class="col-lg-8">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Lịch làm việc</h5>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                Tháng này
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" href="#">Hôm nay</a>
+                                <a class="dropdown-item" href="#">Tuần này</a>
+                                <a class="dropdown-item" href="#">Tháng này</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="calendar"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Lịch trình hôm nay</h5>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                Tất cả
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" href="#">Tất cả</a>
+                                <a class="dropdown-item" href="#">Đã xác nhận</a>
+                                <a class="dropdown-item" href="#">Chờ xác nhận</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="timeline">
+                            @foreach (var appointment in Model.UpcomingAppointments)
+                            {
+                                <div class="timeline-item">
+                                    <div class="timeline-icon">
+                                        <i class="fas fa-calendar-check"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-time">@appointment.AppointmentTime.ToString("HH:mm")</div>
+                                        <h6 class="timeline-title">@appointment.PatientName</h6>
+                                        <p class="timeline-text">@appointment.Type</p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Patients and Consultations -->
+        <div class="row g-3 mb-4">
+            <div class="col-lg-6">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Bệnh nhân gần đây</h5>
+                        <a href="#" class="btn btn-sm btn-success">Xem tất cả</a>
+                    </div>
+                    <div class="card-body">
+                        @foreach (var patient in Model.RecentPatients)
+                        {
+                            <div class="patient-card">
+                                <img src="~/images/BN.png" alt="Avatar" class="patient-avatar">
+                                <div class="patient-info">
+                                    <h6 class="patient-name">@patient.FullName</h6>
+                                    <p class="patient-details">@patient.LastDiagnosis</p>
+                                </div>
+                                <div class="patient-actions">
+                                    <a asp-controller="Patients" asp-action="Details" asp-route-id="@patient.IdString" class="btn btn-sm btn-outline-primary patient-action-btn" title="Xem hồ sơ">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a asp-controller="Chat" asp-action="ChatWithPatient" asp-route-patientId="@patient.IdString" class="btn btn-sm btn-outline-success patient-action-btn" title="Nhắn tin">
+                                        <i class="fas fa-comment-medical"></i>
+                                    </a>
+                                    <a asp-controller="Appointments" asp-action="Create" asp-route-patientId="@patient.IdString" class="btn btn-sm btn-outline-info patient-action-btn" title="Đặt lịch hẹn">
+                                        <i class="fas fa-calendar-plus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Tư vấn mới</h5>
+                        <a asp-controller="Chat" asp-action="Index" class="btn btn-sm btn-success">Xem tất cả</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            @foreach (var consultation in Model.RecentConsultations)
+                            {
+                                <a asp-controller="Chat" asp-action="Details" asp-route-id="@consultation.Id" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">@consultation.Subject</h6>
+                                        <small class="text-muted">@consultation.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-1">
+                                        <img src="@consultation.PatientImageUrl" alt="Avatar" class="consultation-avatar">
+                                        <small class="ms-2">@consultation.PatientName</small>
+                                    </div>
+                                    <small class="text-muted">@consultation.LastMessage</small>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Performance Chart -->
+        <div class="row g-3">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Hiệu suất làm việc</h5>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                6 tháng gần đây
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" href="#">30 ngày gần đây</a>
+                                <a class="dropdown-item" href="#">3 tháng gần đây</a>
+                                <a class="dropdown-item" href="#">6 tháng gần đây</a>
+                                <a class="dropdown-item" href="#">Năm nay</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="performanceChart" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+@model IEnumerable<DoAnChamSocSucKhoe.Models.NguoiDung>
+
+@{
+    ViewData["Title"] = "Danh sách Bệnh nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.First().HoTen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoTen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Xem chi tiết</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+

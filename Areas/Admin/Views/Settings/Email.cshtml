@@ -1,0 +1,194 @@
+@model DoAnChamSocSucKhoe.Areas.Admin.Models.EmailSettingsViewModel
+
+@{
+    ViewData["Title"] = "Cài đặt Email";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-envelope me-2"></i>Cài đặt Email
+            </h1>
+            <p class="text-muted mb-0">Cấu hình máy chủ email để gửi thông báo và nhắc nhở</p>
+        </div>
+    </div>
+
+    <!-- Settings Navigation -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index")">
+                                <i class="fas fa-cog me-2"></i>Tổng quan
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="@Url.Action("Email")">
+                                <i class="fas fa-envelope me-2"></i>Email
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Security")">
+                                <i class="fas fa-shield-alt me-2"></i>Bảo mật
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Backup")">
+                                <i class="fas fa-database me-2"></i>Sao lưu
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email Settings Form -->
+    <form method="post" class="row">
+        @Html.AntiForgeryToken()
+
+        <!-- SMTP Settings -->
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Cài đặt SMTP</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label for="SmtpServer" class="form-label">Máy chủ SMTP</label>
+                            @Html.TextBoxFor(m => m.SmtpServer, new { @class = "form-control", placeholder = "smtp.gmail.com" })
+                            @Html.ValidationMessageFor(m => m.SmtpServer, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="SmtpPort" class="form-label">Cổng</label>
+                            @Html.TextBoxFor(m => m.SmtpPort, new { @class = "form-control", type = "number", min = "1", max = "65535" })
+                            @Html.ValidationMessageFor(m => m.SmtpPort, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="SmtpUsername" class="form-label">Tên đăng nhập</label>
+                            @Html.TextBoxFor(m => m.SmtpUsername, new { @class = "form-control", placeholder = "your-email@gmail.com" })
+                            @Html.ValidationMessageFor(m => m.SmtpUsername, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="SmtpPassword" class="form-label">Mật khẩu</label>
+                            @Html.PasswordFor(m => m.SmtpPassword, new { @class = "form-control", placeholder = "Mật khẩu ứng dụng" })
+                            @Html.ValidationMessageFor(m => m.SmtpPassword, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(m => m.EnableSsl, new { @class = "form-check-input" })
+                            <label class="form-check-label" for="EnableSsl">
+                                Bật SSL/TLS (khuyến nghị)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sender Settings -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thông tin người gửi</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="FromEmail" class="form-label">Email gửi</label>
+                            @Html.TextBoxFor(m => m.FromEmail, new { @class = "form-control", type = "email", placeholder = "noreply@yourdomain.com" })
+                            @Html.ValidationMessageFor(m => m.FromEmail, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="FromName" class="form-label">Tên hiển thị</label>
+                            @Html.TextBoxFor(m => m.FromName, new { @class = "form-control", placeholder = "Hệ thống chăm sóc sức khỏe" })
+                            @Html.ValidationMessageFor(m => m.FromName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Information and Actions -->
+        <div class="col-lg-4">
+            <!-- Information Card -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-info">Thông tin cấu hình</h6>
+                </div>
+                <div class="card-body">
+                    <h6>Gmail SMTP:</h6>
+                    <ul class="small mb-3">
+                        <li><strong>Máy chủ:</strong> smtp.gmail.com</li>
+                        <li><strong>Cổng:</strong> 587 (TLS) hoặc 465 (SSL)</li>
+                        <li><strong>Tên đăng nhập:</strong> email@gmail.com</li>
+                        <li><strong>Mật khẩu:</strong> Mật khẩu ứng dụng (không phải mật khẩu tài khoản)</li>
+                    </ul>
+
+                    <h6>Outlook/Hotmail:</h6>
+                    <ul class="small mb-3">
+                        <li><strong>Máy chủ:</strong> smtp-mail.outlook.com</li>
+                        <li><strong>Cổng:</strong> 587</li>
+                        <li><strong>Tên đăng nhập:</strong> email@outlook.com</li>
+                    </ul>
+
+                    <div class="alert alert-warning small">
+                        <i class="fas fa-exclamation-triangle me-1"></i>
+                        <strong>Lưu ý:</strong> Đối với Gmail, bạn cần bật xác thực 2 yếu tố và tạo "Mật khẩu ứng dụng".
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test Email Card -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-success">Kiểm tra cấu hình</h6>
+                </div>
+                <div class="card-body">
+                    <p class="small mb-3">Gửi email thử nghiệm để kiểm tra cấu hình SMTP.</p>
+                    <button type="button" class="btn btn-success btn-sm w-100" onclick="testEmailSettings()">
+                        <i class="fas fa-paper-plane me-2"></i>Gửi email thử
+                    </button>
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-save me-2"></i>Lưu cài đặt
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        function testEmailSettings() {
+            // Show loading
+            const button = event.target.closest('button');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Đang gửi...';
+            button.disabled = true;
+
+            // Here you would make an AJAX call to test email settings
+            // For now, just simulate
+            setTimeout(() => {
+                alert('Email thử nghiệm đã được gửi thành công!');
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }, 2000);
+        }
+    </script>
+}

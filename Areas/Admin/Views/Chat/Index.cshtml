@@ -1,0 +1,49 @@
+@model IEnumerable<DoAnChamSocSucKhoe.Models.TuVanSucKhoe>
+@{
+    ViewData["Title"] = "Quản lý cuộc trò chuyện";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <h5 class="mb-0">Danh sách cuộc trò chuyện</h5>
+                    <a href="@Url.Action("Reports", "Chat")" class="btn btn-primary">Báo cáo</a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Bệnh nhân</th>
+                                <th>Bác sĩ</th>
+                                <th>Tiêu đề</th>
+                                <th>Số tin nhắn</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var consultation in Model)
+                            {
+                                <tr>
+                                    <td>@consultation.TuVanSucKhoeId</td>
+                                    <td>@consultation.NguoiDung.HoTen</td>
+                                    <td>@consultation.ChuyenGia.HoTen</td>
+                                    <td>@consultation.TieuDe</td>
+                                    <td>@consultation.Messages.Count</td>
+                                    <td>
+                                        <a href="@Url.Action("Details", "Chat", new { id = consultation.TuVanSucKhoeId })" class="btn btn-sm btn-info">Xem</a>
+                                        <form method="post" action="@Url.Action("DeleteConversation", "Chat", new { id = consultation.TuVanSucKhoeId })" style="display:inline;">
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

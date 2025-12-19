@@ -1,0 +1,86 @@
+@model DoAnChamSocSucKhoe.Areas.Admin.Models.CreateRoleViewModel
+
+@{
+    ViewData["Title"] = "Thêm vai trò mới";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-plus me-2"></i>Thêm vai trò mới
+            </h1>
+            <p class="text-muted mb-0">Tạo vai trò mới trong hệ thống</p>
+        </div>
+        <a href="@Url.Action("Index")" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Quay lại danh sách
+        </a>
+    </div>
+
+    <!-- Create Form -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thông tin vai trò</h6>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-action="Create">
+                        @Html.AntiForgeryToken()
+
+                        <div class="mb-3">
+                            <label asp-for="TenVaiTro" class="form-label"></label>
+                            <input asp-for="TenVaiTro" class="form-control" placeholder="Nhập tên vai trò">
+                            <span asp-validation-for="TenVaiTro" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="MoTa" class="form-label"></label>
+                            <textarea asp-for="MoTa" class="form-control" rows="4" placeholder="Nhập mô tả cho vai trò"></textarea>
+                            <span asp-validation-for="MoTa" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <a href="@Url.Action("Index")" class="btn btn-secondary me-2">
+                                <i class="fas fa-times me-1"></i>Hủy
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i>Tạo vai trò
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Form validation
+            $('form').validate({
+                rules: {
+                    TenVaiTro: {
+                        required: true,
+                        maxlength: 100
+                    },
+                    MoTa: {
+                        maxlength: 500
+                    }
+                },
+                messages: {
+                    TenVaiTro: {
+                        required: "Tên vai trò là bắt buộc",
+                        maxlength: "Tên vai trò không được vượt quá 100 ký tự"
+                    },
+                    MoTa: {
+                        maxlength: "Mô tả không được vượt quá 500 ký tự"
+                    }
+                }
+            });
+        });
+    </script>
+}

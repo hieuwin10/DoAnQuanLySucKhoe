@@ -1,0 +1,216 @@
+@model DoAnChamSocSucKhoe.Areas.Admin.Models.BackupSettingsViewModel
+
+@{
+    ViewData["Title"] = "Cài đặt Sao lưu";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-database me-2"></i>Cài đặt Sao lưu
+            </h1>
+            <p class="text-muted mb-0">Quản lý sao lưu dữ liệu tự động và thủ công</p>
+        </div>
+    </div>
+
+    <!-- Settings Navigation -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index")">
+                                <i class="fas fa-cog me-2"></i>Tổng quan
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Email")">
+                                <i class="fas fa-envelope me-2"></i>Email
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Security")">
+                                <i class="fas fa-shield-alt me-2"></i>Bảo mật
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="@Url.Action("Backup")">
+                                <i class="fas fa-database me-2"></i>Sao lưu
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Backup Settings Form -->
+    <form method="post" class="row">
+        @Html.AntiForgeryToken()
+
+        <!-- Backup Configuration -->
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Cấu hình sao lưu tự động</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="BackupFrequency" class="form-label">Tần suất sao lưu</label>
+                            <select class="form-select" id="BackupFrequency" name="BackupFrequency">
+                                <option value="daily" selected="@(Model.BackupFrequency == "daily")">Hàng ngày</option>
+                                <option value="weekly" selected="@(Model.BackupFrequency == "weekly")">Hàng tuần</option>
+                                <option value="monthly" selected="@(Model.BackupFrequency == "monthly")">Hàng tháng</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="BackupTime" class="form-label">Thời gian sao lưu</label>
+                            @Html.TextBoxFor(m => m.BackupTime, new { @class = "form-control", type = "time" })
+                            @Html.ValidationMessageFor(m => m.BackupTime, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="RetentionDays" class="form-label">Số ngày lưu trữ</label>
+                            @Html.TextBoxFor(m => m.RetentionDays, new { @class = "form-control", type = "number", min = "1", max = "365" })
+                            @Html.ValidationMessageFor(m => m.RetentionDays, "", new { @class = "text-danger" })
+                            <div class="form-text">Các bản sao lưu cũ hơn sẽ được xóa tự động</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="BackupLocation" class="form-label">Vị trí lưu trữ</label>
+                            @Html.TextBoxFor(m => m.BackupLocation, new { @class = "form-control", placeholder = "/backups/" })
+                            @Html.ValidationMessageFor(m => m.BackupLocation, "", new { @class = "text-danger" })
+                            <div class="form-text">Đường dẫn tuyệt đối hoặc tương đối</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(m => m.AutoBackupEnabled, new { @class = "form-check-input" })
+                            <label class="form-check-label" for="AutoBackupEnabled">
+                                Bật sao lưu tự động
+                            </label>
+                        </div>
+                        <div class="form-text">Hệ thống sẽ tự động sao lưu theo lịch trình đã thiết lập</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manual Backup -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-success">Sao lưu thủ công</h6>
+                </div>
+                <div class="card-body">
+                    <p class="mb-3">Tạo bản sao lưu ngay lập tức. Quá trình này có thể mất vài phút tùy thuộc vào kích thước dữ liệu.</p>
+                    <button type="button" class="btn btn-success" onclick="createBackup()">
+                        <i class="fas fa-play me-2"></i>Tạo sao lưu ngay
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Backup Status & Information -->
+        <div class="col-lg-4">
+            <!-- Last Backup Status -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-info">Trạng thái sao lưu gần nhất</h6>
+                </div>
+                <div class="card-body">
+                    @if (Model.LastBackupDate.HasValue)
+                    {
+                        <div class="mb-3">
+                            <strong>Thời gian:</strong><br>
+                            <span class="text-muted">@Model.LastBackupDate.Value.ToString("dd/MM/yyyy HH:mm")</span>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Trạng thái:</strong><br>
+                            <span class="badge bg-success">@Model.LastBackupStatus</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center text-muted">
+                            <i class="fas fa-info-circle fa-2x mb-2"></i>
+                            <p>Chưa có bản sao lưu nào</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Backup Recommendations -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-warning">Khuyến nghị sao lưu</h6>
+                </div>
+                <div class="card-body">
+                    <ul class="small mb-0">
+                        <li class="mb-2">
+                            <i class="fas fa-check-circle text-success me-1"></i>
+                            Sao lưu hàng ngày vào giờ thấp điểm
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check-circle text-success me-1"></i>
+                            Lưu trữ ít nhất 30 ngày
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check-circle text-success me-1"></i>
+                            Kiểm tra tính toàn vẹn của bản sao lưu
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check-circle text-success me-1"></i>
+                            Sao lưu ra vị trí khác với máy chủ chính
+                        </li>
+                        <li class="mb-0">
+                            <i class="fas fa-check-circle text-success me-1"></i>
+                            Thử khôi phục từ bản sao lưu định kỳ
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-save me-2"></i>Lưu cài đặt
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmBackup() {
+            return confirm('Bạn có chắc chắn muốn tạo bản sao lưu ngay bây giờ? Quá trình này có thể mất vài phút.');
+        }
+
+        function createBackup() {
+            if (confirmBackup()) {
+                // Create a temporary form to submit the backup request
+                var form = document.createElement('form');
+                form.method = 'post';
+                form.action = '@Url.Action("CreateBackup")';
+
+                // Add anti-forgery token
+                var tokenInput = document.createElement('input');
+                tokenInput.type = 'hidden';
+                tokenInput.name = '__RequestVerificationToken';
+                tokenInput.value = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                form.appendChild(tokenInput);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    </script>
+}

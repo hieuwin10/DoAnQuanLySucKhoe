@@ -1,0 +1,210 @@
+@model DoAnChamSocSucKhoe.Areas.Admin.Models.DoctorDetailViewModel
+
+@{
+    ViewData["Title"] = "Chi tiết bác sĩ";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-user-md me-2"></i>Chi tiết bác sĩ
+            </h1>
+            <p class="text-muted mb-0">Thông tin chi tiết về bác sĩ @Model.FullName</p>
+        </div>
+        <div>
+            <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-warning me-2">
+                <i class="fas fa-edit me-1"></i>Sửa thông tin
+            </a>
+            <a href="@Url.Action("Index")" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-1"></i>Quay lại danh sách
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Doctor Profile -->
+        <div class="col-lg-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thông tin cá nhân</h6>
+                </div>
+                <div class="card-body text-center">
+                    <img src="@Model.Avatar" alt="Avatar" class="rounded-circle mb-3" width="120" height="120">
+                    <h5>@Model.FullName</h5>
+                    <p class="text-muted">@Model.Specialization</p>
+                    <span class="badge badge-@Model.GetStatusClass() badge-lg">@Model.Status</span>
+
+                    <hr>
+
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <div class="mb-2">
+                                <i class="fas fa-calendar-check fa-2x text-info"></i>
+                            </div>
+                            <h6 class="mb-0">@Model.TotalAppointments</h6>
+                            <small class="text-muted">Lịch hẹn</small>
+                        </div>
+                        <div class="col-4">
+                            <div class="mb-2">
+                                <i class="fas fa-star fa-2x text-warning"></i>
+                            </div>
+                            <h6 class="mb-0">@Model.AverageRating.ToString("F1")</h6>
+                            <small class="text-muted">Đánh giá</small>
+                        </div>
+                        <div class="col-4">
+                            <div class="mb-2">
+                                <i class="fas fa-check-circle fa-2x text-success"></i>
+                            </div>
+                            <h6 class="mb-0">@Model.GetCompletionRate()</h6>
+                            <small class="text-muted">Hoàn thành</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Doctor Details -->
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thông tin chi tiết</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Email:</label>
+                                <p class="mb-0">@Model.Email</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Số điện thoại:</label>
+                                <p class="mb-0">@Model.PhoneNumber</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Chuyên môn:</label>
+                                <p class="mb-0">@Model.Specialization</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Kinh nghiệm:</label>
+                                <p class="mb-0">@Model.ExperienceYears năm</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Ngày tham gia:</label>
+                                <p class="mb-0">@Model.CreatedDate.ToString("dd/MM/yyyy")</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Hoạt động cuối:</label>
+                                <p class="mb-0">@(Model.LastActivity?.ToString("dd/MM/yyyy HH:mm") ?? "Chưa có hoạt động")</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.Bio))
+                    {
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Tiểu sử:</label>
+                            <p class="mb-0">@Model.Bio</p>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.Education))
+                    {
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Học vấn:</label>
+                            <p class="mb-0">@Model.Education</p>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.Certifications))
+                    {
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Chứng chỉ:</label>
+                            <p class="mb-0">@Model.Certifications</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Thống kê lịch hẹn</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <span>Tổng lịch hẹn:</span>
+                                    <strong>@Model.TotalAppointments</strong>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <span>Đã hoàn thành:</span>
+                                    <strong class="text-success">@Model.CompletedAppointments</strong>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <span>Tỷ lệ hoàn thành:</span>
+                                    <strong class="text-info">@Model.GetCompletionRate()</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Đánh giá từ bệnh nhân</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <h2 class="text-warning">@Model.AverageRating.ToString("F1")</h2>
+                                <div class="mb-2">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= Math.Floor(Model.AverageRating))
+                                        {
+                                            <i class="fas fa-star text-warning"></i>
+                                        }
+                                        else if (i - 0.5 <= Model.AverageRating)
+                                        {
+                                            <i class="fas fa-star-half-alt text-warning"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="far fa-star text-warning"></i>
+                                        }
+                                    }
+                                </div>
+                                <small class="text-muted">@Model.TotalReviews đánh giá</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,98 @@
+@using DoAnChamSocSucKhoe.Models
+@model HoSoSucKhoe
+
+@{
+    ViewData["Title"] = "Chi Tiết Hồ Sơ Bệnh Nhân";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Chi Tiết Hồ Sơ Sức Khỏe - @Model?.NguoiDung?.HoTen</h2>
+
+    @if (Model != null)
+    {
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-user"></i> Thông Tin Cá Nhân</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Họ Tên:</strong> @Model.NguoiDung?.HoTen</p>
+                        <p><strong>Email:</strong> @Model.NguoiDung?.Email</p>
+                        <p><strong>Ngày Cập Nhật:</strong> @Model.NgayCapNhat.ToString("dd/MM/yyyy")</p>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="fas fa-weight"></i> Chỉ Số Cơ Bản</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Chiều Cao:</strong> @Model.ChieuCao cm</p>
+                        <p><strong>Cân Nặng:</strong> @Model.CanNang kg</p>
+                        <p><strong>BMI:</strong> @(Model.CanNang > 0 && Model.ChieuCao > 0 ? (Convert.ToDouble(Model.CanNang) / Math.Pow((double)Model.ChieuCao / 100, 2)).ToString("F1") : "N/A")</p>
+                        <p><strong>Nhịp Tim:</strong> @Model.NhipTim bpm</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="fas fa-tint"></i> Chỉ Số Sức Khỏe</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Huyết Áp:</strong> @Model.HuyetApTamThu / @Model.HuyetApTamTruong mmHg</p>
+                        <p><strong>Đường Huyết:</strong> @Model.DuongHuyet mmol/L</p>
+                        <p><strong>Trạng Thái:</strong> <span class="badge bg-@GetStatusClass(Model.TrangThai)">@Model.TrangThai</span></p>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0"><i class="fas fa-stethoscope"></i> Thông Tin Y Khoa</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Chẩn Đoán:</strong> @Model.ChanDoan</p>
+                        <p><strong>Phương Pháp Điều Trị:</strong> @Model.PhuongPhapDieuTri</p>
+                        <p><strong>Tiền Sử Bệnh:</strong> @Model.TienSuBenh</p>
+                        <p><strong>Dị Ứng:</strong> @Model.DiUng</p>
+                        <p><strong>Thuốc Đang Dùng:</strong> @Model.ThuocDangDung</p>
+                        <p><strong>Ghi Chú:</strong> @Model.GhiChu</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Quay Lại Danh Sách
+            </a>
+            <a asp-action="Update" asp-route-id="@Model.NguoiDungId" class="btn btn-primary">
+                <i class="fas fa-edit"></i> Cập Nhật Hồ Sơ
+            </a>
+            <a asp-action="Trend" asp-route-id="@Model.NguoiDungId" class="btn btn-info">
+                <i class="fas fa-chart-line"></i> Xem Xu Hướng
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle"></i> Không tìm thấy hồ sơ sức khỏe.
+        </div>
+    }
+</div>
+
+@functions {
+    private string GetStatusClass(string? status)
+    {
+        return status?.ToLower() switch
+        {
+            "tốt" => "success",
+            "cần chú ý" => "warning",
+            "nguy hiểm" => "danger",
+            _ => "secondary"
+        };
+    }
+}

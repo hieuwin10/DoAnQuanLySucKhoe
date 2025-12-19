@@ -1,0 +1,92 @@
+@model IEnumerable<DoAnChamSocSucKhoe.Models.TuVanSucKhoe>
+@{
+    ViewData["Title"] = "Danh sách cuộc trò chuyện";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-comments me-2"></i>Cuộc trò chuyện với bệnh nhân</h5>
+                    <span class="badge bg-primary">@Model.Count() cuộc trò chuyện</span>
+                </div>
+                <div class="card-body p-0">
+                    @if (Model.Any())
+                    {
+                        <div class="list-group list-group-flush">
+                            @foreach (var consultation in Model)
+                            {
+                                <a href="@Url.Action("Details", "Chat", new { id = consultation.TuVanSucKhoeId })" class="list-group-item list-group-item-action conversation-item">
+                                    <div class="d-flex align-items-center">
+                                        <img src="~/images/avatar-placeholder.png" alt="Avatar" class="rounded-circle me-3" width="50" height="50">
+                                        <div class="flex-grow-1">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <h6 class="mb-1">@consultation.NguoiDung.HoTen</h6>
+                                                <small class="text-muted">@consultation.NgayCapNhat.ToString("dd/MM/yyyy HH:mm")</small>
+                                            </div>
+                                            <p class="mb-1 text-truncate">@consultation.TieuDe</p>
+                                            <small class="text-muted">
+                                                @if (consultation.Messages.Any())
+                                                {
+                                                    var lastMessage = consultation.Messages.Last();
+                                                    var preview = lastMessage.Content.Length > 50 ? lastMessage.Content.Substring(0, 50) + "..." : lastMessage.Content;
+                                                    <text>@preview (@lastMessage.SentTime.ToString("HH:mm"))</text>
+                                                }
+                                                else
+                                                {
+                                                    <text>Chưa có tin nhắn</text>
+                                                }
+                                            </small>
+                                        </div>
+                                        @if (consultation.Messages.Any(m => !m.IsRead && m.SenderId != User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value))
+                                        {
+                                            <span class="badge bg-danger ms-2">Mới</span>
+                                        }
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="fas fa-comments fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">Chưa có cuộc trò chuyện nào</h5>
+                            <p class="text-muted">Các cuộc trò chuyện với bệnh nhân sẽ xuất hiện ở đây.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .conversation-item {
+        padding: 15px 20px;
+        transition: background-color 0.2s;
+    }
+
+    .conversation-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    .conversation-item img {
+        border: 2px solid #e9ecef;
+    }
+
+    .conversation-item h6 {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .conversation-item p {
+        color: #666;
+        margin-bottom: 0.25rem;
+    }
+
+    .conversation-item small {
+        color: #999;
+    }
+</style>

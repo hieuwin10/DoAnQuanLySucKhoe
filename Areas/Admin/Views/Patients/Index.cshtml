@@ -1,0 +1,563 @@
+@model DoAnChamSocSucKhoe.Areas.Admin.Models.PatientListViewModel
+@{
+    ViewData["Title"] = "Quản lý bệnh nhân";
+    Layout = "_AdminLayout";
+}
+
+<div class="page-header-modern mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="mb-2">Quản lý bệnh nhân</h1>
+            <p class="mb-0 opacity-75">Quản lý thông tin sức khỏe và hồ sơ bệnh án của bệnh nhân</p>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-light action-btn-modern" id="exportButton">
+                <i class="fas fa-download me-2"></i> Xuất danh sách
+            </button>
+            <a asp-action="Create" class="btn btn-warning action-btn-modern">
+                <i class="fas fa-plus-circle me-2"></i> Thêm bệnh nhân mới
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Thông báo -->
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-modern alert-dismissible fade show animate-fade-in-up" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-modern alert-dismissible fade show animate-fade-in-up" role="alert">
+        <i class="fas fa-check-circle me-2"></i>
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<!-- Thống kê tổng quan -->
+<div class="row g-4 mb-4">
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center">
+                <div class="stat-icon icon-primary me-3">
+                    <i class="fas fa-procedures text-white"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <h6 class="text-muted mb-1 small">Tổng số bệnh nhân</h6>
+                    <div class="stat-number">@Model.Stats.TotalPatients</div>
+                    <small class="text-muted">Theo dõi và quản lý</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center">
+                <div class="stat-icon icon-success me-3">
+                    <i class="fas fa-user-plus text-white"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <h6 class="text-muted mb-1 small">Bệnh nhân mới</h6>
+                    <div class="stat-number">@Model.Stats.NewPatients</div>
+                    <div class="growth-badge bg-success bg-opacity-10 text-success mt-2">
+                        <i class="fas fa-arrow-up"></i>
+                        @Model.Stats.NewPatientsGrowthRate.ToString("0.0")%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center">
+                <div class="stat-icon icon-info me-3">
+                    <i class="fas fa-heartbeat text-white"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <h6 class="text-muted mb-1 small">Đang điều trị</h6>
+                    <div class="stat-number">@Model.Stats.UnderTreatmentPatients</div>
+                    <div class="growth-badge bg-info bg-opacity-10 text-info mt-2">
+                        <i class="fas fa-arrow-up"></i>
+                        @Model.Stats.UnderTreatmentGrowthRate.ToString("0.0")%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center">
+                <div class="stat-icon icon-warning me-3">
+                    <i class="fas fa-stethoscope text-white"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <h6 class="text-muted mb-1 small">Cần theo dõi</h6>
+                    <div class="stat-number">@Model.Stats.MonitoringPatients</div>
+                    <div class="growth-badge bg-warning bg-opacity-10 text-warning mt-2">
+                        <i class="fas fa-arrow-up"></i>
+                        @Model.Stats.MonitoringGrowthRate.ToString("0.0")%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Biểu đồ phân bố -->
+<div class="row g-4 mb-4">
+    <div class="col-xl-8">
+        <div class="chart-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0 fw-bold">Phân bố bệnh nhân theo độ tuổi</h5>
+                <div class="btn-group btn-group-sm">
+                    <button class="btn btn-light action-btn-modern active">Tất cả</button>
+                </div>
+            </div>
+            <canvas id="ageDistributionChart" height="300"></canvas>
+        </div>
+    </div>
+    <div class="col-xl-4">
+        <div class="chart-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0 fw-bold">Phân bố theo bệnh lý</h5>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-light action-btn-modern dropdown-toggle" type="button" id="diagnosisTimeFilter" data-bs-toggle="dropdown" aria-expanded="false">
+                        6 tháng
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="diagnosisTimeFilter">
+                        <li><button class="dropdown-item diagnosis-filter" data-period="30">30 ngày gần đây</button></li>
+                        <li><button class="dropdown-item diagnosis-filter" data-period="90">3 tháng gần đây</button></li>
+                        <li><button class="dropdown-item diagnosis-filter" data-period="180">6 tháng gần đây</button></li>
+                        <li><button class="dropdown-item diagnosis-filter" data-period="365">Năm nay</button></li>
+                    </ul>
+                </div>
+            </div>
+            <canvas id="diagnosisDistributionChart" height="300"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Tìm kiếm và lọc -->
+<div class="card border-0 shadow-sm mb-4 animate-fade-in-up">
+    <div class="card-body">
+        <form id="searchForm" asp-action="Index" method="get" class="row g-3 align-items-center">
+            <div class="col-md-5">
+                <div class="search-box-modern">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="form-control ps-5" placeholder="Tìm kiếm theo tên, email, số điện thoại..." 
+                           name="searchTerm" value="@Model.SearchTerm">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="filter-select-modern">
+                    <i class="fas fa-filter filter-icon"></i>
+                    <select class="form-select ps-5" name="statusFilter" onchange="document.getElementById('searchForm').submit()">
+                        <option value="all" selected="@(Model.StatusFilter == "all")">Tất cả trạng thái</option>
+                        <option value="treatment" selected="@(Model.StatusFilter == "treatment")">Đang điều trị</option>
+                        <option value="monitoring" selected="@(Model.StatusFilter == "monitoring")">Cần theo dõi</option>
+                        <option value="new" selected="@(Model.StatusFilter == "new")">Bệnh nhân mới</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4 text-end">
+                <button type="submit" class="btn btn-primary action-btn-modern me-2">
+                    <i class="fas fa-search me-2"></i> Tìm kiếm
+                </button>
+                <a asp-action="Index" class="btn btn-light action-btn-modern">
+                    <i class="fas fa-redo-alt me-2"></i> Làm mới
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Danh sách bệnh nhân -->
+<div class="card border-0 shadow-sm animate-fade-in-up">
+    <div class="card-header bg-white border-0 py-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 fw-bold">Danh sách bệnh nhân</h5>
+            <span class="badge bg-light text-dark px-3 py-2">
+                <i class="fas fa-users me-2"></i>
+                @((Model.PageNumber-1)*Model.PageSize + 1) - @(Math.Min(Model.PageNumber*Model.PageSize, Model.TotalPages*Model.PageSize)) / @(Model.TotalPages*Model.PageSize)
+            </span>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-modern mb-0">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-user me-2"></i>Bệnh nhân</th>
+                        <th><i class="fas fa-birthday-cake me-2"></i>Tuổi</th>
+                        <th><i class="fas fa-phone me-2"></i>Số điện thoại</th>
+                        <th><i class="fas fa-notes-medical me-2"></i>Chẩn đoán</th>
+                        <th><i class="fas fa-circle-notch me-2"></i>Trạng thái</th>
+                        <th class="text-center"><i class="fas fa-cog me-2"></i>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Patients != null && Model.Patients.Any())
+                    {
+                        foreach (var patient in Model.Patients)
+                        {
+                            <tr class="table-row-modern">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-modern me-3" style="width: 50px; height: 50px; min-width: 50px;">
+                                            <img src="@patient.Avatar" alt="@patient.FullName" class="rounded-circle" style="width: 100%; height: 100%; object-fit: cover;">
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 fw-semibold">@patient.FullName</h6>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge bg-light text-dark px-3 py-2">@patient.Age</span>
+                                </td>
+                                <td>@patient.PhoneNumber</td>
+                                <td>@patient.Diagnosis</td>
+                                <td>
+                                    <span class="badge-modern badge-@patient.StatusClass">@patient.Status</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <a href="@Url.Action("Details", new { id = patient.Id })" 
+                                           class="action-btn-modern btn-sm" 
+                                           data-bs-toggle="tooltip" 
+                                           title="Xem chi tiết">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="@Url.Action("Edit", new { id = patient.Id })" 
+                                           class="action-btn-modern btn-sm" 
+                                           data-bs-toggle="tooltip" 
+                                           title="Chỉnh sửa">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button type="button" 
+                                                class="action-btn-modern btn-sm change-status-btn" 
+                                                data-patient-id="@patient.Id" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#changeStatusModal"
+                                                title="Thay đổi trạng thái">
+                                            <i class="fas fa-exchange-alt"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center py-5">
+                                <div class="empty-state">
+                                    <div class="empty-state-icon icon-primary mb-3">
+                                        <i class="fas fa-user-slash"></i>
+                                    </div>
+                                    <h5 class="mb-2">Không tìm thấy bệnh nhân nào</h5>
+                                    <p class="text-muted">Hãy thử tìm kiếm với từ khóa khác hoặc xóa bộ lọc</p>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @if (Model.TotalPages > 1)
+    {
+        <div class="card-footer bg-white border-0 py-3">
+            <nav aria-label="Pagination">
+                <ul class="pagination pagination-modern justify-content-center mb-0">
+                    <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber - 1)" asp-route-searchTerm="@Model.SearchTerm" asp-route-statusFilter="@Model.StatusFilter">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(Model.PageNumber == i ? "active" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-pageNumber="@i" asp-route-searchTerm="@Model.SearchTerm" asp-route-statusFilter="@Model.StatusFilter">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(Model.PageNumber == Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber + 1)" asp-route-searchTerm="@Model.SearchTerm" asp-route-statusFilter="@Model.StatusFilter">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    }
+</div>
+
+<!-- Modal thay đổi trạng thái -->
+<div class="modal fade" id="changeStatusModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold">
+                    <i class="fas fa-exchange-alt me-2 text-primary"></i>
+                    Thay đổi trạng thái bệnh nhân
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pt-2">
+                <input type="hidden" id="patientIdInput" value="" />
+                <div class="mb-3">
+                    <label for="statusSelect" class="form-label">Chọn trạng thái mới</label>
+                    <select class="form-select form-select-modern" id="statusSelect">
+                        <option value="Chờ khám">Chờ khám</option>
+                        <option value="Đang điều trị">Đang điều trị</option>
+                        <option value="Cần theo dõi">Cần theo dõi</option>
+                        <option value="Khỏi bệnh">Khỏi bệnh</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-light action-btn-modern" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>Hủy
+                </button>
+                <button type="button" class="btn btn-primary action-btn-modern" id="saveStatusButton">
+                    <i class="fas fa-save me-2"></i>Lưu thay đổi
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+            
+            // Handle change status
+            $('.change-status-btn').click(function() {
+                var patientId = $(this).data('patient-id');
+                $('#patientIdInput').val(patientId);
+            });
+            
+            $('#saveStatusButton').click(function() {
+                var patientId = $('#patientIdInput').val();
+                var status = $('#statusSelect').val();
+                
+                $.ajax({
+                    url: '@Url.Action("ChangeStatus")',
+                    type: 'POST',
+                    data: {
+                        patientId: patientId,
+                        status: status
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Hiển thị thông báo thành công
+                            alert(response.message);
+                            // Đóng modal
+                            $('#changeStatusModal').modal('hide');
+                            // Tải lại trang để cập nhật dữ liệu
+                            location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('Có lỗi xảy ra khi thay đổi trạng thái');
+                    }
+                });
+            });
+            
+            // Biểu đồ phân bố theo độ tuổi
+            var ageCtx = document.getElementById('ageDistributionChart').getContext('2d');
+            var ageChart = new Chart(ageCtx, {
+                type: 'bar',
+                data: {
+                    labels: [@Html.Raw(string.Join(",", Model.Stats.AgeDistribution.Select(a => $"'{a.AgeGroup}'")))],
+                    datasets: [
+                        {
+                            label: 'Nam',
+                            data: [@string.Join(",", Model.Stats.AgeDistribution.Select(a => a.MaleCount))],
+                            backgroundColor: '#4e73df',
+                            borderWidth: 0
+                        },
+                        {
+                            label: 'Nữ',
+                            data: [@string.Join(",", Model.Stats.AgeDistribution.Select(a => a.FemaleCount))],
+                            backgroundColor: '#e83e8c',
+                            borderWidth: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: 2,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        },
+                        title: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                display: false,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        }
+                    },
+                    barPercentage: 0.7,
+                    categoryPercentage: 0.8
+                }
+            });
+            
+            // Dữ liệu biểu đồ phân bố theo bệnh lý
+            const diagnosisDatasets = {
+                // 30 ngày gần đây
+                '30': {
+                    labels: ['Tim mạch', 'Thần kinh', 'Nội tiết', 'Da liễu', 'Cơ xương khớp', 'Khác'],
+                    data: [38, 22, 18, 10, 8, 4],
+                    colors: ['#4e73df', '#e74a3b', '#36b9cc', '#f6c23e', '#fd7e14', '#6610f2']
+                },
+                // 3 tháng gần đây
+                '90': {
+                    labels: ['Tim mạch', 'Thần kinh', 'Nội tiết', 'Da liễu', 'Cơ xương khớp', 'Khác'],
+                    data: [42, 20, 15, 12, 8, 3],
+                    colors: ['#4e73df', '#e74a3b', '#36b9cc', '#f6c23e', '#fd7e14', '#6610f2']
+                },
+                // 6 tháng gần đây
+                '180': {
+                    labels: ['Tim mạch', 'Thần kinh', 'Nội tiết', 'Da liễu', 'Cơ xương khớp', 'Khác'],
+                    data: [45, 18, 15, 10, 8, 4],
+                    colors: ['#4e73df', '#e74a3b', '#36b9cc', '#f6c23e', '#fd7e14', '#6610f2']
+                },
+                // Năm nay
+                '365': {
+                    labels: ['Tim mạch', 'Thần kinh', 'Nội tiết', 'Da liễu', 'Cơ xương khớp', 'Khác'],
+                    data: [40, 20, 16, 12, 7, 5],
+                    colors: ['#4e73df', '#e74a3b', '#36b9cc', '#f6c23e', '#fd7e14', '#6610f2']
+                }
+            };
+            
+            // Biểu đồ phân bố theo bệnh lý
+            var diagnosisCtx = document.getElementById('diagnosisDistributionChart');
+            var currentPeriod = '180'; // Mặc định hiển thị dữ liệu 6 tháng gần đây
+            var diagnosisChart = null;
+            
+            // Xử lý khi thay đổi filter thời gian cho biểu đồ bệnh lý
+            $('.diagnosis-filter').click(function() {
+                const period = $(this).data('period');
+                const periodText = $(this).text();
+                
+                // Cập nhật nội dung button
+                $('#diagnosisTimeFilter').text(periodText);
+                
+                // Cập nhật biểu đồ
+                if (diagnosisChart) {
+                    diagnosisChart.destroy();
+                }
+                
+                diagnosisChart = createDiagnosisChart(period);
+            });
+            
+            // Tạo biểu đồ ngay khi trang tải xong
+            $(document).ready(function() {
+                if (diagnosisCtx) {
+                    diagnosisChart = createDiagnosisChart(currentPeriod);
+                }
+            });
+            
+            function createDiagnosisChart(period) {
+                if (!diagnosisCtx) {
+                    console.error('Không tìm thấy canvas cho biểu đồ phân bố theo bệnh lý');
+                    return null;
+                }
+                
+                const ctx = diagnosisCtx.getContext('2d');
+                const dataset = diagnosisDatasets[period] || diagnosisDatasets['180']; // Fallback to 6 months if period not found
+                
+                try {
+                    return new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: dataset.labels,
+                            datasets: [{
+                                data: dataset.data,
+                                backgroundColor: dataset.colors,
+                                hoverBorderColor: "rgba(234, 236, 244, 1)",
+                                borderWidth: 0
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            aspectRatio: 1,
+                            plugins: {
+                                legend: {
+                                    position: 'right',
+                                    labels: {
+                                        usePointStyle: true,
+                                        padding: 15,
+                                        font: {
+                                            size: 11
+                                        }
+                                    }
+                                },
+                                title: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            const label = context.label || '';
+                                            const value = context.raw || 0;
+                                            const total = context.dataset.data.reduce((acc, curr) => acc + curr, 0);
+                                            const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
+                                            return `${label}: ${value} (${percentage}%)`;
+                                        }
+                                    }
+                                }
+                            },
+                            cutout: '75%'
+                        }
+                    });
+                } catch (error) {
+                    console.error('Lỗi khi tạo biểu đồ:', error);
+                    return null;
+                }
+            }
+        });
+    </script>
+}

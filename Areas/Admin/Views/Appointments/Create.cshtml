@@ -1,0 +1,224 @@
+@model DoAnChamSocSucKhoe.Areas.Admin.Models.CreateAppointmentViewModel
+
+@{
+    ViewData["Title"] = "Tạo lịch hẹn mới";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-calendar-plus me-2"></i>Tạo lịch hẹn mới
+            </h1>
+            <p class="text-muted mb-0">Tạo lịch hẹn khám bệnh cho bệnh nhân</p>
+        </div>
+        <div>
+            <a href="@Url.Action("Index")" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Quay lại
+            </a>
+        </div>
+    </div>
+
+    <!-- Create Form -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-edit me-2"></i>Thông tin lịch hẹn
+                    </h6>
+                </div>
+                <form method="post" asp-action="Create">
+                    @Html.AntiForgeryToken()
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="PatientId" class="form-label">
+                                        Bệnh nhân <span class="text-danger">*</span>
+                                    </label>
+                                    <select asp-for="PatientId" class="form-select" asp-items="Model.AvailablePatients" required>
+                                        <option value="">-- Chọn bệnh nhân --</option>
+                                    </select>
+                                    <span asp-validation-for="PatientId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="DoctorId" class="form-label">
+                                        Bác sĩ <span class="text-danger">*</span>
+                                    </label>
+                                    <select asp-for="DoctorId" class="form-select" asp-items="Model.AvailableDoctors" required>
+                                        <option value="">-- Chọn bác sĩ --</option>
+                                    </select>
+                                    <span asp-validation-for="DoctorId" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="DateTime" class="form-label">
+                                        Ngày giờ hẹn <span class="text-danger">*</span>
+                                    </label>
+                                    <input asp-for="DateTime" class="form-control" type="datetime-local" required />
+                                    <span asp-validation-for="DateTime" class="text-danger"></span>
+                                    <div class="form-text">
+                                        Chọn ngày giờ trong tương lai
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Location" class="form-label">
+                                        Địa điểm <span class="text-danger">*</span>
+                                    </label>
+                                    <input asp-for="Location" class="form-control" placeholder="Ví dụ: Phòng khám A101" required />
+                                    <span asp-validation-for="Location" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Reason" class="form-label">
+                                Lý do khám <span class="text-danger">*</span>
+                            </label>
+                            <textarea asp-for="Reason" class="form-control" rows="3"
+                                      placeholder="Mô tả lý do bệnh nhân đến khám..." required></textarea>
+                            <span asp-validation-for="Reason" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Diagnosis" class="form-label">
+                                        Chẩn đoán ban đầu
+                                    </label>
+                                    <textarea asp-for="Diagnosis" class="form-control" rows="2"
+                                              placeholder="Chẩn đoán sơ bộ nếu có..."></textarea>
+                                    <span asp-validation-for="Diagnosis" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Prescription" class="form-label">
+                                        Đơn thuốc ban đầu
+                                    </label>
+                                    <textarea asp-for="Prescription" class="form-control" rows="2"
+                                              placeholder="Đơn thuốc sơ bộ nếu có..."></textarea>
+                                    <span asp-validation-for="Prescription" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Notes" class="form-label">
+                                Ghi chú thêm
+                            </label>
+                            <textarea asp-for="Notes" class="form-control" rows="2"
+                                      placeholder="Ghi chú bổ sung..."></textarea>
+                            <span asp-validation-for="Notes" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save me-2"></i>Tạo lịch hẹn
+                        </button>
+                        <a href="@Url.Action("Index")" class="btn btn-secondary ms-2">
+                            <i class="fas fa-times me-2"></i>Hủy
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- Guidelines -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-lightbulb me-2"></i>Hướng dẫn tạo lịch hẹn
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Chọn đúng bệnh nhân:</strong> Đảm bảo thông tin bệnh nhân chính xác
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Phối hợp bác sĩ:</strong> Chọn bác sĩ phù hợp với chuyên khoa
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Thời gian hợp lý:</strong> Tránh đặt lịch quá gần hoặc quá xa
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Thông tin đầy đủ:</strong> Cung cấp địa điểm và lý do chi tiết
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Xác nhận:</strong> Thông báo cho bệnh nhân sau khi tạo lịch
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-chart-bar me-2"></i>Thống kê nhanh
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <div class="h4 mb-0 text-primary">@Model.AvailablePatients.Count()</div>
+                            <small class="text-muted">Bệnh nhân</small>
+                        </div>
+                        <div class="col-6">
+                            <div class="h4 mb-0 text-success">@Model.AvailableDoctors.Count()</div>
+                            <small class="text-muted">Bác sĩ</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Set minimum date to today
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateTimeInput = document.getElementById('DateTime');
+            if (dateTimeInput) {
+                const now = new Date();
+                const minDateTime = now.toISOString().slice(0, 16);
+                dateTimeInput.min = minDateTime;
+            }
+        });
+
+        // Form validation
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+}

@@ -1,0 +1,184 @@
+@model DoAnChamSocSucKhoe.Models.NhacNhoSucKhoe
+
+@{
+    ViewData["Title"] = "Xóa nhắc nhở";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .delete-reminder-container {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+    }
+
+    .page-header {
+        color: white;
+        text-align: center;
+    }
+
+    .delete-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .warning-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 2.5rem;
+        color: white;
+    }
+
+    .reminder-info {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin: 2rem 0;
+    }
+
+    .info-row {
+        display: flex;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .info-row:last-child {
+        border-bottom: none;
+    }
+
+    .info-label {
+        font-weight: 600;
+        color: #495057;
+        min-width: 150px;
+    }
+
+    .info-value {
+        color: #6c757d;
+        flex: 1;
+    }
+
+    .btn-delete-confirm {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 25px;
+        font-weight: 600;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-delete-confirm:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(245, 87, 108, 0.3);
+        color: white;
+    }
+
+    .btn-cancel {
+        padding: 0.75rem 2rem;
+        border-radius: 25px;
+        font-weight: 600;
+    }
+</style>
+
+<div class="delete-reminder-container">
+    <div class="container">
+        <div class="page-header">
+            <h2><i class="fas fa-exclamation-triangle me-2"></i>Xóa Nhắc nhở</h2>
+            <p class="mb-0">Xác nhận xóa lời nhắc này</p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="delete-card">
+                <div class="warning-icon">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+
+                <h3 class="text-center mb-3">Bạn có chắc chắn muốn xóa nhắc nhở này?</h3>
+                <p class="text-center text-muted mb-4">
+                    Hành động này không thể hoàn tác. Tất cả thông tin về nhắc nhở này sẽ bị xóa vĩnh viễn.
+                </p>
+
+                <div class="reminder-info">
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-tag me-2"></i>Loại nhắc nhở:
+                        </div>
+                        <div class="info-value">
+                            <span class="badge bg-primary">@Model.LoaiNhacNho</span>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-heading me-2"></i>Tiêu đề:
+                        </div>
+                        <div class="info-value">@Model.TieuDe</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-align-left me-2"></i>Nội dung:
+                        </div>
+                        <div class="info-value">@Model.NoiDung</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-clock me-2"></i>Thời gian:
+                        </div>
+                        <div class="info-value">@Model.ThoiGian.ToString("dd/MM/yyyy HH:mm")</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-check-circle me-2"></i>Trạng thái:
+                        </div>
+                        <div class="info-value">
+                            @if (Model.DaThucHien)
+                            {
+                                <span class="badge bg-success">Đã hoàn thành</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark">Chưa hoàn thành</span>
+                            }
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-calendar me-2"></i>Ngày tạo:
+                        </div>
+                        <div class="info-value">@Model.NgayTao.ToString("dd/MM/yyyy HH:mm")</div>
+                    </div>
+                </div>
+
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="NhacNhoSucKhoeId" />
+                    <div class="d-flex justify-content-between mt-4">
+                        <a asp-action="Details" asp-route-id="@Model.NhacNhoSucKhoeId" class="btn btn-outline-secondary btn-cancel">
+                            <i class="fas fa-times me-2"></i>Hủy bỏ
+                        </a>
+                        <button type="submit" class="btn btn-delete-confirm">
+                            <i class="fas fa-trash-alt me-2"></i>Xác nhận xóa
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="text-center">
+                <a asp-action="Index" class="text-muted">
+                    <i class="fas fa-arrow-left me-2"></i>Quay lại danh sách
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

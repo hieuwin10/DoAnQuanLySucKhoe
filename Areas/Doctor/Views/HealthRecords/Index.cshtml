@@ -1,0 +1,51 @@
+@model List<DoAnChamSocSucKhoe.Models.NguoiDung>
+
+@{
+    ViewData["Title"] = "Hồ Sơ Sức Khỏe";
+    Layout = "~/Areas/Doctor/Views/Shared/_DoctorLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">@ViewData["Title"]</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách Bệnh nhân</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Họ và Tên</th>
+                            <th>Email</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var patient in Model)
+                            {
+                                <tr>
+                                    <td>@patient.HoTen</td>
+                                    <td>@patient.Email</td>
+                                    <td>
+                                        <a href="@Url.Action("Detail", "HealthRecords", new { id = patient.Id })" class="btn btn-primary btn-sm">Xem Hồ Sơ</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3" class="text-center">Không có bệnh nhân nào.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

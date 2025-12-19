@@ -1,0 +1,430 @@
+@model DoAnChamSocSucKhoe.Areas.Admin.Models.PatientDetailViewModel
+@{
+    ViewData["Title"] = "Chi tiết bệnh nhân";
+    Layout = "_AdminLayout";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <a asp-action="Index" class="text-decoration-none">
+        <i class="fas fa-arrow-left me-2"></i> Chi tiết bệnh nhân
+    </a>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-light me-2">
+            <i class="fas fa-edit me-1"></i> Chỉnh sửa
+        </a>
+        @if (Model.Status == "Đang điều trị" || Model.Status == "Cần theo dõi")
+        {
+            <button class="btn btn-success change-status" 
+                    data-patient-id="@Model.Id"
+                    data-status="Khỏi bệnh">
+                <i class="fas fa-check-circle me-1"></i> Đánh dấu khỏi bệnh
+            </button>
+        }
+        else if (Model.Status == "Chờ khám")
+        {
+            <button class="btn btn-primary change-status" 
+                    data-patient-id="@Model.Id"
+                    data-status="Đang điều trị">
+                <i class="fas fa-hospital-user me-1"></i> Chuyển sang điều trị
+            </button>
+        }
+        else
+        {
+            <button class="btn btn-warning change-status" 
+                    data-patient-id="@Model.Id"
+                    data-status="Cần theo dõi">
+                <i class="fas fa-user-md me-1"></i> Chuyển sang theo dõi
+            </button>
+        }
+    </div>
+</div>
+
+<div class="row">
+    <!-- Thông tin bệnh nhân -->
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <img src="@Model.Avatar" alt="@Model.FullName" class="rounded-circle" 
+                         style="width: 100px; height: 100px; object-fit: cover;">
+                    <h5 class="mt-3 mb-1">@Model.FullName</h5>
+                    <p class="text-muted mb-2">@Model.Age tuổi, @Model.Gender</p>
+                    <span class="badge bg-@Model.StatusClass">@Model.Status</span>
+                </div>
+                
+                <div class="mt-4">
+                    <div class="d-flex mb-3">
+                        <div class="flex-shrink-0 me-3">
+                            <i class="fas fa-envelope text-primary"></i>
+                        </div>
+                        <div>
+                            <div class="text-muted small">Email</div>
+                            <div>@Model.Email</div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex mb-3">
+                        <div class="flex-shrink-0 me-3">
+                            <i class="fas fa-phone text-primary"></i>
+                        </div>
+                        <div>
+                            <div class="text-muted small">Điện thoại</div>
+                            <div>@(string.IsNullOrEmpty(Model.PhoneNumber) ? "Chưa cập nhật" : Model.PhoneNumber)</div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mb-3">
+                        <div class="flex-shrink-0 me-3">
+                            <i class="fas fa-tint text-primary"></i>
+                        </div>
+                        <div>
+                            <div class="text-muted small">Nhóm máu</div>
+                            <div>@Model.BloodType</div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex mb-3">
+                        <div class="flex-shrink-0 me-3">
+                            <i class="fas fa-calendar-alt text-primary"></i>
+                        </div>
+                        <div>
+                            <div class="text-muted small">Ngày đăng ký</div>
+                            <div>@Model.RegisterDate.ToString("dd/MM/yyyy")</div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex mb-3">
+                        <div class="flex-shrink-0 me-3">
+                            <i class="fas fa-calendar-check text-primary"></i>
+                        </div>
+                        <div>
+                            <div class="text-muted small">Lịch hẹn sắp tới</div>
+                            <div>@Model.LastAppointmentDate</div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex mb-3">
+                        <div class="flex-shrink-0 me-3">
+                            <i class="fas fa-map-marker-alt text-primary"></i>
+                        </div>
+                        <div>
+                            <div class="text-muted small">Địa chỉ</div>
+                            <div>@(string.IsNullOrEmpty(Model.Address) ? "Chưa cập nhật" : Model.Address)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chỉ số sức khỏe hiện tại -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white border-0">
+                <h5 class="mb-0">Chỉ số sức khỏe</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-3">
+                    <div>
+                        <div class="text-muted small">Chiều cao</div>
+                        <div class="fw-semibold">@Model.Height</div>
+                    </div>
+                    <div>
+                        <div class="text-muted small">Cân nặng</div>
+                        <div class="fw-semibold">@Model.Weight</div>
+                    </div>
+                    <div>
+                        <div class="text-muted small">BMI</div>
+                        <div class="fw-semibold">
+                            @if (Model.BMI != null)
+                            {
+                                <span class="text-@Model.BMIStatus">@Model.BMI</span>
+                            }
+                            else
+                            {
+                                <span>Chưa có</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="text-muted small">Huyết áp</div>
+                    <div class="fw-semibold text-@Model.BloodPressureStatus">@Model.BloodPressure</div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="text-muted small">Nhịp tim</div>
+                    <div class="fw-semibold text-@Model.HeartRateStatus">@Model.HeartRate</div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="text-muted small">Đường huyết</div>
+                    <div class="fw-semibold text-@Model.GlucoseLevelStatus">@Model.GlucoseLevel</div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="text-muted small">Cholesterol</div>
+                    <div class="fw-semibold text-@Model.CholesterolStatus">@Model.Cholesterol</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thông tin chi tiết -->
+    <div class="col-md-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Hồ sơ y tế</h5>
+                    <div class="d-flex align-items-center">
+                        <span class="badge bg-@Model.StatusClass ms-2">
+                            @Model.Status
+                        </span>
+                    </div>
+                </div>
+                
+                <ul class="nav nav-tabs card-header-tabs mt-3">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#medical-info" data-bs-toggle="tab">Thông tin y tế</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#appointments" data-bs-toggle="tab">Lịch hẹn</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#health-history" data-bs-toggle="tab">Lịch sử khám bệnh</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#metrics-history" data-bs-toggle="tab">Lịch sử chỉ số</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <!-- Tab thông tin y tế -->
+                    <div class="tab-pane fade show active" id="medical-info">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <h6 class="mb-3 border-bottom pb-2">Tiền sử bệnh lý</h6>
+                                    <p>@(string.IsNullOrEmpty(Model.MedicalHistory) ? "Không có" : Model.MedicalHistory)</p>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <h6 class="mb-3 border-bottom pb-2">Tiền sử bệnh gia đình</h6>
+                                    <p>@(string.IsNullOrEmpty(Model.FamilyMedicalHistory) ? "Không có" : Model.FamilyMedicalHistory)</p>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <h6 class="mb-3 border-bottom pb-2">Thuốc đang dùng</h6>
+                                    <p>@(string.IsNullOrEmpty(Model.CurrentMedications) ? "Không có" : Model.CurrentMedications)</p>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <h6 class="mb-3 border-bottom pb-2">Dị ứng</h6>
+                                    <p>@(string.IsNullOrEmpty(Model.Allergies) ? "Không có" : Model.Allergies)</p>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <h6 class="mb-3 border-bottom pb-2">Lối sống</h6>
+                                    <p>@(string.IsNullOrEmpty(Model.Lifestyle) ? "Chưa cập nhật" : Model.Lifestyle)</p>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <h6 class="mb-3 border-bottom pb-2">Chẩn đoán hiện tại</h6>
+                                    <p>@(string.IsNullOrEmpty(Model.CurrentDiagnosis) ? "Không có" : Model.CurrentDiagnosis)</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-4">
+                                    <h6 class="mb-3 border-bottom pb-2">Phương pháp điều trị</h6>
+                                    <p>@(string.IsNullOrEmpty(Model.Treatments) ? "Không có" : Model.Treatments)</p>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <h6 class="mb-3 border-bottom pb-2">Ghi chú</h6>
+                                    <p>@(string.IsNullOrEmpty(Model.Notes) ? "Không có" : Model.Notes)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab lịch hẹn -->
+                    <div class="tab-pane fade" id="appointments">
+                        @if (Model.UpcomingAppointments.Count > 0)
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Ngày hẹn</th>
+                                            <th>Bác sĩ</th>
+                                            <th>Lý do khám</th>
+                                            <th>Trạng thái</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var appointment in Model.UpcomingAppointments)
+                                        {
+                                            <tr>
+                                                <td>@appointment.AppointmentDateFormatted</td>
+                                                <td>@appointment.DoctorName</td>
+                                                <td>@appointment.Reason</td>
+                                                <td>
+                                                    <span class="badge bg-@appointment.StatusClass">@appointment.Status</span>
+                                                </td>
+                                                <td>
+                                                    <a href="/Admin/Appointments/Details/@appointment.Id" class="btn btn-sm btn-outline-primary">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center py-5">
+                                <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                                <h5 class="mb-1">Không có lịch hẹn nào sắp tới</h5>
+                                <p class="text-muted">Bệnh nhân chưa có lịch hẹn nào trong tương lai.</p>
+                            </div>
+                        }
+                    </div>
+                    
+                    <!-- Tab lịch sử khám bệnh -->
+                    <div class="tab-pane fade" id="health-history">
+                        @if (Model.MedicalHistoryItems.Count > 0)
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Ngày khám</th>
+                                            <th>Bác sĩ</th>
+                                            <th>Chẩn đoán</th>
+                                            <th>Đơn thuốc</th>
+                                            <th>Ghi chú</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var historyItem in Model.MedicalHistoryItems)
+                                        {
+                                            <tr>
+                                                <td>@historyItem.AppointmentDateFormatted</td>
+                                                <td>@historyItem.DoctorName</td>
+                                                <td>@historyItem.Diagnosis</td>
+                                                <td>@historyItem.Prescription</td>
+                                                <td>@historyItem.Notes</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center py-5">
+                                <i class="fas fa-file-medical-alt fa-3x text-muted mb-3"></i>
+                                <h5 class="mb-1">Không có lịch sử khám bệnh</h5>
+                                <p class="text-muted">Bệnh nhân chưa có buổi khám nào trước đây.</p>
+                            </div>
+                        }
+                    </div>
+                    
+                    <!-- Tab lịch sử chỉ số -->
+                    <div class="tab-pane fade" id="metrics-history">
+                        @if (Model.HealthMetrics.Count > 0)
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Chỉ số</th>
+                                            <th>Giá trị</th>
+                                            <th>Ngày đo</th>
+                                            <th>Trạng thái</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var metric in Model.HealthMetrics)
+                                        {
+                                            <tr>
+                                                <td>@metric.MetricType</td>
+                                                <td>@metric.Value</td>
+                                                <td>@metric.DateFormatted</td>
+                                                <td>
+                                                    <span class="badge bg-@metric.StatusClass">
+                                                        @(metric.Status == "normal" ? "Bình thường" : 
+                                                          metric.Status == "warning" ? "Cảnh báo" : "Nguy hiểm")
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center py-5">
+                                <i class="fas fa-chart-line fa-3x text-muted mb-3"></i>
+                                <h5 class="mb-1">Không có dữ liệu chỉ số</h5>
+                                <p class="text-muted">Bệnh nhân chưa có dữ liệu chỉ số sức khỏe nào.</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Xử lý thay đổi trạng thái bệnh nhân
+            document.querySelectorAll('.change-status').forEach(button => {
+                button.addEventListener('click', function() {
+                    const patientId = this.dataset.patientId;
+                    const status = this.dataset.status;
+                    
+                    const confirmMsg = "Bạn có chắc muốn thay đổi trạng thái của bệnh nhân thành " + status + "?";
+                        
+                    if (confirm(confirmMsg)) {
+                        fetch('@Url.Action("UpdatePatientStatus")', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                            },
+                            body: `patientId=${patientId}&status=${status}`
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Hiển thị thông báo thành công
+                                alert(data.message);
+                                // Làm mới trang
+                                window.location.reload();
+                            } else {
+                                // Hiển thị lỗi
+                                alert(data.message);
+                            }
+                        })
+                        .catch(error => {
+                            alert('Đã xảy ra lỗi khi xử lý yêu cầu.');
+                            console.error(error);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

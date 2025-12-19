@@ -1,0 +1,435 @@
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --info-color: #39afd1;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+}
+
+/* Điều chỉnh kích thước brand */
+.navbar-brand .text-primary {
+    font-size: 0.95rem;
+    white-space: normal;
+    max-width: 150px;
+    line-height: 1.2;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    padding-top: 80px;
+}
+
+/* Điều chỉnh kích thước nút */
+.navbar .btn {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.navbar .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.navbar .nav-link {
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+    white-space: nowrap;
+}
+
+.navbar .nav-item {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+@media (max-width: 992px) {
+    .navbar-brand .text-primary {
+        font-size: 0.9rem;
+        max-width: 130px;
+    }
+    
+    .navbar .btn {
+        font-size: 0.95rem;
+        padding: 0.4rem 0.75rem;
+        min-width: auto;
+        display: inline-block;
+        text-align: center;
+    }
+    
+    .navbar .nav-link {
+        font-size: 0.95rem;
+        padding: 0.4rem 0.6rem;
+        min-width: auto;
+    }
+    
+    .navbar .nav-item {
+        margin-left: 0.25rem;
+        margin-right: 0.25rem;
+    }
+    
+    .navbar-nav {
+        flex-wrap: nowrap;
+    }
+}
+
+/* Responsive styles cho dashboard */
+@media (max-width: 768px) {
+    .dashboard-nav .btn,
+    .patient-dashboard .btn,
+    .btn-dashboard {
+        font-size: 0.95rem;
+        padding: 0.45rem 0.85rem;
+    }
+    
+    .function-button {
+        font-size: 0.95rem;
+        padding: 0.6rem 1rem;
+        width: 100%;
+        margin: 0.25rem 0;
+    }
+}
+
+.feature-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    font-size: 2rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+#hero {
+    background-color: var(--light-color);
+}
+
+#cta {
+    background-color: var(--primary-color);
+}
+
+.navbar {
+    transition: all 0.3s ease;
+}
+
+.navbar.scrolled {
+    background-color: #fff !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .nav-link.active {
+    font-weight: 600;
+    color: var(--primary-color) !important;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.navbar .nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+/* Cải thiện nút điều hướng trong Dashboard */
+.dashboard-nav .btn,
+.patient-dashboard .btn,
+.btn-dashboard {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dashboard-nav .nav-link,
+.patient-dashboard .nav-link {
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+    white-space: nowrap;
+}
+
+/* Thêm styles cho nút chức năng trong dashboard */
+.function-button {
+    font-size: 1rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 0.5rem 0.25rem;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.function-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background-color: #fff;
+        padding: 1rem;
+        border-radius: 0.25rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Cải thiện hiển thị số trên các chỉ số sức khỏe */
+.metric-value {
+    font-size: 2rem !important;
+    font-weight: bold !important;
+    color: #000000 !important; /* Đổi sang màu đen để tăng độ tương phản */
+    display: block !important;
+    margin: 0.5rem 0 !important;
+    text-align: center !important;
+    background-color: transparent !important; /* Đảm bảo nền trong suốt */
+    padding: 5px !important;
+    border-radius: 4px !important;
+    text-shadow: none !important;
+    outline: none !important;
+    z-index: 10 !important; /* Đảm bảo số hiển thị trên cùng */
+}
+
+/* Đảm bảo số hiển thị rõ ràng trong form */
+#updateMetricForm input.form-control {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+#updateMetricFormContainer .alert {
+    font-size: 1rem;
+}
+
+/* CSS cho footer */
+
+/* Floating health profile button */
+.floating-health-profile {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1050;
+}
+.floating-health-profile .btn {
+    width: 56px;
+    height: 56px;
+    padding: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.25rem;
+}
+.floating-health-profile .btn .fa-heartbeat {
+    transform: translateY(1px);
+}
+
+/* Floating AI chat button */
+.floating-chat-ai {
+    position: fixed;
+    right: 20px;
+    bottom: 90px; /* Position above the health profile button */
+    z-index: 1050;
+}
+.floating-chat-ai .btn {
+    width: 56px;
+    height: 56px;
+    padding: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.25rem;
+    background-color: var(--info-color);
+    border-color: var(--info-color);
+}
+.floating-chat-ai .btn:hover {
+    background-color: #0aa2c0;
+    border-color: #0aa2c0;
+}
+
+@media (max-width: 576px) {
+    .floating-health-profile { right: 12px; bottom: 12px; }
+    .floating-health-profile .btn { width: 48px; height: 48px; font-size: 1rem; }
+
+    .floating-chat-ai { right: 12px; bottom: 70px; }
+    .floating-chat-ai .btn { width: 48px; height: 48px; font-size: 1rem; }
+}
+/* Patient Theme Styles */
+.page-hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 3rem 0 4rem; /* Extra padding bottom for overlap */
+    margin-bottom: 0;
+    color: white;
+    text-align: center;
+}
+
+.page-hero h2 {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.page-hero p {
+    opacity: 0.9;
+    font-size: 1.1rem;
+}
+
+.feature-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    border: none;
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon-box {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+}
+
+/* Gradients for icons */
+.bg-gradient-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.bg-gradient-success { background: linear-gradient(135deg, #2af598 0%, #009efd 100%); }
+.bg-gradient-warning { background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); }
+.bg-gradient-danger { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); } /* Fixed danger gradient */
+.bg-gradient-danger-real { background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%); }
+.bg-gradient-info { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+
+.search-box-container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    margin-top: -2rem; /* Overlap with hero */
+    position: relative;
+    z-index: 10;
+}
+
+.main-container {
+    padding-bottom: 3rem;
+}
+
+
+/* Appointment Modal Styles */
+.doctor-card {
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.doctor-card:hover {
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+}
+
+.doctor-card.selected {
+    background-color: #e7f1ff;
+    border-color: #0d6efd;
+}
+
+.doctor-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.doctor-info h6 {
+    margin-bottom: 2px;
+    font-weight: 600;
+}
+
+.doctor-specialty {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 2px;
+}
+
+.doctor-rating {
+    font-size: 0.75rem;
+    color: #ffc107;
+}
+
+.time-slots {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.time-slot {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 8px 5px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.time-slot:hover:not(.disabled) {
+    background-color: #f8f9fa;
+    border-color: #adb5bd;
+}
+
+.time-slot.selected {
+    background-color: #0d6efd;
+    color: white;
+    border-color: #0d6efd;
+}
+
+.time-slot.disabled {
+    background-color: #e9ecef;
+    color: #adb5bd;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+

@@ -1,0 +1,582 @@
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.csproj.AssemblyReference.cache
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.GeneratedMSBuildEditorConfig.editorconfig
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.AssemblyInfoInputs.cache
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.AssemblyInfo.cs
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.csproj.CoreCompileInputs.cache
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.MvcApplicationPartsAssemblyInfo.cs
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.MvcApplicationPartsAssemblyInfo.cache
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.RazorAssemblyInfo.cache
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.RazorAssemblyInfo.cs
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\appsettings.Development.json
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\appsettings.json
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\DoAnChamSocSucKhoe.staticwebassets.runtime.json
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\DoAnChamSocSucKhoe.staticwebassets.endpoints.json
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\DoAnChamSocSucKhoe.exe
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\DoAnChamSocSucKhoe.deps.json
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\DoAnChamSocSucKhoe.runtimeconfig.json
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\DoAnChamSocSucKhoe.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\DoAnChamSocSucKhoe.pdb
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Azure.Core.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Azure.Identity.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Humanizer.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.UI.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Build.Locator.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.CodeAnalysis.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Data.SqlClient.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Design.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Identity.Client.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Identity.Client.Extensions.Msal.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Mono.TextTemplating.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.ClientModel.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.CodeDom.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Composition.AttributedModel.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Composition.Convention.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Composition.Hosting.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Composition.Runtime.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Composition.TypedParts.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Configuration.ConfigurationManager.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Drawing.Common.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Memory.Data.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Runtime.Caching.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Security.Cryptography.ProtectedData.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Security.Permissions.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Windows.Extensions.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\scopedcss\bundle\DoAnChamSocSucKhoe.styles.css
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\scopedcss\projectbundle\DoAnChamSocSucKhoe.bundle.scp.css
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ofa40bqe71-b9sayid5wm.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\j9swiz3yzq-90yqlj465b.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\vltxs1u3vm-xtxxf3hu2r.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\14ipv7q33s-bqjiyaj88i.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\rh65p086id-c2jlpeoesf.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\eb27mqwgz2-erw9l3u2r3.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\9glsckmvxo-aexeepp0ev.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\hh8ihyobdx-d7shbmvgxk.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\bww8ud00yd-ausgxo2sd3.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\edcrak57d7-k8d9w2qqmf.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\sf8kf2lula-cosvhxvwiu.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\3tzsqhslk9-ub07r2b239.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\oxk5o6czdw-fvhpjtyr6v.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\k8b25g0zwc-b7pk76d08c.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\8axix7wldr-fsbi9cje9m.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\d5z9sfpxbi-rzd6atqjts.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\u8428c4e9i-ee0r1s7dh0.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\tg53r17ghy-dxx9fxp4il.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\nlrl0f3xs3-jd9uben2k1.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\1fc4q00scq-khv3u5hwcm.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\8xykfy6qmd-r4e9w2rdcm.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\vsrbd71spn-lcd1t2u6c8.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\cynp17w084-c2oey78nd0.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\7o8oyvng68-tdbxkamptv.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\h9vwtoirpy-j5mq2jizvt.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\o5k23vqhrk-06098lyss8.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\iznc766avz-nvvlpmu67g.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ns4583i71s-s35ty4nyc5.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\47012z8l2l-pj5nd1wqec.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\4vzefxwp2m-46ein0sx1k.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\bh4v3mdph9-v0zj4ognzu.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\l186vlgaag-37tfw0ft22.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\rsc7qacj1u-hrwsygsryq.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\z408qb6q7a-pk9g2wxc8p.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\qfr28sqcy1-ft3s53vfgj.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\0k1i85ntyh-6cfz1n2cew.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\xa379ftczi-6pdc2jztkx.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\lr5hmrr0j7-493y06b0oq.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ivy2s9gwh5-iovd86k7lj.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\higufxz8op-vr1egmr9el.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\s3tglgz8hr-kbrnm935zg.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\vw9sls9bhj-jj8uyg4cgr.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ym8tkpcl2i-y7v9cxd14o.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\zzna4nrm5w-notf2xhcfb.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\igscs4x0yk-h1s4sie4z3.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\zap00c0tb5-63fj8s7r0e.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\pogzkicjpz-0j3bgjxly4.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\j3hwsq15kh-47otxtyo56.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\q3naettu8c-4v8eqarkd7.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ldxy2n3w6q-356vix0kms.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ypthv7q62w-83jwlth58m.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\t6e3b82hrf-mrlpezrjn3.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\uocis9wxbx-lzl9nlhx6b.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\2tikzqlmtu-ag7o75518u.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\9muusbdg0a-x0q3zqp4vz.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\tpsq5dibur-0i3buxo5is.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\t0qo7o574p-o1o13a6vjx.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\b9lhb08218-ttgo8qnofa.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\a3ygkwa5zy-2z0ns9nrw6.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\nezrqnk58p-muycvpuwrr.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\v0zgfp0y55-87fc7y1x7t.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\yfc7ypekbg-mlv21k5csn.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\i0k5390pql-c2tiyv64ts.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\vk2o07nglc-61n19gt1b8.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\e6cyj5elj4-xtxxf3hu2r.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\o7pcmbzvf5-agp80tu62r.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\zvgpujsom4-st1cbwfwo5.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ccsfd8vtdr-unj9p35syc.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\elcehjdpop-5vj65cig9w.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\64c9sq23tb-q2ku51ktnl.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\gbzkp6o8hu-2q4vfeazbq.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\hmtnvrtral-n1oizzvkh6.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ti3yf65u5x-o371a8zbv2.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\enzvejovy0-7na4sro3qu.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\pe1mfxds2f-jeal3x0ldm.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\vt4stlv7ep-f8imaxxbri.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\88h40xkoke-okkk44j0xs.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\gx9bsdxw2w-0wve5yxp74.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\4s0sm78vu5-cwzlr5n8x4.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\1ycnsoyibx-npxfuf8dg6.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\9jzl5kplfh-wmug9u23qg.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\hy8ay0c30x-tey0rigmnh.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\af0ztdiela-j75batdsum.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ga0kpy4glw-16095smhkz.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\dlsqp12sdx-vy0bq9ydhf.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ecmvtjwmvr-b4skse8du6.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\fxncbp1olm-ab1c3rmv7g.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\nuka03gvoa-u3xrusw2ol.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\agl9d7h8rc-56d2bn4wt9.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\24wxbawj7u-mpyigms19s.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\0mdh8psew9-73kdqttayv.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\8pgxcgpo61-bpk8xqwxhs.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\pu4icr77de-8inm30yfxf.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\dmkat7czvi-ve6x09088i.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\akbpsaifov-4gxs3k148c.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\fgcfinwvyb-9b9oa1qrmt.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\txitkj0rzh-fctod5rc9n.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\nknr05cun1-l2av4jpuoj.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\xixzpxzl0k-kbynt5jhd9.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\3al8k99md7-25iw1kog22.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\0rkddersxy-c2nslu3uf3.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\6gqesfqjxc-m39kt2b5c9.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\019vcst4ue-2lgwfvgpvi.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\r1qgr1ek26-um2aeqy4ik.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\1g4ofwrc9x-wsezl0heh6.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\4fzy0l3m0t-o4kw7cc6tf.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\bqjz55nr68-6ukhryfubh.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\y0zbf21ek6-zwph15dxgs.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\gmhsg0e5rn-u33ctipx7g.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\shrm5v4toj-47otxtyo56.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\bmxrzlcfo2-4v8eqarkd7.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\z730tnjxvn-356vix0kms.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\7sl2169ady-ay5nd8zt9x.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\4iur5hiytj-9oaff4kq20.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ul681ij5rp-pzqfkb6aqo.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\akig727b1h-b7iojwaux1.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\e5zn5t34l7-x0q3zqp4vz.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\96cxuen9sw-fwhahm2icz.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\garcdbiqay-dd6z7egasc.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\caqe1rotf9-5pze98is44.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\y51u7eb719-mlv21k5csn.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\z9ki14j86t-fpl1ky473p.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\2mo9rh2sdq-fpl1ky473p.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\staticwebassets.build.json
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\staticwebassets.development.json
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\staticwebassets.build.endpoints.json
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\staticwebassets\msbuild.DoAnChamSocSucKhoe.Microsoft.AspNetCore.StaticWebAssets.props
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\staticwebassets\msbuild.DoAnChamSocSucKhoe.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\staticwebassets\msbuild.build.DoAnChamSocSucKhoe.props
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\staticwebassets\msbuild.buildMultiTargeting.DoAnChamSocSucKhoe.props
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\staticwebassets\msbuild.buildTransitive.DoAnChamSocSucKhoe.props
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\staticwebassets.pack.json
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnCham.CC0B448D.Up2Date
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.dll
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\refint\DoAnChamSocSucKhoe.dll
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.pdb
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.genruntimeconfig.cache
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\ref\DoAnChamSocSucKhoe.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\appsettings.Development.json
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\appsettings.json
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\DoAnChamSocSucKhoe.staticwebassets.runtime.json
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\DoAnChamSocSucKhoe.staticwebassets.endpoints.json
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\DoAnChamSocSucKhoe.exe
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\DoAnChamSocSucKhoe.deps.json
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\DoAnChamSocSucKhoe.runtimeconfig.json
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\DoAnChamSocSucKhoe.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\DoAnChamSocSucKhoe.pdb
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Azure.Core.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Azure.Identity.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Humanizer.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.UI.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Build.Locator.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.CodeAnalysis.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Data.SqlClient.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Identity.Client.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Identity.Client.Extensions.Msal.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\Mono.TextTemplating.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.ClientModel.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.CodeDom.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Composition.AttributedModel.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Composition.Convention.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Composition.Hosting.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Composition.Runtime.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Composition.TypedParts.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Configuration.ConfigurationManager.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Drawing.Common.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Memory.Data.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Runtime.Caching.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Security.Permissions.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\System.Windows.Extensions.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.csproj.AssemblyReference.cache
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.AssemblyInfoInputs.cache
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.AssemblyInfo.cs
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.csproj.CoreCompileInputs.cache
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.RazorAssemblyInfo.cache
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.RazorAssemblyInfo.cs
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\scopedcss\bundle\DoAnChamSocSucKhoe.styles.css
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\scopedcss\projectbundle\DoAnChamSocSucKhoe.bundle.scp.css
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ofa40bqe71-b9sayid5wm.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\j9swiz3yzq-90yqlj465b.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\vltxs1u3vm-xtxxf3hu2r.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\14ipv7q33s-bqjiyaj88i.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\rh65p086id-c2jlpeoesf.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\eb27mqwgz2-erw9l3u2r3.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\9glsckmvxo-aexeepp0ev.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\hh8ihyobdx-d7shbmvgxk.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\bww8ud00yd-ausgxo2sd3.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\edcrak57d7-k8d9w2qqmf.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\sf8kf2lula-cosvhxvwiu.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\3tzsqhslk9-ub07r2b239.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\oxk5o6czdw-fvhpjtyr6v.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\k8b25g0zwc-b7pk76d08c.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\8axix7wldr-fsbi9cje9m.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\d5z9sfpxbi-rzd6atqjts.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\u8428c4e9i-ee0r1s7dh0.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\tg53r17ghy-dxx9fxp4il.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\nlrl0f3xs3-jd9uben2k1.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\1fc4q00scq-khv3u5hwcm.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\8xykfy6qmd-r4e9w2rdcm.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\vsrbd71spn-lcd1t2u6c8.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\cynp17w084-c2oey78nd0.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\7o8oyvng68-tdbxkamptv.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\h9vwtoirpy-j5mq2jizvt.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\o5k23vqhrk-06098lyss8.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\iznc766avz-nvvlpmu67g.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ns4583i71s-s35ty4nyc5.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\47012z8l2l-pj5nd1wqec.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\4vzefxwp2m-46ein0sx1k.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\bh4v3mdph9-v0zj4ognzu.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\l186vlgaag-37tfw0ft22.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\rsc7qacj1u-hrwsygsryq.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\z408qb6q7a-pk9g2wxc8p.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\qfr28sqcy1-ft3s53vfgj.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\0k1i85ntyh-6cfz1n2cew.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\xa379ftczi-6pdc2jztkx.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\lr5hmrr0j7-493y06b0oq.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ivy2s9gwh5-iovd86k7lj.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\higufxz8op-vr1egmr9el.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\s3tglgz8hr-kbrnm935zg.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\vw9sls9bhj-jj8uyg4cgr.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ym8tkpcl2i-y7v9cxd14o.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\zzna4nrm5w-notf2xhcfb.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\igscs4x0yk-h1s4sie4z3.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\zap00c0tb5-63fj8s7r0e.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\pogzkicjpz-0j3bgjxly4.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\j3hwsq15kh-47otxtyo56.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\q3naettu8c-4v8eqarkd7.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ldxy2n3w6q-356vix0kms.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ypthv7q62w-83jwlth58m.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\t6e3b82hrf-mrlpezrjn3.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\uocis9wxbx-lzl9nlhx6b.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\2tikzqlmtu-ag7o75518u.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\9muusbdg0a-x0q3zqp4vz.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\tpsq5dibur-0i3buxo5is.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\t0qo7o574p-o1o13a6vjx.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\b9lhb08218-ttgo8qnofa.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\a3ygkwa5zy-2z0ns9nrw6.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\nezrqnk58p-muycvpuwrr.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\v0zgfp0y55-87fc7y1x7t.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\yfc7ypekbg-mlv21k5csn.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\i0k5390pql-c2tiyv64ts.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\vk2o07nglc-61n19gt1b8.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\e6cyj5elj4-xtxxf3hu2r.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\o7pcmbzvf5-agp80tu62r.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\zvgpujsom4-st1cbwfwo5.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ccsfd8vtdr-unj9p35syc.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\elcehjdpop-5vj65cig9w.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\64c9sq23tb-q2ku51ktnl.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\gbzkp6o8hu-2q4vfeazbq.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\hmtnvrtral-n1oizzvkh6.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ti3yf65u5x-o371a8zbv2.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\enzvejovy0-7na4sro3qu.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\pe1mfxds2f-jeal3x0ldm.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\vt4stlv7ep-f8imaxxbri.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\88h40xkoke-okkk44j0xs.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\gx9bsdxw2w-0wve5yxp74.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\4s0sm78vu5-cwzlr5n8x4.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\1ycnsoyibx-npxfuf8dg6.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\9jzl5kplfh-wmug9u23qg.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\hy8ay0c30x-tey0rigmnh.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\af0ztdiela-j75batdsum.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ga0kpy4glw-16095smhkz.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\dlsqp12sdx-vy0bq9ydhf.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ecmvtjwmvr-b4skse8du6.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\fxncbp1olm-ab1c3rmv7g.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\nuka03gvoa-u3xrusw2ol.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\agl9d7h8rc-56d2bn4wt9.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\24wxbawj7u-mpyigms19s.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\0mdh8psew9-73kdqttayv.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\8pgxcgpo61-bpk8xqwxhs.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\pu4icr77de-8inm30yfxf.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\dmkat7czvi-ve6x09088i.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\akbpsaifov-4gxs3k148c.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\fgcfinwvyb-9b9oa1qrmt.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\txitkj0rzh-fctod5rc9n.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\nknr05cun1-l2av4jpuoj.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\xixzpxzl0k-kbynt5jhd9.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\3al8k99md7-25iw1kog22.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\0rkddersxy-c2nslu3uf3.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\6gqesfqjxc-m39kt2b5c9.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\019vcst4ue-2lgwfvgpvi.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\r1qgr1ek26-um2aeqy4ik.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\1g4ofwrc9x-wsezl0heh6.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\4fzy0l3m0t-o4kw7cc6tf.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\bqjz55nr68-6ukhryfubh.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\y0zbf21ek6-zwph15dxgs.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\gmhsg0e5rn-u33ctipx7g.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\shrm5v4toj-47otxtyo56.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\bmxrzlcfo2-4v8eqarkd7.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\z730tnjxvn-356vix0kms.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\7sl2169ady-ay5nd8zt9x.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\4iur5hiytj-9oaff4kq20.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\ul681ij5rp-pzqfkb6aqo.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\akig727b1h-b7iojwaux1.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\e5zn5t34l7-x0q3zqp4vz.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\96cxuen9sw-fwhahm2icz.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\garcdbiqay-dd6z7egasc.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\caqe1rotf9-5pze98is44.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\y51u7eb719-mlv21k5csn.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\z9ki14j86t-fpl1ky473p.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\2mo9rh2sdq-fpl1ky473p.gz
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\staticwebassets.development.json
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\staticwebassets.build.endpoints.json
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\staticwebassets\msbuild.DoAnChamSocSucKhoe.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\staticwebassets\msbuild.DoAnChamSocSucKhoe.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\staticwebassets\msbuild.build.DoAnChamSocSucKhoe.props
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\staticwebassets\msbuild.buildMultiTargeting.DoAnChamSocSucKhoe.props
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\staticwebassets\msbuild.buildTransitive.DoAnChamSocSucKhoe.props
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\staticwebassets.pack.json
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnCham.CC0B448D.Up2Date
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\refint\DoAnChamSocSucKhoe.dll
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.pdb
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.genruntimeconfig.cache
+C:\Users\MINH QUANG\Documents\Zalo Received Files\DoAnChamSocSucKhoe (1)\DoAnChamSocSucKhoe\obj\Debug\net9.0\ref\DoAnChamSocSucKhoe.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Extensions.Caching.Abstractions.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Extensions.Caching.Memory.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Extensions.Logging.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
+E:\Đồ án\DoAnChamSocSucKhoe\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\2utntlwmec-31l4bv0th1.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\jq2ivwik0o-r9maqt5e7w.gz
+E:\Đồ án\DoAnChamSocSucKhoe\obj\Debug\net9.0\compressed\2xus7indea-7a3zfmu4b4.gz
+C:\Users\Administrator\Desktop\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.dll
+C:\Users\Administrator\Desktop\DoAnChamSocSucKhoe\obj\Debug\net9.0\refint\DoAnChamSocSucKhoe.dll
+C:\Users\Administrator\Desktop\DoAnChamSocSucKhoe\obj\Debug\net9.0\DoAnChamSocSucKhoe.pdb

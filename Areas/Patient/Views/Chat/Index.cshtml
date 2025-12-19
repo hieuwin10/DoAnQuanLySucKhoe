@@ -1,0 +1,41 @@
+@model IEnumerable<DoAnChamSocSucKhoe.Models.TuVanSucKhoe>
+@{
+    ViewData["Title"] = "Danh sách cuộc trò chuyện";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Cuộc trò chuyện với bác sĩ</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        @foreach (var consultation in Model)
+                        {
+                            <a href="@Url.Action("Details", "Chat", new { id = consultation.TuVanSucKhoeId })" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">@consultation.ChuyenGia.HoTen</h6>
+                                    <small class="text-muted">@consultation.NgayCapNhat.ToString("dd/MM/yyyy HH:mm")</small>
+                                </div>
+                                <p class="mb-1">@consultation.TieuDe</p>
+                                <small class="text-muted">
+                                    @if (consultation.Messages.Any())
+                                    {
+                                        var lastMessage = consultation.Messages.Last();
+                                        <text>@lastMessage.Content (@lastMessage.SentTime.ToString("HH:mm"))</text>
+                                    }
+                                    else
+                                    {
+                                        <text>Chưa có tin nhắn</text>
+                                    }
+                                </small>
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

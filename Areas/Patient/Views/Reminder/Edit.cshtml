@@ -1,0 +1,242 @@
+@model DoAnChamSocSucKhoe.Models.NhacNhoSucKhoe
+
+@{
+    ViewData["Title"] = "Chỉnh sửa nhắc nhở";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .edit-reminder-container {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+    }
+
+    .page-header {
+        color: white;
+        text-align: center;
+    }
+
+    .form-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control, .form-select {
+        border-radius: 10px;
+        border: 2px solid #e9ecef;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+
+    .reminder-type-selector {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .type-option {
+        position: relative;
+    }
+
+    .type-option input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+    }
+
+    .type-option label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1.5rem;
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+    .type-option input[type="radio"]:checked + label {
+        border-color: #667eea;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    }
+
+    .type-option label i {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        color: #667eea;
+    }
+
+    .type-option label span {
+        font-weight: 600;
+        color: #495057;
+    }
+
+    .btn-update {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 25px;
+        font-weight: 600;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-update:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        color: white;
+    }
+
+    .status-info {
+        background: #f8f9fa;
+        border-left: 4px solid #667eea;
+        padding: 1rem;
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+    }
+</style>
+
+<div class="edit-reminder-container">
+    <div class="container">
+        <div class="page-header">
+            <h2><i class="fas fa-edit me-2"></i>Chỉnh sửa Nhắc nhở</h2>
+            <p class="mb-0">Cập nhật thông tin nhắc nhở của bạn</p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="form-card">
+                <form asp-action="Edit" method="post">
+                    <input type="hidden" asp-for="NhacNhoSucKhoeId" />
+                    <input type="hidden" asp-for="UserId" />
+                    <input type="hidden" asp-for="NgayTao" />
+                    <input type="hidden" asp-for="DaThucHien" />
+                    
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    @if (Model.DaThucHien)
+                    {
+                        <div class="status-info">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success fa-2x me-3"></i>
+                                <div>
+                                    <strong>Nhắc nhở này đã được đánh dấu hoàn thành</strong>
+                                    <p class="mb-0 small text-muted">Bạn vẫn có thể chỉnh sửa thông tin</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="mb-4">
+                        <label class="form-label">Loại nhắc nhở <span class="text-danger">*</span></label>
+                        <div class="reminder-type-selector">
+                            <div class="type-option">
+                                <input type="radio" asp-for="LoaiNhacNho" value="Uống thuốc" id="type-medicine" />
+                                <label for="type-medicine">
+                                    <i class="fas fa-pills"></i>
+                                    <span>Uống thuốc</span>
+                                </label>
+                            </div>
+                            <div class="type-option">
+                                <input type="radio" asp-for="LoaiNhacNho" value="Tập thể dục" id="type-exercise" />
+                                <label for="type-exercise">
+                                    <i class="fas fa-dumbbell"></i>
+                                    <span>Tập thể dục</span>
+                                </label>
+                            </div>
+                            <div class="type-option">
+                                <input type="radio" asp-for="LoaiNhacNho" value="Kiểm tra sức khỏe" id="type-checkup" />
+                                <label for="type-checkup">
+                                    <i class="fas fa-heartbeat"></i>
+                                    <span>Kiểm tra</span>
+                                </label>
+                            </div>
+                            <div class="type-option">
+                                <input type="radio" asp-for="LoaiNhacNho" value="Khác" id="type-other" />
+                                <label for="type-other">
+                                    <i class="fas fa-bell"></i>
+                                    <span>Khác</span>
+                                </label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="LoaiNhacNho" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="TieuDe" class="form-label">Tiêu đề <span class="text-danger">*</span></label>
+                        <input asp-for="TieuDe" class="form-control" placeholder="VD: Uống thuốc huyết áp" />
+                        <span asp-validation-for="TieuDe" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="NoiDung" class="form-label">Nội dung chi tiết <span class="text-danger">*</span></label>
+                        <textarea asp-for="NoiDung" class="form-control" rows="4" 
+                                  placeholder="Mô tả chi tiết về lời nhắc này..."></textarea>
+                        <span asp-validation-for="NoiDung" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="ThoiGian" class="form-label">Thời gian nhắc <span class="text-danger">*</span></label>
+                        <input asp-for="ThoiGian" type="datetime-local" class="form-control" />
+                        <span asp-validation-for="ThoiGian" class="text-danger"></span>
+                        <small class="text-muted">Chọn ngày và giờ bạn muốn được nhắc nhở</small>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a asp-action="Details" asp-route-id="@Model.NhacNhoSucKhoeId" class="btn btn-outline-secondary">
+                            <i class="fas fa-times me-2"></i>Hủy bỏ
+                        </a>
+                        <button type="submit" class="btn btn-update">
+                            <i class="fas fa-save me-2"></i>Cập nhật
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="text-center">
+                <small class="text-muted">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Tạo lúc: @Model.NgayTao.ToString("dd/MM/yyyy HH:mm")
+                    @if (Model.NgayCapNhat != default(DateTime))
+                    {
+                        <span class="ms-2">| Cập nhật lúc: @Model.NgayCapNhat.ToString("dd/MM/yyyy HH:mm")</span>
+                    }
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Format datetime-local input
+            const datetimeInput = document.querySelector('input[type="datetime-local"]');
+            if (datetimeInput && datetimeInput.value) {
+                const date = new Date(datetimeInput.value);
+                date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+                datetimeInput.value = date.toISOString().slice(0, 16);
+            }
+        });
+    </script>
+}

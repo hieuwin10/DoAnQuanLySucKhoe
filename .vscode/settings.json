@@ -1,0 +1,5 @@
+{
+    "editor.aiStats.enabled": true,
+    "terminal.integrated.suggest.enabled": true,
+    "terminal.integrated.shellIntegration.environmentReporting": true
+}

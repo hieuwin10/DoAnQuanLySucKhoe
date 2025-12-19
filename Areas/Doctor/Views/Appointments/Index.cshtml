@@ -1,0 +1,139 @@
+@model IEnumerable<DoAnChamSocSucKhoe.Models.LichHen>
+
+@{
+    ViewData["Title"] = "Quản lý Lịch hẹn";
+    Layout = "~/Areas/Doctor/Views/Shared/_DoctorLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Quản lý Lịch hẹn</h1>
+        <div class="btn-group">
+            <a asp-action="Index" class="btn btn-outline-primary @((ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "Index" ? "active" : "")">Tất cả</a>
+            <a asp-action="Pending" class="btn btn-outline-warning @((ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "Pending" ? "active" : "")">Chờ xác nhận</a>
+            <a asp-action="Confirmed" class="btn btn-outline-success @((ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "Confirmed" ? "active" : "")">Đã xác nhận</a>
+            <a asp-action="Completed" class="btn btn-outline-secondary @((ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "Completed" ? "active" : "")">Đã hoàn thành</a>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách lịch hẹn</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Bệnh nhân</th>
+                            <th>Ngày giờ</th>
+                            <th>Loại</th>
+                            <th>Lý do</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="ms-2">
+                                                <div class="fw-bold">@(item.NguoiDung?.HoTen ?? "Khách vãng lai")</div>
+                                                <div class="small text-muted">@(item.NguoiDung?.Email)</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>@item.NgayGioHen.ToString("dd/MM/yyyy")</div>
+                                        <div class="small text-muted">@item.NgayGioHen.ToString("HH:mm")</div>
+                                    </td>
+                                    <td>
+                                        @if (item.LoaiLichHen == "Online")
+                                        {
+                                            <span class="badge bg-info text-white"><i class="fas fa-video me-1"></i> Online</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary text-white"><i class="fas fa-hospital me-1"></i> Offline</span>
+                                        }
+                                    </td>
+                                    <td>@item.LyDo</td>
+                                    <td>
+                                        @if (item.TrangThai == "Chờ xác nhận")
+                                        {
+                                            <span class="badge bg-warning text-dark">@item.TrangThai</span>
+                                        }
+                                        else if (item.TrangThai == "Đã xác nhận")
+                                        {
+                                            <span class="badge bg-success">@item.TrangThai</span>
+                                        }
+                                        else if (item.TrangThai == "Đã hủy")
+                                        {
+                                            <span class="badge bg-danger">@item.TrangThai</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">@item.TrangThai</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            @if (item.TrangThai == "Chờ xác nhận")
+                                            {
+                                                <button type="button" class="btn btn-sm btn-success" onclick="confirmAppointment(@item.LichHenId)">
+                                                    <i class="fas fa-check"></i> Xác nhận
+                                                </button>
+                                            }
+                                            <button type="button" class="btn btn-sm btn-danger" onclick="cancelAppointment(@item.LichHenId)">
+                                                <i class="fas fa-times"></i> Hủy
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center">Không có lịch hẹn nào</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmAppointment(id) {
+            if (confirm('Bạn có chắc chắn muốn xác nhận lịch hẹn này?')) {
+                $.post('@Url.Action("Confirm", "Appointments")', { id: id }, function(res) {
+                    if (res.success) {
+                        location.reload();
+                    } else {
+                        alert(res.message);
+                    }
+                });
+            }
+        }
+
+        function cancelAppointment(id) {
+            var reason = prompt('Nhập lý do hủy:');
+            if (reason) {
+                $.post('@Url.Action("Cancel", "Appointments")', { id: id, reason: reason }, function(res) {
+                    if (res.success) {
+                        location.reload();
+                    } else {
+                        alert(res.message);
+                    }
+                });
+            }
+        }
+    </script>
+}

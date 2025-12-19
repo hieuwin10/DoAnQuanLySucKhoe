@@ -1,0 +1,325 @@
+@model DoAnChamSocSucKhoe.Areas.Admin.Models.AppointmentListViewModel
+@{
+    ViewData["Title"] = "Quản lý lịch hẹn";
+    Layout = "_AdminLayout";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Quản lý lịch hẹn</h1>
+    <div>
+        <a href="#" class="btn btn-outline-secondary me-2" id="exportAppointmentButton">
+            <i class="fas fa-download me-1"></i> Xuất danh sách
+        </a>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="fas fa-plus-circle me-1"></i> Tạo lịch hẹn mới
+        </a>
+    </div>
+</div>
+
+<!-- Thông báo lỗi/thành công -->
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<!-- Thống kê tổng quan -->
+<div class="row g-3 mb-4">
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 bg-primary bg-opacity-10 p-3 rounded">
+                        <i class="fas fa-calendar-check fa-2x text-primary"></i>
+                    </div>
+                    <div class="ms-3">
+                        <h6 class="card-title text-muted mb-0">Tổng số lịch hẹn</h6>
+                        <h2 class="mt-2 mb-0">@Model.Stats.TotalAppointments</h2>
+                        <p class="small text-muted mb-0">Đã tạo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 bg-success bg-opacity-10 p-3 rounded">
+                        <i class="fas fa-user-clock fa-2x text-success"></i>
+                    </div>
+                    <div class="ms-3">
+                        <h6 class="card-title text-muted mb-0">Lịch hẹn sắp tới</h6>
+                        <h2 class="mt-2 mb-0">@Model.Stats.UpcomingAppointments</h2>
+                        <p class="small text-success mb-0">
+                            <i class="fas fa-arrow-up me-1"></i> @Model.Stats.UpcomingGrowthRate.ToString("0.0")% so với tháng trước
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 bg-info bg-opacity-10 p-3 rounded">
+                        <i class="fas fa-calendar-check fa-2x text-info"></i>
+                    </div>
+                    <div class="ms-3">
+                        <h6 class="card-title text-muted mb-0">Đã hoàn thành</h6>
+                        <h2 class="mt-2 mb-0">@Model.Stats.CompletedAppointments</h2>
+                        <p class="small text-info mb-0">
+                            <i class="fas fa-arrow-up me-1"></i> @Model.Stats.CompletedGrowthRate.ToString("0.0")% so với tháng trước
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 bg-danger bg-opacity-10 p-3 rounded">
+                        <i class="fas fa-calendar-times fa-2x text-danger"></i>
+                    </div>
+                    <div class="ms-3">
+                        <h6 class="card-title text-muted mb-0">Đã hủy</h6>
+                        <h2 class="mt-2 mb-0">@Model.Stats.CanceledAppointments</h2>
+                        <p class="small text-danger mb-0">
+                            <i class="fas fa-arrow-down me-1"></i> @Model.Stats.CanceledGrowthRate.ToString("0.0")% so với tháng trước
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Thanh tìm kiếm và lọc -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body">
+        <form id="searchAppointmentForm" asp-action="Index" method="get" class="row g-3">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text bg-transparent">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    <input type="text" class="form-control border-start-0" placeholder="Tìm kiếm theo tên bệnh nhân, bác sĩ..." 
+                           name="searchTerm" value="@Model.SearchTerm">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" name="statusFilter" onchange="document.getElementById('searchAppointmentForm').submit()">
+                    <option value="all" selected="@(Model.StatusFilter == "all")">Tất cả trạng thái</option>
+                    <option value="upcoming" selected="@(Model.StatusFilter == "upcoming")">Sắp tới</option>
+                    <option value="completed" selected="@(Model.StatusFilter == "completed")">Đã hoàn thành</option>
+                    <option value="canceled" selected="@(Model.StatusFilter == "canceled")">Đã hủy</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <input type="date" class="form-control" name="dateFilter" value="@Model.DateFilter?.ToString("yyyy-MM-dd")">
+            </div>
+            <div class="col-md-2 text-end">
+                <button type="submit" class="btn btn-primary me-2">
+                    <i class="fas fa-search me-1"></i> Tìm kiếm
+                </button>
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="fas fa-redo-alt me-1"></i> Làm mới
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Danh sách lịch hẹn -->
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0">Danh sách lịch hẹn</h5>
+        <span class="text-muted small">Hiển thị @((Model.PageNumber-1)*Model.PageSize + 1) đến @(Math.Min(Model.PageNumber*Model.PageSize, Model.TotalPages*Model.PageSize)) trong tổng số @(Model.TotalPages*Model.PageSize) lịch hẹn</span>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">Bệnh nhân</th>
+                        <th scope="col">Bác sĩ</th>
+                        <th scope="col">Thời gian</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col">Ghi chú</th>
+                        <th scope="col">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Appointments != null && Model.Appointments.Any())
+                    {
+                        foreach (var appt in Model.Appointments)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <img src="@appt.PatientAvatar" class="rounded-circle" width="36" height="36" alt="@appt.PatientName">
+                                        </div>
+                                        <div class="ms-2">
+                                            <a href="@Url.Action("Details", "Patients", new { id = appt.Id })">
+                                                <h6 class="fw-semibold mb-0">@appt.PatientName</h6>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <img src="@appt.PatientAvatar" class="rounded-circle" width="36" height="36" alt="@appt.DoctorName">
+                                        </div>
+                                        <div class="ms-2">
+                                            <a href="@Url.Action("Details", "Doctors", new { id = appt.Id })">
+                                                <h6 class="fw-semibold mb-0">@appt.DoctorName</h6>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>@appt.DateTime.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td><span class="badge bg-@appt.StatusClass">@appt.Status</span></td>
+                                <td>@appt.Reason</td>
+                                <td>
+                                    <div class="d-flex">
+                                        <a href="@Url.Action("Details", new { id = appt.Id })" class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="tooltip" title="Xem chi tiết">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="@Url.Action("Edit", new { id = appt.Id })" class="btn btn-sm btn-outline-secondary me-1" data-bs-toggle="tooltip" title="Chỉnh sửa">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-sm btn-outline-success me-1 change-status-btn" 
+                                                data-appointment-id="@appt.Id" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#changeAppointmentStatusModal"
+                                                title="Thay đổi trạng thái">
+                                            <i class="fas fa-exchange-alt"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center py-4">
+                                <div class="d-flex flex-column align-items-center">
+                                    <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                                    <h5>Không tìm thấy lịch hẹn nào</h5>
+                                    <p class="text-muted">Hãy thử tìm kiếm với từ khóa khác hoặc xóa bộ lọc</p>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer bg-transparent border-0">
+        @if (Model.TotalPages > 1)
+        {
+            <nav aria-label="Pagination">
+                <ul class="pagination justify-content-center mb-0">
+                    <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber - 1)" asp-route-searchTerm="@Model.SearchTerm" asp-route-statusFilter="@Model.StatusFilter" asp-route-dateFilter="@Model.DateFilter?.ToString("yyyy-MM-dd")">Trước</a>
+                    </li>
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(Model.PageNumber == i ? "active" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-pageNumber="@i" asp-route-searchTerm="@Model.SearchTerm" asp-route-statusFilter="@Model.StatusFilter" asp-route-dateFilter="@Model.DateFilter?.ToString("yyyy-MM-dd")">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(Model.PageNumber == Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber + 1)" asp-route-searchTerm="@Model.SearchTerm" asp-route-statusFilter="@Model.StatusFilter" asp-route-dateFilter="@Model.DateFilter?.ToString("yyyy-MM-dd")">Tiếp</a>
+                    </li>
+                </ul>
+            </nav>
+        }
+    </div>
+</div>
+
+<!-- Modal thay đổi trạng thái -->
+<div class="modal fade" id="changeAppointmentStatusModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thay đổi trạng thái lịch hẹn</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="appointmentIdInput" value="" />
+                <div class="mb-3">
+                    <label class="form-label">Chọn trạng thái mới</label>
+                    <select class="form-select" id="appointmentStatusSelect">
+                        <option value="Sắp tới">Sắp tới</option>
+                        <option value="Đã hoàn thành">Đã hoàn thành</option>
+                        <option value="Đã hủy">Đã hủy</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" id="saveAppointmentStatusButton">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Initialize tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+
+            // Handle change status
+            $('.change-status-btn').click(function() {
+                var appointmentId = $(this).data('appointment-id');
+                $('#appointmentIdInput').val(appointmentId);
+            });
+
+            $('#saveAppointmentStatusButton').click(function() {
+                var appointmentId = $('#appointmentIdInput').val();
+                var status = $('#appointmentStatusSelect').val();
+
+                $.ajax({
+                    url: '@Url.Action("ChangeStatus")',
+                    type: 'POST',
+                    data: {
+                        appointmentId: appointmentId,
+                        status: status
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            $('#changeAppointmentStatusModal').modal('hide');
+                            location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('Có lỗi xảy ra khi thay đổi trạng thái');
+                    }
+                });
+            });
+        });
+    </script>
+}

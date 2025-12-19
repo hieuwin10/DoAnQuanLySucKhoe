@@ -1,0 +1,13 @@
+@* Floating AI chat button partial *@
+<div class="floating-chat-ai draggable-floating-btn" aria-hidden="false" style="cursor: grab; touch-action: none;">
+    <a asp-area="" asp-controller="Chat" asp-action="Index"
+       title="Tư vấn với AI"
+       role="button"
+       aria-label="Mở cửa sổ chat với AI"
+       class="d-block text-decoration-none"
+       style="transition: transform 0.2s ease-in-out;"
+       onmouseover="this.style.transform='scale(1.1)'"
+       onmouseout="this.style.transform='scale(1)'">
+        <img src="~/images/AI avata.png" alt="AI" style="width: 65px; height: 90px; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));" />
+    </a>
+</div>

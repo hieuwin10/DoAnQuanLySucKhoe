@@ -1,0 +1,230 @@
+@model DoAnChamSocSucKhoe.Models.NhacNhoSucKhoe
+
+@{
+    ViewData["Title"] = "Chi tiết nhắc nhở";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var statusClass = Model.DaThucHien ? "text-success" : "text-warning";
+    var statusText = Model.DaThucHien ? "Đã hoàn thành" : "Chưa hoàn thành";
+    var iconClass = "";
+    switch (Model.LoaiNhacNho)
+    {
+        case "Uống thuốc":
+            iconClass = "fas fa-pills";
+            break;
+        case "Tập thể dục":
+            iconClass = "fas fa-dumbbell";
+            break;
+        case "Kiểm tra sức khỏe":
+            iconClass = "fas fa-heartbeat";
+            break;
+        default:
+            iconClass = "fas fa-bell";
+            break;
+    }
+}
+
+<style>
+    .reminder-details-card {
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        padding: 30px;
+        margin-top: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .reminder-header {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #e9ecef;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+
+    .reminder-icon {
+        font-size: 2.5rem;
+        margin-right: 20px;
+        color: #007bff;
+        width: 60px;
+        height: 60px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: rgba(0, 123, 255, 0.1);
+    }
+
+    .reminder-title h2 {
+        margin: 0;
+        font-weight: 600;
+        color: #343a40;
+    }
+    .reminder-title p {
+        margin: 0;
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    .reminder-body .info-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+    }
+
+    .info-row dt {
+        font-weight: 600;
+        color: #495057;
+        flex-basis: 180px;
+    }
+
+    .info-row dd {
+        margin: 0;
+        color: #212529;
+    }
+
+    .status-badge {
+        font-weight: 700;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+    }
+
+    .text-success {
+        color: #28a745 !important;
+        background-color: rgba(40, 167, 69, 0.1);
+    }
+
+    .text-warning {
+        color: #ffc107 !important;
+        background-color: rgba(255, 193, 7, 0.1);
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-top: 30px;
+        color: #007bff;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+    .back-link:hover {
+        color: #0056b3;
+    }
+</style>
+
+<div class="container">
+    <div class="reminder-details-card">
+        <div class="reminder-header">
+            <div class="reminder-icon">
+                <i class="@iconClass"></i>
+            </div>
+            <div class="reminder-title">
+                <h2>@Html.DisplayFor(model => model.LoaiNhacNho)</h2>
+                <p>Chi tiết lời nhắc của bạn</p>
+            </div>
+        </div>
+
+        <div class="reminder-body">
+            <dl class="info-list">
+                <div class="info-row">
+                    <dt>Nội dung</dt>
+                    <dd>@Html.DisplayFor(model => model.NoiDung)</dd>
+                </div>
+                <div class="info-row">
+                    <dt>Thời gian</dt>
+                    <dd>@Model.ThoiGian.ToString("HH:mm, dd/MM/yyyy")</dd>
+                </div>
+                <div class="info-row">
+                    <dt>Trạng thái</dt>
+                    <dd>
+                        <span class="status-badge @statusClass">@statusText</span>
+                    </dd>
+                </div>
+                @if (!Model.DaThucHien)
+                {
+                    <div id="mark-as-completed-container" class="info-row mt-4">
+                        <dt></dt>
+                        <dd>
+                            <button id="mark-as-completed-btn" class="btn btn-success">
+                                <i class="fas fa-check-circle"></i> Đánh dấu đã hoàn thành
+                            </button>
+                        </dd>
+                    </div>
+                }
+            </dl>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-4 d-flex justify-content-center gap-2">
+            <a asp-action="Edit" asp-route-id="@Model.NhacNhoSucKhoeId" class="btn btn-primary">
+                <i class="fas fa-edit me-2"></i>Chỉnh sửa
+            </a>
+            <a asp-action="Delete" asp-route-id="@Model.NhacNhoSucKhoeId" class="btn btn-danger">
+                <i class="fas fa-trash me-2"></i>Xóa
+            </a>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="fas fa-list me-2"></i>Danh sách
+            </a>
+        </div>
+    </div>
+
+    <div class="mt-3 text-center">
+        <a asp-action="Index" asp-controller="HealthProfile" asp-area="Patient" class="back-link me-3">
+            <i class="fas fa-heartbeat"></i> Quay lại Hồ sơ sức khỏe
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const markAsCompletedBtn = document.getElementById('mark-as-completed-btn');
+            if (markAsCompletedBtn) {
+                markAsCompletedBtn.addEventListener('click', function () {
+                    const reminderId = @Model.NhacNhoSucKhoeId;
+                    
+                    fetch('/Patient/Reminder/MarkAsCompletedAjax/' + reminderId, {
+                        method: 'POST',
+                        headers: {
+                            'RequestVerificationToken': getAntiForgeryToken()
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Ẩn nút
+                            document.getElementById('mark-as-completed-container').style.display = 'none';
+
+                            // Cập nhật trạng thái trên giao diện
+                            const statusBadge = document.querySelector('.status-badge');
+                            statusBadge.classList.remove('text-warning');
+                            statusBadge.classList.add('text-success');
+                            statusBadge.textContent = 'Đã hoàn thành';
+
+                            // (Tùy chọn) Hiển thị thông báo thành công
+                            // alert(data.message);
+                        } else {
+                            // (Tùy chọn) Hiển thị thông báo lỗi
+                            // alert('Lỗi: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        // alert('Đã xảy ra lỗi khi kết nối tới server.');
+                    });
+                });
+            }
+        });
+
+        function getAntiForgeryToken() {
+            // Hàm này tìm và trả về anti-forgery token từ một form ẩn nếu có
+            // Hoặc bạn có thể render token vào một thẻ meta và lấy từ đó
+            const tokenInput = document.querySelector('input[name="__RequestVerificationToken"]');
+            return tokenInput ? tokenInput.value : '';
+        }
+    </script>
+}
+
+

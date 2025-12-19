@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Lịch hẹn - Hệ thống Quản lý Sức khỏe Online</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- FullCalendar -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+    
+    <!-- Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #2c7be5;
+            --secondary: #6c757d;
+            --success: #00d97e;
+            --info: #39afd1;
+            --warning: #f6c343;
+            --danger: #e63757;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --topbar-height: 70px;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #495057;
+            background-color: #f9fbfd;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar */
+        .navbar {
+            height: var(--topbar-height);
+            background-color: white;
+            border-bottom: 1px solid #e3e6ec;
+            padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+        
+        .navbar-brand img {
+            margin-right: 10px;
+        }
+        
+        .navbar-search {
+            position: relative;
+            max-width: 300px;
+        }
+        
+        .navbar-search-input {
+            padding-left: 40px;
+            background-color: #f8f9fa;
+            border: 1px solid #e3e6ec;
+            border-radius: 50rem;
+        }
+        
+        .navbar-search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+        
+        .navbar-icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            margin-left: 10px;
+        }
+        
+        .navbar-icon-btn:hover {
+            background-color: #f8f9fa;
+            color: var(--primary);
+        }
+        
+        .navbar-icon-btn .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 0.65rem;
+        }
+        
+        .navbar-user {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+        
+        .navbar-user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+        
+        .navbar-user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .navbar-user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        .navbar-user-role {
+            font-size: 0.75rem;
+            color: #6c757d;
+            margin: 0;
+        }
+        
+        .nav-link {
+            color: #495057;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+            background-color: rgba(44, 123, 229, 0.1);
+        }
+        
+        .nav-link.active {
+            color: var(--primary);
+            background-color: rgba(44, 123, 229, 0.1);
+        }
+        
+        .nav-link i {
+            margin-right: 0.5rem;
+        }
+        
+        /* Content */
+        .content {
+            padding: 20px;
+        }
+        
+        /* Cards */
+        .card {
+            border: none;
+            border-radius: 0.75rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            background-color: transparent;
+            border-bottom: 1px solid #e3e6ec;
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        /* Calendar */
+        .fc .fc-toolbar-title {
+            font-size: 1.25rem;
+        }
+        
+        .fc .fc-button-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .fc .fc-button-primary:hover {
+            background-color: #1a68d1;
+            border-color: #1a68d1;
+        }
+        
+        .fc .fc-button-primary:disabled {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        
+        .fc .fc-button-primary:not(:disabled).fc-button-active,
+        .fc .fc-button-primary:not(:disabled):active {
+            background-color: #1a68d1;
+            border-color: #1a68d1;
+        }
+        
+        .fc-event {
+            border: none;
+            padding: 3px 5px;
+            font-size: 0.8rem;
+        }
+        
+        .fc-event-confirmed {
+            background-color: var(--success);
+        }
+        
+        .fc-event-pending {
+            background-color: var(--warning);
+        }
+        
+        .fc-event-cancelled {
+            background-color: var(--danger);
+        }
+        
+        /* Appointment list */
+        .appointment-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .appointment-item {
+            padding: 1rem;
+            border-bottom: 1px solid #e3e6ec;
+            transition: background-color 0.2s ease;
+        }
+        
+        .appointment-item:last-child {
+            border-bottom: none;
+        }
+        
+        .appointment-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .appointment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .appointment-title {
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+        
+        .appointment-status {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 0.375rem;
+        }
+        
+        .appointment-status.confirmed {
+            background-color: rgba(0, 217, 126, 0.1);
+            color: var(--success);
+        }
+        
+        .appointment-status.pending {
+            background-color: rgba(246, 195, 67, 0.1);
+            color: var(--warning);
+        }
+        
+        .appointment-status.cancelled {
+            background-color: rgba(230, 55, 87, 0.1);
+            color: var(--danger);
+        }
+        
+        .appointment-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .appointment-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(44, 123, 229, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .appointment-details {
+            flex: 1;
+        }
+        
+        .appointment-date {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .appointment-time {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+        
+        .appointment-doctor {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .appointment-doctor-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+        
+        .appointment-doctor-info {
+            flex: 1;
+        }
+        
+        .appointment-doctor-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .appointment-doctor-specialty {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+        
+        .appointment-location {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .appointment-location-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(44, 123, 229, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .appointment-location-info {
+            flex: 1;
+        }
+        
+        .appointment-location-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .appointment-location-address {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+        
+        .appointment-notes {
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background-color: #f8f9fa;
+            border-radius: 0.375rem;
+        }
+        
+        .appointment-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .appointment-action-btn {
+            margin-left: 0.5rem;
+        }
+        
+        /* Doctor card */
+        .doctor-card {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: white;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            margin-bottom: 1rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .doctor-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+        
+        .doctor-card.selected {
+            border: 2px solid var(--primary);
+        }
+        
+        .doctor-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+        
+        .doctor-info {
+            flex: 1;
+        }
+        
+        .doctor-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .doctor-specialty {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-bottom: 0.25rem;
+        }
+        
+        .doctor-rating {
+            color: var(--warning);
+            font-size: 0.875rem;
+            margin-bottom: 0;
+        }
+        
+        /* Time slots */
+        .time-slots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .time-slot {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            background-color: #f8f9fa;
+            border: 1px solid #e3e6ec;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .time-slot:hover {
+            background-color: rgba(44, 123, 229, 0.1);
+            border-color: var(--primary);
+        }
+        
+        .time-slot.selected {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .time-slot.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Form */
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control {
+            padding: 0.75rem 1rem;
+            border-color: #e3e6ec;
+            border-radius: 0.375rem;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(44, 123, 229, 0.25);
+        }
+        
+        .form-select {
+            padding: 0.75rem 1rem;
+            border-color: #e3e6ec;
+            border-radius: 0.375rem;
+        }
+        
+        .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(44, 123, 229, 0.25);
+        }
+        
+        /* Tabs */
+        .nav-tabs {
+            border-bottom: 1px solid #e3e6ec;
+            margin-bottom: 1.5rem;
+        }
+        
+        .nav-tabs .nav-link {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            color: #6c757d;
+            border: none;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--primary);
+            background-color: transparent;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .navbar-search {
+                display: none;
+            }
+            
+            .navbar-user-info {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="images/logo.png" alt="Logo" height="30">
+                <span>HealthCare</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="navbar-search d-none d-lg-block">
+                <i class="fas fa-search navbar-search-icon"></i>
+                <input type="text" class="form-control navbar-search-input" placeholder="Tìm kiếm...">
+            </div>
+            
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-home"></i> Trang chủ
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-user"></i> Hồ sơ
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-heartbeat"></i> Sức khỏe
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            <i class="fas fa-calendar-check"></i> Lịch hẹn
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-comment-medical"></i> Tư vấn
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex align-items-center">
+                    <button class="navbar-icon-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge bg-danger">3</span>
+                    </button>
+                    
+                    <button class="navbar-icon-btn">
+                        <i class="fas fa-envelope"></i>
+                        <span class="badge bg-primary">2</span>
+                    </button>
+                    
+                    <div class="dropdown">
+                        <div class="navbar-user" data-bs-toggle="dropdown">
+                            <img src="images/patient-avatar.jpg" alt="Avatar" class="navbar-user-avatar">
+                            <div class="navbar-user-info">
+                                <h6 class="navbar-user-name">Nguyễn Văn A</h6>
+                                <p class="navbar-user-role">Bệnh nhân</p>
+                            </div>
+                        </div>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-user me-2"></i> Hồ sơ cá nhân
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-cog me-2"></i> Cài đặt tài khoản
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-list me-2"></i> Hoạt động
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-sign-out-alt me-2"></i> Đăng xuất
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="mb-1">Quản lý lịch hẹn</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                            <li class="breadcrumb-item active">Lịch hẹn</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newAppointmentModal">
+                        <i class="fas fa-plus me-2"></i> Đặt lịch hẹn mới
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Tabs -->
+            <ul class="nav nav-tabs" id="appointmentTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="calendar-tab" data-bs-toggle="tab" data-bs-target="#calendar" type="button" role="tab" aria-controls="calendar" aria-selected="true">Lịch</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="upcoming-tab" data-bs-toggle="tab" data-bs-target="#upcoming" type="button" role="tab" aria-controls="upcoming" aria-selected="false">Sắp tới</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="past-tab" data-bs-toggle="tab" data-bs-target="#past" type="button" role="tab" aria-controls="past" aria-selected="false">Đã qua</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled" type="button" role="tab" aria-controls="cancelled" aria-selected="false">Đã hủy</button>
+                </li>
+            </ul>
+            
+            <!-- Tab Content -->
+            <div class="tab-content" id="appointmentTabsContent">
+                <!-- Calendar Tab -->
+                <div class="tab-pane fade show active" id="calendar" role="tabpanel" aria-labelledby="calendar-tab">
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="appointmentCalendar"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Upcoming Appointments Tab -->
+                <div class="tab-pane fade" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Lịch hẹn sắp tới</h5>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    Tất cả
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a class="dropdown-item" href="#">Tất cả</a>
+                                    <a class="dropdown-item" href="#">Đã xác nhận</a>
+                                    <a class="dropdown-item" href="#">Chờ xác nhận</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="appointment-list">
+                                <!-- Appointment Item 1 -->
+                                <div class="appointment-item">
+                                    <div class="appointment-header">
+                                        <h6 class="appointment-title">Khám định kỳ - Theo dõi huyết áp</h6>
+                                        <span class="appointment-status confirmed">Đã xác nhận</span>
+                                    </div>
+                                    <div class="appointment-info">
+                                        <div class="appointment-icon">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>
+                                        <div class="appointment-details">
+                                            <div class="appointment-date">Thứ Hai, 12/04/2025</div>
+                                            <div class="appointment-time">09:00 - 09:30</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-doctor">
+                                        <img src="images/doctor-1.jpg" alt="Doctor" class="appointment-doctor-avatar">
+                                        <div class="appointment-doctor-info">
+                                            <div class="appointment-doctor-name">Bs. Nguyễn Văn B</div>
+                                            <div class="appointment-doctor-specialty">Tim mạch</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-location">
+                                        <div class="appointment-location-icon">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                        <div class="appointment-location-info">
+                                            <div class="appointment-location-name">Phòng khám Đa khoa XYZ</div>
+                                            <div class="appointment-location-address">123 Đường ABC, Quận 1, TP. Hồ Chí Minh</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-notes">
+                                        Mang theo kết quả xét nghiệm máu và nhật ký theo dõi huyết áp.
+                                    </div>
+                                    <div class="appointment-actions">
+                                        <button class="btn btn-sm btn-outline-primary appointment-action-btn">
+                                            <i class="fas fa-edit me-1"></i> Chỉnh sửa
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger appointment-action-btn">
+                                            <i class="fas fa-times me-1"></i> Hủy
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-info appointment-action-btn">
+                                            <i class="fas fa-video me-1"></i> Tư vấn trực tuyến
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Appointment Item 2 -->
+                                <div class="appointment-item">
+                                    <div class="appointment-header">
+                                        <h6 class="appointment-title">Tư vấn dinh dưỡng</h6>
+                                        <span class="appointment-status pending">Chờ xác nhận</span>
+                                    </div>
+                                    <div class="appointment-info">
+                                        <div class="appointment-icon">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>
+                                        <div class="appointment-details">
+                                            <div class="appointment-date">Thứ Năm, 15/04/2025</div>
+                                            <div class="appointment-time">14:30 - 15:00</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-doctor">
+                                        <img src="images/doctor-2.jpg" alt="Doctor" class="appointment-doctor-avatar">
+                                        <div class="appointment-doctor-info">
+                                            <div class="appointment-doctor-name">Bs. Trần Thị C</div>
+                                            <div class="appointment-doctor-specialty">Dinh dưỡng</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-location">
+                                        <div class="appointment-location-icon">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                        <div class="appointment-location-info">
+                                            <div class="appointment-location-name">Phòng khám Đa khoa XYZ</div>
+                                            <div class="appointment-location-address">123 Đường ABC, Quận 1, TP. Hồ Chí Minh</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-notes">
+                                        Tư vấn về chế độ ăn uống để giảm cân và kiểm soát huyết áp.
+                                    </div>
+                                    <div class="appointment-actions">
+                                        <button class="btn btn-sm btn-outline-primary appointment-action-btn">
+                                            <i class="fas fa-edit me-1"></i> Chỉnh sửa
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger appointment-action-btn">
+                                            <i class="fas fa-times me-1"></i> Hủy
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-info appointment-action-btn">
+                                            <i class="fas fa-video me-1"></i> Tư vấn trực tuyến
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Appointment Item 3 -->
+                                <div class="appointment-item">
+                                    <div class="appointment-header">
+                                        <h6 class="appointment-title">Khám mắt định kỳ</h6>
+                                        <span class="appointment-status confirmed">Đã xác nhận</span>
+                                    </div>
+                                    <div class="appointment-info">
+                                        <div class="appointment-icon">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>
+                                        <div class="appointment-details">
+                                            <div class="appointment-date">Thứ Ba, 20/04/2025</div>
+                                            <div class="appointment-time">10:00 - 10:30</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-doctor">
+                                        <img src="images/doctor-3.jpg" alt="Doctor" class="appointment-doctor-avatar">
+                                        <div class="appointment-doctor-info">
+                                            <div class="appointment-doctor-name">Bs. Lê Văn D</div>
+                                            <div class="appointment-doctor-specialty">Nhãn khoa</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-location">
+                                        <div class="appointment-location-icon">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                        <div class="appointment-location-info">
+                                            <div class="appointment-location-name">Phòng khám Mắt ABC</div>
+                                            <div class="appointment-location-address">456 Đường XYZ, Quận 3, TP. Hồ Chí Minh</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-notes">
+                                        Khám mắt định kỳ 6 tháng/lần. Mang theo kính hiện tại nếu có.
+                                    </div>
+                                    <div class="appointment-actions">
+                                        <button class="btn btn-sm btn-outline-primary appointment-action-btn">
+                                            <i class="fas fa-edit me-1"></i> Chỉnh sửa
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger appointment-action-btn">
+                                            <i class="fas fa-times me-1"></i> Hủy
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-info appointment-action-btn">
+                                            <i class="fas fa-video me-1"></i> Tư vấn trực tuyến
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Past Appointments Tab -->
+                <div class="tab-pane fade" id="past" role="tabpanel" aria-labelledby="past-tab">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Lịch hẹn đã qua</h5>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    Tất cả
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a class="dropdown-item" href="#">Tất cả</a>
+                                    <a class="dropdown-item" href="#">Đã hoàn thành</a>
+                                    <a class="dropdown-item" href="#">Không đến</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="appointment-list">
+                                <!-- Past Appointment Item 1 -->
+                                <div class="appointment-item">
+                                    <div class="appointment-header">
+                                        <h6 class="appointment-title">Khám tổng quát</h6>
+                                        <span class="appointment-status confirmed">Đã hoàn thành</span>
+                                    </div>
+                                    <div class="appointment-info">
+                                        <div class="appointment-icon">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>
+                                        <div class="appointment-details">
+                                            <div class="appointment-date">Thứ Hai, 15/03/2025</div>
+                                            <div class="appointment-time">09:00 - 10:00</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-doctor">
+                                        <img src="images/doctor-1.jpg" alt="Doctor" class="appointment-doctor-avatar">
+                                        <div class="appointment-doctor-info">
+                                            <div class="appointment-doctor-name">Bs. Nguyễn Văn B</div>
+                                            <div class="appointment-doctor-specialty">Tim mạch</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-location">
+                                        <div class="appointment-location-icon">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                        <div class="appointment-location-info">
+                                            <div class="appointment-location-name">Phòng khám Đa khoa XYZ</div>
+                                            <div class="appointment-location-address">123 Đường ABC, Quận 1, TP. Hồ Chí Minh</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-notes">
+                                        Khám tổng quát định kỳ. Các chỉ số trong giới hạn bình thường. Tiếp tục theo dõi huyết áp.
+                                    </div>
+                                    <div class="appointment-actions">
+                                        <button class="btn btn-sm btn-outline-primary appointment-action-btn">
+                                            <i class="fas fa-eye me-1"></i> Xem chi tiết
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary appointment-action-btn">
+                                            <i class="fas fa-calendar-plus me-1"></i> Đặt lịch hẹn tiếp theo
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-info appointment-action-btn">
+                                            <i class="fas fa-download me-1"></i> Tải kết quả
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Past Appointment Item 2 -->
+                                <div class="appointment-item">
+                                    <div class="appointment-header">
+                                        <h6 class="appointment-title">Tư vấn dinh dưỡng</h6>
+                                        <span class="appointment-status confirmed">Đã hoàn thành</span>
+                                    </div>
+                                    <div class="appointment-info">
+                                        <div class="appointment-icon">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>
+                                        <div class="appointment-details">
+                                            <div class="appointment-date">Thứ Năm, 10/02/2025</div>
+                                            <div class="appointment-time">14:30 - 15:00</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-doctor">
+                                        <img src="images/doctor-2.jpg" alt="Doctor" class="appointment-doctor-avatar">
+                                        <div class="appointment-doctor-info">
+                                            <div class="appointment-doctor-name">Bs. Trần Thị C</div>
+                                            <div class="appointment-doctor-specialty">Dinh dưỡng</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-location">
+                                        <div class="appointment-location-icon">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                        <div class="appointment-location-info">
+                                            <div class="appointment-location-name">Phòng khám Đa khoa XYZ</div>
+                                            <div class="appointment-location-address">123 Đường ABC, Quận 1, TP. Hồ Chí Minh</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-notes">
+                                        Đánh giá chế độ ăn uống hiện tại và đưa ra các khuyến nghị để cải thiện. Giảm lượng muối và đường, tăng cường rau xanh và protein nạc.
+                                    </div>
+                                    <div class="appointment-actions">
+                                        <button class="btn btn-sm btn-outline-primary appointment-action-btn">
+                                            <i class="fas fa-eye me-1"></i> Xem chi tiết
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary appointment-action-btn">
+                                            <i class="fas fa-calendar-plus me-1"></i> Đặt lịch hẹn tiếp theo
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-info appointment-action-btn">
+                                            <i class="fas fa-download me-1"></i> Tải kết quả
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Past Appointment Item 3 -->
+                                <div class="appointment-item">
+                                    <div class="appointment-header">
+                                        <h6 class="appointment-title">Khám mắt định kỳ</h6>
+                                        <span class="appointment-status confirmed">Đã hoàn thành</span>
+                                    </div>
+                                    <div class="appointment-info">
+                                        <div class="appointment-icon">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>
+                                        <div class="appointment-details">
+                                            <div class="appointment-date">Thứ Ba, 05/01/2025</div>
+                                            <div class="appointment-time">10:00 - 10:30</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-doctor">
+                                        <img src="images/doctor-3.jpg" alt="Doctor" class="appointment-doctor-avatar">
+                                        <div class="appointment-doctor-info">
+                                            <div class="appointment-doctor-name">Bs. Lê Văn D</div>
+                                            <div class="appointment-doctor-specialty">Nhãn khoa</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-location">
+                                        <div class="appointment-location-icon">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                        <div class="appointment-location-info">
+                                            <div class="appointment-location-name">Phòng khám Mắt ABC</div>
+                                            <div class="appointment-location-address">456 Đường XYZ, Quận 3, TP. Hồ Chí Minh</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-notes">
+                                        Thị lực: 20/20 ở cả hai mắt. Không có dấu hiệu của bệnh lý mắt. Khuyến nghị giảm thời gian sử dụng màn hình.
+                                    </div>
+                                    <div class="appointment-actions">
+                                        <button class="btn btn-sm btn-outline-primary appointment-action-btn">
+                                            <i class="fas fa-eye me-1"></i> Xem chi tiết
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary appointment-action-btn">
+                                            <i class="fas fa-calendar-plus me-1"></i> Đặt lịch hẹn tiếp theo
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-info appointment-action-btn">
+                                            <i class="fas fa-download me-1"></i> Tải kết quả
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cancelled Appointments Tab -->
+                <div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="cancelled-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Lịch hẹn đã hủy</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="appointment-list">
+                                <!-- Cancelled Appointment Item 1 -->
+                                <div class="appointment-item">
+                                    <div class="appointment-header">
+                                        <h6 class="appointment-title">Khám da liễu</h6>
+                                        <span class="appointment-status cancelled">Đã hủy</span>
+                                    </div>
+                                    <div class="appointment-info">
+                                        <div class="appointment-icon">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>
+                                        <div class="appointment-details">
+                                            <div class="appointment-date">Thứ Sáu, 05/03/2025</div>
+                                            <div class="appointment-time">15:30 - 16:00</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-doctor">
+                                        <img src="images/doctor-4.jpg" alt="Doctor" class="appointment-doctor-avatar">
+                                        <div class="appointment-doctor-info">
+                                            <div class="appointment-doctor-name">Bs. Phạm Thị E</div>
+                                            <div class="appointment-doctor-specialty">Da liễu</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-location">
+                                        <div class="appointment-location-icon">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                        <div class="appointment-location-info">
+                                            <div class="appointment-location-name">Phòng khám Da liễu DEF</div>
+                                            <div class="appointment-location-address">789 Đường MNO, Quận 2, TP. Hồ Chí Minh</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-notes">
+                                        Lý do hủy: Bác sĩ có lịch phẫu thuật khẩn cấp.
+                                    </div>
+                                    <div class="appointment-actions">
+                                        <button class="btn btn-sm btn-outline-primary appointment-action-btn">
+                                            <i class="fas fa-calendar-plus me-1"></i> Đặt lịch lại
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Cancelled Appointment Item 2 -->
+                                <div class="appointment-item">
+                                    <div class="appointment-header">
+                                        <h6 class="appointment-title">Tư vấn tâm lý</h6>
+                                        <span class="appointment-status cancelled">Đã hủy</span>
+                                    </div>
+                                    <div class="appointment-info">
+                                        <div class="appointment-icon">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>
+                                        <div class="appointment-details">
+                                            <div class="appointment-date">Thứ Tư, 20/01/2025</div>
+                                            <div class="appointment-time">16:00 - 17:00</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-doctor">
+                                        <img src="images/doctor-5.jpg" alt="Doctor" class="appointment-doctor-avatar">
+                                        <div class="appointment-doctor-info">
+                                            <div class="appointment-doctor-name">Bs. Hoàng Thị F</div>
+                                            <div class="appointment-doctor-specialty">Tâm lý</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-location">
+                                        <div class="appointment-location-icon">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                        <div class="appointment-location-info">
+                                            <div class="appointment-location-name">Trung tâm Tâm lý GHI</div>
+                                            <div class="appointment-location-address">101 Đường JKL, Quận 10, TP. Hồ Chí Minh</div>
+                                        </div>
+                                    </div>
+                                    <div class="appointment-notes">
+                                        Lý do hủy: Bạn có việc đột xuất không thể tham dự.
+                                    </div>
+                                    <div class="appointment-actions">
+                                        <button class="btn btn-sm btn-outline-primary appointment-action-btn">
+                                            <i class="fas fa-calendar-plus me-1"></i> Đặt lịch lại
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- New Appointment Modal -->
+    <div class="modal fade" id="newAppointmentModal" tabindex="-1" aria-labelledby="newAppointmentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newAppointmentModalLabel">Đặt lịch hẹn mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="appointmentType" class="form-label">Loại lịch hẹn</label>
+                                <select class="form-select" id="appointmentType">
+                                    <option value="" selected disabled>Chọn loại lịch hẹn</option>
+                                    <option value="checkup">Khám tổng quát</option>
+                                    <option value="followup">Tái khám</option>
+                                    <option value="consultation">Tư vấn</option>
+                                    <option value="treatment">Điều trị</option>
+                                    <option value="other">Khác</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="appointmentSpecialty" class="form-label">Chuyên khoa</label>
+                                <select class="form-select" id="appointmentSpecialty">
+                                    <option value="" selected disabled>Chọn chuyên khoa</option>
+                                    <option value="cardiology">Tim mạch</option>
+                                    <option value="dermatology">Da liễu</option>
+                                    <option value="neurology">Thần kinh</option>
+                                    <option value="ophthalmology">Nhãn khoa</option>
+                                    <option value="orthopedics">Chỉnh hình</option>
+                                    <option value="pediatrics">Nhi khoa</option>
+                                    <option value="psychiatry">Tâm thần</option>
+                                    <option value="nutrition">Dinh dưỡng</option>
+                                    <option value="other">Khác</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Chọn bác sĩ</label>
+                                <div class="doctor-card selected">
+                                    <img src="images/doctor-1.jpg" alt="Doctor" class="doctor-avatar">
+                                    <div class="doctor-info">
+                                        <h6 class="doctor-name">Bs. Nguyễn Văn B</h6>
+                                        <p class="doctor-specialty">Tim mạch</p>
+                                        <div class="doctor-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                            <span>4.5</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="doctor-card mt-2">
+                                    <img src="images/doctor-2.jpg" alt="Doctor" class="doctor-avatar">
+                                    <div class="doctor-info">
+                                        <h6 class="doctor-name">Bs. Trần Thị C</h6>
+                                        <p class="doctor-specialty">Dinh dưỡng</p>
+                                        <div class="doctor-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <span>5.0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="doctor-card mt-2">
+                                    <img src="images/doctor-3.jpg" alt="Doctor" class="doctor-avatar">
+                                    <div class="doctor-info">
+                                        <h6 class="doctor-name">Bs. Lê Văn D</h6>
+                                        <p class="doctor-specialty">Nhãn khoa</p>
+                                        <div class="doctor-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <span>4.0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="appointmentDate" class="form-label">Ngày hẹn</label>
+                                <input type="text" class="form-control" id="appointmentDate" placeholder="Chọn ngày">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Thời gian</label>
+                                <div class="time-slots">
+                                    <div class="time-slot">08:00</div>
+                                    <div class="time-slot">08:30</div>
+                                    <div class="time-slot disabled">09:00</div>
+                                    <div class="time-slot disabled">09:30</div>
+                                    <div class="time-slot">10:00</div>
+                                    <div class="time-slot">10:30</div>
+                                    <div class="time-slot selected">11:00</div>
+                                    <div class="time-slot">11:30</div>
+                                    <div class="time-slot">13:30</div>
+                                    <div class="time-slot">14:00</div>
+                                    <div class="time-slot">14:30</div>
+                                    <div class="time-slot">15:00</div>
+                                    <div class="time-slot">15:30</div>
+                                    <div class="time-slot">16:00</div>
+                                    <div class="time-slot">16:30</div>
+                                    <div class="time-slot">17:00</div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="appointmentLocation" class="form-label">Địa điểm</label>
+                                <select class="form-select" id="appointmentLocation">
+                                    <option value="clinic1" selected>Phòng khám Đa khoa XYZ - 123 Đường ABC, Quận 1</option>
+                                    <option value="clinic2">Phòng khám Mắt ABC - 456 Đường XYZ, Quận 3</option>
+                                    <option value="clinic3">Phòng khám Da liễu DEF - 789 Đường MNO, Quận 2</option>
+                                    <option value="online">Tư vấn trực tuyến</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="appointmentReason" class="form-label">Lý do khám</label>
+                                <textarea class="form-control" id="appointmentReason" rows="3" placeholder="Mô tả ngắn gọn lý do bạn muốn đặt lịch hẹn"></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="insuranceCheck" checked>
+                                    <label class="form-check-label" for="insuranceCheck">
+                                        Sử dụng bảo hiểm y tế
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="reminderCheck" checked>
+                                    <label class="form-check-label" for="reminderCheck">
+                                        Nhận nhắc nhở qua SMS/Email
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary">Xác nhận đặt lịch</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
+    <!-- FullCalendar -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    
+    <!-- Flatpickr -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
+    
+    <!-- Custom Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize calendar
+            const calendarEl = document.getElementById('appointmentCalendar');
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                locale: 'vi',
+                events: [
+                    {
+                        title: 'Khám định kỳ - Bs. Nguyễn Văn B',
+                        start: '2025-04-12T09:00:00',
+                        end: '2025-04-12T09:30:00',
+                        className: 'fc-event-confirmed'
+                    },
+                    {
+                        title: 'Tư vấn dinh dưỡng - Bs. Trần Thị C',
+                        start: '2025-04-15T14:30:00',
+                        end: '2025-04-15T15:00:00',
+                        className: 'fc-event-pending'
+                    },
+                    {
+                        title: 'Khám mắt - Bs. Lê Văn D',
+                        start: '2025-04-20T10:00:00',
+                        end: '2025-04-20T10:30:00',
+                        className: 'fc-event-confirmed'
+                    },
+                    {
+                        title: 'Khám da liễu - Bs. Phạm Thị E',
+                        start: '2025-03-05T15:30:00',
+                        end: '2025-03-05T16:00:00',
+                        className: 'fc-event-cancelled'
+                    },
+                    {
+                        title: 'Tư vấn tâm lý - Bs. Hoàng Thị F',
+                        start: '2025-01-20T16:00:00',
+                        end: '2025-01-20T17:00:00',
+                        className: 'fc-event-cancelled'
+                    },
+                    {
+                        title: 'Khám tổng quát - Bs. Nguyễn Văn B',
+                        start: '2025-03-15T09:00:00',
+                        end: '2025-03-15T10:00:00',
+                        className: 'fc-event-confirmed'
+                    },
+                    {
+                        title: 'Tư vấn dinh dưỡng - Bs. Trần Thị C',
+                        start: '2025-02-10T14:30:00',
+                        end: '2025-02-10T15:00:00',
+                        className: 'fc-event-confirmed'
+                    },
+                    {
+                        title: 'Khám mắt - Bs. Lê Văn D',
+                        start: '2025-01-05T10:00:00',
+                        end: '2025-01-05T10:30:00',
+                        className: 'fc-event-confirmed'
+                    }
+                ],
+                eventClick: function(info) {
+                    alert('Lịch hẹn: ' + info.event.title);
+                }
+            });
+            calendar.render();
+            
+            // Initialize date picker
+            flatpickr("#appointmentDate", {
+                dateFormat: "d/m/Y",
+                minDate: "today",
+                locale: "vn"
+            });
+            
+            // Doctor card selection
+            document.querySelectorAll('.doctor-card').forEach(function(card) {
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('.doctor-card').forEach(function(c) {
+                        c.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Time slot selection
+            document.querySelectorAll('.time-slot:not(.disabled)').forEach(function(slot) {
+                slot.addEventListener('click', function() {
+                    document.querySelectorAll('.time-slot').forEach(function(s) {
+                        s.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,274 @@
+@using DoAnChamSocSucKhoe.Models
+@model HoSoSucKhoe
+
+@{
+    ViewData["Title"] = "Chi Tiết Hồ Sơ Sức Khỏe";
+}
+
+<style>
+    .profile-header {
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .info-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        height: 100%;
+        transition: transform 0.2s;
+    }
+    
+    .info-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .card-header-custom {
+        background-color: white;
+        border-bottom: 1px solid #f0f0f0;
+        padding: 1.25rem;
+        font-weight: 600;
+        color: #444;
+    }
+    
+    .data-label {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-bottom: 0.2rem;
+    }
+    
+    .data-value {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+    }
+
+    .health-metric {
+        padding: 1rem;
+        border-radius: 10px;
+        background-color: #f8f9fa;
+        margin-bottom: 1rem;
+    }
+</style>
+
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="profile-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <a href="javascript:history.back()" class="btn btn-light mb-3 px-4 py-2 fw-bold shadow-sm" style="border-radius: 10px;">
+                    <i class="fas fa-arrow-left me-2"></i> Quay lại
+                </a>
+                <h2 class="mb-1">Hồ Sơ Sức Khỏe</h2>
+                <p class="mb-0 opacity-75">Bệnh nhân: <strong>@Model?.NguoiDung?.HoTen</strong></p>
+            </div>
+            <div class="text-end">
+                <div class="badge bg-white text-primary p-2 mb-2">
+                    <i class="fas fa-clock me-1"></i> Cập nhật: @Model?.NgayCapNhat.ToString("dd/MM/yyyy HH:mm")
+                </div>
+                <div>
+                    <span class="badge bg-@GetStatusClass(Model?.TrangThai) p-2">
+                        @(string.IsNullOrEmpty(Model?.TrangThai) ? "Chưa có trạng thái" : Model.TrangThai)
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model != null)
+    {
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-lg-4 mb-4">
+                <!-- Personal Info -->
+                <div class="info-card card mb-4">
+                    <div class="card-header-custom">
+                        <i class="fas fa-user-circle me-2 text-primary"></i> Thông Tin Cá Nhân
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <div class="avatar-circle mx-auto mb-3 rounded-circle overflow-hidden" style="width: 80px; height: 80px;">
+                                <img src="@(!string.IsNullOrEmpty(Model.NguoiDung?.AnhDaiDien) ? Model.NguoiDung.AnhDaiDien : "/images/BN.png")" 
+                                     alt="@Model.NguoiDung?.HoTen" 
+                                     class="w-100 h-100" 
+                                     style="object-fit: cover;">
+                            </div>
+                            <h5>@Model.NguoiDung?.HoTen</h5>
+                            <p class="text-muted">@Model.NguoiDung?.Email</p>
+                        </div>
+                        
+                        <hr class="my-3">
+                        
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="data-label">Chiều cao</div>
+                                <div class="data-value">@Model.ChieuCao cm</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="data-label">Cân nặng</div>
+                                <div class="data-value">@Model.CanNang kg</div>
+                            </div>
+                            <div class="col-12">
+                                <div class="data-label">BMI</div>
+                                <div class="data-value">
+                                    @{
+                                        double bmi = 0;
+                                        if (Model.CanNang > 0 && Model.ChieuCao > 0)
+                                        {
+                                            bmi = Convert.ToDouble(Model.CanNang) / Math.Pow((double)Model.ChieuCao / 100, 2);
+                                        }
+                                    }
+                                    <span class="@(bmi >= 18.5 && bmi <= 24.9 ? "text-success" : "text-warning")">
+                                        @bmi.ToString("F1")
+                                    </span>
+                                    <small class="text-muted font-weight-normal">(Bình thường: 18.5 - 24.9)</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="info-card card">
+                    <div class="card-header-custom">
+                        <i class="fas fa-cog me-2 text-secondary"></i> Thao Tác
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a asp-action="Delete" asp-route-id="@Model.HoSoSucKhoeId" class="btn btn-outline-danger" onclick="return confirm('Bạn có chắc muốn xóa hồ sơ này?')">
+                                <i class="fas fa-trash me-2"></i> Xóa Hồ Sơ
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-lg-8 mb-4">
+                <!-- Health Metrics -->
+                <div class="info-card card mb-4">
+                    <div class="card-header-custom">
+                        <i class="fas fa-heartbeat me-2 text-danger"></i> Chỉ Số Sức Khỏe
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="health-metric">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fas fa-heart text-danger me-2 fa-lg"></i>
+                                        <span class="fw-bold">Nhịp Tim</span>
+                                    </div>
+                                    <div class="h3 mb-0 text-danger">@Model.NhipTim <small class="fs-6 text-muted">bpm</small></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="health-metric">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fas fa-tint text-info me-2 fa-lg"></i>
+                                        <span class="fw-bold">Huyết Áp</span>
+                                    </div>
+                                    <div class="h3 mb-0 text-info">
+                                        @Model.HuyetApTamThu<small class="text-muted">/</small>@Model.HuyetApTamTruong 
+                                        <small class="fs-6 text-muted">mmHg</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="health-metric">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fas fa-cube text-warning me-2 fa-lg"></i>
+                                        <span class="fw-bold">Đường Huyết</span>
+                                    </div>
+                                    <div class="h3 mb-0 text-warning">@Model.DuongHuyet <small class="fs-6 text-muted">mmol/L</small></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medical Info -->
+                <div class="info-card card">
+                    <div class="card-header-custom">
+                        <i class="fas fa-notes-medical me-2 text-success"></i> Thông Tin Y Khoa
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <div class="data-label">Chẩn đoán</div>
+                                    <div class="data-value">@(string.IsNullOrEmpty(Model.ChanDoan) ? "Chưa có thông tin" : Model.ChanDoan)</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <div class="data-label">Phương pháp điều trị</div>
+                                    <div class="data-value">@(string.IsNullOrEmpty(Model.PhuongPhapDieuTri) ? "Chưa có thông tin" : Model.PhuongPhapDieuTri)</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="data-label">Tiền sử bệnh</div>
+                            <div class="p-3 bg-light rounded">
+                                @(string.IsNullOrEmpty(Model.TienSuBenh) ? "Không có tiền sử bệnh đặc biệt" : Model.TienSuBenh)
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <div class="data-label">Dị ứng</div>
+                                    <div class="data-value text-danger">
+                                        @if(string.IsNullOrEmpty(Model.DiUng)) {
+                                            <span class="text-muted">Không có</span>
+                                        } else {
+                                            <i class="fas fa-exclamation-circle me-1"></i> @Model.DiUng
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <div class="data-label">Thuốc đang dùng</div>
+                                    <div class="data-value">@(string.IsNullOrEmpty(Model.ThuocDangDung) ? "Không có" : Model.ThuocDangDung)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(Model.GhiChu))
+                        {
+                            <div class="mt-3">
+                                <div class="data-label">Ghi chú thêm</div>
+                                <div class="text-muted fst-italic">@Model.GhiChu</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning shadow-sm">
+            <i class="fas fa-exclamation-triangle me-2"></i> Không tìm thấy hồ sơ sức khỏe.
+        </div>
+    }
+</div>
+
+@functions {
+    private string GetStatusClass(string? status)
+    {
+        return status?.ToLower() switch
+        {
+            "tốt" => "success",
+            "cần chú ý" => "warning",
+            "nguy hiểm" => "danger",
+            _ => "secondary"
+        };
+    }
+}

@@ -1,0 +1,467 @@
+@model DoAnChamSocSucKhoe.Areas.Admin.Models.UserDetailViewModel
+@{
+    ViewData["Title"] = "Chi tiết người dùng";
+    Layout = "_AdminLayout";
+}
+
+<style>
+    .profile-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 15px;
+        padding: 2rem;
+        color: white;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+    
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border: 5px solid white;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+    
+    .info-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+    }
+    
+    .info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    
+    .info-card .card-header {
+        background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+        border-bottom: 3px solid #667eea;
+        font-weight: 600;
+    }
+    
+    .info-item {
+        padding: 1rem;
+        border-bottom: 1px solid #f0f0f0;
+        transition: background-color 0.2s;
+    }
+    
+    .info-item:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .info-item:last-child {
+        border-bottom: none;
+    }
+    
+    .info-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+    }
+    
+    .icon-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    
+    .icon-success {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        color: white;
+    }
+    
+    .icon-warning {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+    }
+    
+    .icon-info {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+    }
+    
+    .stat-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+    
+    .nav-pills .nav-link {
+        border-radius: 10px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-pills .nav-link.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    .timeline-item {
+        position: relative;
+        padding-left: 40px;
+        padding-bottom: 2rem;
+    }
+    
+    .timeline-item:last-child {
+        padding-bottom: 0;
+    }
+    
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: 8px;
+        top: 0;
+        height: 100%;
+        width: 2px;
+        background: linear-gradient(to bottom, #667eea, transparent);
+    }
+    
+    .timeline-dot {
+        position: absolute;
+        left: 0;
+        top: 5px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: white;
+        border: 3px solid #667eea;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    }
+    
+    .activity-card {
+        background: white;
+        border-radius: 10px;
+        padding: 1rem;
+        border-left: 4px solid #667eea;
+        transition: all 0.3s ease;
+    }
+    
+    .activity-card:hover {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transform: translateX(5px);
+    }
+    
+    .btn-modern {
+        border-radius: 10px;
+        padding: 0.6rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: none;
+    }
+    
+    .btn-modern:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .permission-badge {
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+</style>
+
+<!-- Header Profile -->
+<div class="profile-header">
+    <div class="d-flex justify-content-between align-items-start mb-3">
+        <a asp-action="Index" class="btn btn-light btn-modern">
+            <i class="fas fa-arrow-left me-2"></i> Quay lại
+        </a>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-modern me-2">
+                <i class="fas fa-edit me-1"></i> Chỉnh sửa
+            </a>
+            @if (Model.Status == "Hoạt động")
+            {
+                <button class="btn btn-danger btn-modern change-status" 
+                        data-user-id="@Model.Id"
+                        data-status="Không hoạt động">
+                    <i class="fas fa-ban me-1"></i> Vô hiệu hóa
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-success btn-modern change-status" 
+                        data-user-id="@Model.Id"
+                        data-status="Hoạt động">
+                    <i class="fas fa-check-circle me-1"></i> Kích hoạt
+                </button>
+            }
+        </div>
+    </div>
+    
+    <div class="row align-items-center">
+        <div class="col-auto">
+            <img src="@Model.Avatar" alt="@Model.FullName" class="rounded-circle profile-avatar">
+        </div>
+        <div class="col">
+            <h2 class="mb-2">@Model.FullName</h2>
+            <p class="mb-2 opacity-75"><i class="fas fa-envelope me-2"></i>@Model.Email</p>
+            <div class="d-flex align-items-center gap-3">
+                <span class="stat-badge bg-white text-dark">
+                    <i class="fas fa-user-tag me-1"></i> @Model.Role
+                </span>
+                <span class="stat-badge @(Model.Status == "Hoạt động" ? "bg-success" : "bg-danger")">
+                    <i class="fas fa-circle me-1" style="font-size: 0.6rem;"></i> @Model.Status
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="row">
+    <!-- Left Column - Basic Info -->
+    <div class="col-lg-4 mb-4">
+        <div class="info-card card">
+            <div class="card-header">
+                <i class="fas fa-user-circle me-2"></i> Thông tin cơ bản
+            </div>
+            <div class="card-body p-0">
+                <div class="info-item d-flex align-items-center">
+                    <div class="info-icon icon-primary me-3">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="text-muted small">Số điện thoại</div>
+                        <div class="fw-semibold">@(string.IsNullOrEmpty(Model.PhoneNumber) ? "Chưa cập nhật" : Model.PhoneNumber)</div>
+                    </div>
+                </div>
+                
+                <div class="info-item d-flex align-items-center">
+                    <div class="info-icon icon-success me-3">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="text-muted small">Ngày đăng ký</div>
+                        <div class="fw-semibold">@Model.RegistrationDate.ToString("dd/MM/yyyy HH:mm")</div>
+                    </div>
+                </div>
+                
+                <div class="info-item d-flex align-items-center">
+                    <div class="info-icon icon-warning me-3">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="text-muted small">Hoạt động gần đây</div>
+                        <div class="fw-semibold">@Model.LastActivityText</div>
+                    </div>
+                </div>
+                
+                <div class="info-item d-flex align-items-center">
+                    <div class="info-icon icon-info me-3">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="text-muted small">Địa chỉ</div>
+                        <div class="fw-semibold">@(string.IsNullOrEmpty(Model.Address) ? "Chưa cập nhật" : Model.Address)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Statistics Card -->
+        <div class="info-card card mt-4">
+            <div class="card-header">
+                <i class="fas fa-chart-line me-2"></i> Thống kê
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6 mb-3">
+                        <div class="p-3 bg-light rounded">
+                            <h3 class="mb-1 text-primary">@Model.ActivityLogs.Count</h3>
+                            <small class="text-muted">Hoạt động</small>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="p-3 bg-light rounded">
+                            <h3 class="mb-1 text-success">@Model.Permissions.Count(p => p.IsGranted)</h3>
+                            <small class="text-muted">Quyền hạn</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column - Details -->
+    <div class="col-lg-8 mb-4">
+        <div class="info-card card">
+            <div class="card-header">
+                <ul class="nav nav-pills mb-0" role="tablist">
+                    <li class="nav-item me-2" role="presentation">
+                        <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#activities" type="button" role="tab">
+                            <i class="fas fa-history me-2"></i> Hoạt động gần đây
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#permissions" type="button" role="tab">
+                            <i class="fas fa-shield-alt me-2"></i> Quyền hạn
+                        </button>
+                    </li>
+                    @if (!string.IsNullOrEmpty(Model.AssignedPatientName))
+                    {
+                        <li class="nav-item ms-2" role="presentation">
+                            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#patient-info" type="button" role="tab">
+                                <i class="fas fa-user-injured me-2"></i> Bệnh nhân chăm sóc
+                            </button>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <!-- Activities Tab -->
+                    <div class="tab-pane fade show active" id="activities" role="tabpanel">
+                        @if (Model.ActivityLogs.Any())
+                        {
+                            <div class="timeline">
+                                @foreach (var activity in Model.ActivityLogs)
+                                {
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot"></div>
+                                        <div class="activity-card">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <h6 class="mb-0">@activity.ActivityType</h6>
+                                                <small class="text-muted">@activity.TimeAgo</small>
+                                            </div>
+                                            <p class="text-muted mb-2 small">@activity.Description</p>
+                                            <div class="d-flex gap-3">
+                                                <small class="text-muted">
+                                                    <i class="fas fa-network-wired me-1"></i> IP: @activity.IpAddress
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center py-5">
+                                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">Chưa có hoạt động nào được ghi nhận</p>
+                            </div>
+                        }
+                    </div>
+                    
+                    <!-- Permissions Tab -->
+                    <div class="tab-pane fade" id="permissions" role="tabpanel">
+                        @if (Model.Permissions.Any())
+                        {
+                            <div class="row">
+                                @foreach (var permission in Model.Permissions)
+                                {
+                                    <div class="col-md-6 mb-3">
+                                        <div class="d-flex align-items-center justify-content-between p-3 border rounded">
+                                            <div class="d-flex align-items-center">
+                                                <div class="info-icon @(permission.IsGranted ? "icon-success" : "icon-warning") me-3" style="width: 35px; height: 35px; font-size: 0.9rem;">
+                                                    <i class="fas fa-@(permission.IsGranted ? "check" : "times")"></i>
+                                                </div>
+                                                <span class="fw-semibold">@permission.Name</span>
+                                            </div>
+                                            <span class="permission-badge bg-@(permission.IsGranted ? "success" : "secondary") text-white">
+                                                @(permission.IsGranted ? "Có quyền" : "Không có")
+                                            </span>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center py-5">
+                                <i class="fas fa-user-lock fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">Chưa có quyền hạn nào được cấp</p>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Patient Info Tab -->
+                    @if (!string.IsNullOrEmpty(Model.AssignedPatientName))
+                    {
+                        <div class="tab-pane fade" id="patient-info" role="tabpanel">
+                            <div class="text-center py-4">
+                                <div class="avatar-circle mb-3 mx-auto rounded-circle overflow-hidden" style="width: 80px; height: 80px;">
+                                    <img src="@Model.AssignedPatientAvatar" alt="@Model.AssignedPatientName" class="w-100 h-100" style="object-fit: cover;">
+                                </div>
+                                <h5 class="mb-1">@Model.AssignedPatientName</h5>
+                                <p class="text-muted mb-3">Bệnh nhân được phân công</p>
+                                
+                                @if (Model.AssignedPatientHealthProfileId.HasValue)
+                                {
+                                    <a href="@Url.Action("Details", "HealthProfile", new { area = "Admin", id = Model.AssignedPatientHealthProfileId })" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-file-medical-alt me-1"></i> Xem hồ sơ sức khỏe
+                                    </a>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-sm btn-outline-secondary" disabled>
+                                        <i class="fas fa-file-medical-alt me-1"></i> Chưa có hồ sơ sức khỏe
+                                    </button>
+                                }
+                                
+                                <a href="@Url.Action("Details", new { id = Model.AssignedPatientId })" class="btn btn-sm btn-outline-info ms-2">
+                                    <i class="fas fa-user me-1"></i> Xem thông tin tài khoản
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Xử lý thay đổi trạng thái người dùng
+            document.querySelectorAll('.change-status').forEach(button => {
+                button.addEventListener('click', function() {
+                    const userId = this.dataset.userId;
+                    const status = this.dataset.status;
+                    
+                    const confirmMsg = status === "Hoạt động" 
+                        ? "Bạn có chắc muốn kích hoạt tài khoản người dùng này?"
+                        : "Bạn có chắc muốn vô hiệu hóa tài khoản người dùng này?";
+                        
+                    if (confirm(confirmMsg)) {
+                        fetch('@Url.Action("ChangeStatus")', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                            },
+                            body: `userId=${userId}&status=${status}`
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Hiển thị thông báo thành công
+                                alert(data.message);
+                                // Làm mới trang
+                                window.location.reload();
+                            } else {
+                                // Hiển thị lỗi
+                                alert(data.message);
+                            }
+                        })
+                        .catch(error => {
+                            alert('Đã xảy ra lỗi khi xử lý yêu cầu.');
+                            console.error(error);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

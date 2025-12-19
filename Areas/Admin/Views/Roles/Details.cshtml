@@ -1,0 +1,178 @@
+@model DoAnChamSocSucKhoe.Areas.Admin.Models.RoleDetailViewModel
+
+@{
+    ViewData["Title"] = "Chi tiết vai trò";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-user-tag me-2"></i>Chi tiết vai trò
+            </h1>
+            <p class="text-muted mb-0">Thông tin chi tiết về vai trò @Model.TenVaiTro</p>
+        </div>
+        <div>
+            <a href="@Url.Action("Edit", new { id = Model.VaiTroId })" class="btn btn-warning me-2">
+                <i class="fas fa-edit me-1"></i>Sửa vai trò
+            </a>
+            <a href="@Url.Action("Index")" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-1"></i>Quay lại
+            </a>
+        </div>
+    </div>
+
+    <!-- Role Information -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thông tin vai trò</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">ID vai trò:</label>
+                                <p class="mb-0">@Model.VaiTroId</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Ngày tạo:</label>
+                                <p class="mb-0">@Model.NgayTao.ToString("dd/MM/yyyy HH:mm")</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Tên vai trò:</label>
+                                <p class="mb-0">@Model.TenVaiTro</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Số người dùng:</label>
+                                <p class="mb-0">
+                                    <span class="badge badge-info">@Model.Users.Count() người dùng</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Mô tả:</label>
+                                <p class="mb-0">@Model.MoTa</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thống kê</h6>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+                        <div class="mb-3">
+                            <h2 class="text-primary">@Model.Users.Count()</h2>
+                            <p class="text-muted mb-0">Tổng số người dùng</p>
+                        </div>
+                        <div class="mb-3">
+                            <h4 class="text-success">@Model.Users.Count(u => u.Status == "Hoạt động")</h4>
+                            <p class="text-muted mb-0">Người dùng hoạt động</p>
+                        </div>
+                        <div class="mb-3">
+                            <h4 class="text-warning">@Model.Users.Count(u => u.Status == "Chờ duyệt")</h4>
+                            <p class="text-muted mb-0">Người dùng chờ duyệt</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Users in this Role -->
+    <div class="card shadow">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách người dùng (@Model.Users.Count())</h6>
+        </div>
+        <div class="card-body">
+            @if (Model.Users.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="usersTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Avatar</th>
+                                <th>Họ tên</th>
+                                <th>Email</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model.Users)
+                            {
+                                <tr>
+                                    <td>
+                                        <img src="@user.Avatar" alt="Avatar" class="rounded-circle" width="40" height="40">
+                                    </td>
+                                    <td>@user.FullName</td>
+                                    <td>@user.Email</td>
+                                    <td>
+                                        @if (user.Status == "Hoạt động")
+                                        {
+                                            <span class="badge badge-success">Hoạt động</span>
+                                        }
+                                        else if (user.Status == "Chờ duyệt")
+                                        {
+                                            <span class="badge badge-warning">Chờ duyệt</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-danger">Không hoạt động</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-info btn-sm">
+                                            <i class="fas fa-eye"></i> Xem
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">Chưa có người dùng nào trong vai trò này</h5>
+                    <p class="text-muted">Vai trò này chưa được gán cho bất kỳ người dùng nào.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('#usersTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Vietnamese.json"
+                },
+                "order": [[ 1, "asc" ]]
+            });
+        });
+    </script>
+}

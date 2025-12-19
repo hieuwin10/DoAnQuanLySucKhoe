@@ -1,0 +1,57 @@
+@{
+    ViewData["Title"] = "Báo cáo Chat";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Báo cáo cuộc trò chuyện</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card text-white bg-primary">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tổng tin nhắn</h5>
+                                    <p class="card-text">@ViewBag.TotalMessages</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-white bg-success">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tổng cuộc trò chuyện</h5>
+                                    <p class="card-text">@ViewBag.TotalConversations</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h6 class="mt-4">Tin nhắn theo ngày (30 ngày gần nhất)</h6>
+                    <canvas id="messagesChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('messagesChart').getContext('2d');
+        const data = @Html.Raw(Json.Serialize(ViewBag.MessagesByDate));
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.map(d => d.Date),
+                datasets: [{
+                    label: 'Số tin nhắn',
+                    data: data.map(d => d.Count),
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                }]
+            }
+        });
+    </script>
+}

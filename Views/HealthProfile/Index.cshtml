@@ -1,0 +1,81 @@
+@model DoAnChamSocSucKhoe.Models.HoSoSucKhoe
+
+@{
+    ViewData["Title"] = "Hồ sơ sức khỏe";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">@ViewData["Title"]</h3>
+                </div>
+                <div class="card-body">
+                    @if (TempData["Message"] != null)
+                    {
+                        <div class="alert alert-success">
+                            @TempData["Message"]
+                        </div>
+                    }
+
+                    <form asp-action="Index" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="NguoiDungId" />
+
+                        <div class="form-group">
+                            <label asp-for="CanNang" class="control-label"></label>
+                            <input asp-for="CanNang" class="form-control" />
+                            <span asp-validation-for="CanNang" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="ChieuCao" class="control-label"></label>
+                            <input asp-for="ChieuCao" class="form-control" />
+                            <span asp-validation-for="ChieuCao" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="DuongHuyet" class="control-label"></label>
+                            <input asp-for="DuongHuyet" class="form-control" />
+                            <span asp-validation-for="DuongHuyet" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="HuyetApTamThu" class="control-label"></label>
+                            <input asp-for="HuyetApTamThu" class="form-control" />
+                            <span asp-validation-for="HuyetApTamThu" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="HuyetApTamTruong" class="control-label"></label>
+                            <input asp-for="HuyetApTamTruong" class="form-control" />
+                            <span asp-validation-for="HuyetApTamTruong" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="NhipTim" class="control-label"></label>
+                            <input asp-for="NhipTim" class="form-control" />
+                            <span asp-validation-for="NhipTim" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="GhiChu" class="control-label"></label>
+                            <textarea asp-for="GhiChu" class="form-control"></textarea>
+                            <span asp-validation-for="GhiChu" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Lưu thông tin</button>
+                            <a asp-action="History" class="btn btn-secondary">Xem lịch sử</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

@@ -1,0 +1,303 @@
+@{
+    ViewData["Title"] = "Dashboard Hồ Sơ Sức Khỏe";
+}
+
+<style>
+    .card-dashboard {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        background: #fff;
+        overflow: hidden;
+    }
+    .card-dashboard:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
+    }
+    .icon-box {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+    .bg-gradient-primary { background: linear-gradient(45deg, #4e73df, #224abe); }
+    .bg-gradient-success { background: linear-gradient(45deg, #1cc88a, #13855c); }
+    .bg-gradient-warning { background: linear-gradient(45deg, #f6c23e, #dda20a); }
+    .bg-gradient-danger { background: linear-gradient(45deg, #e74a3b, #be2617); }
+    
+    .stat-label { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #8898aa; }
+    .stat-value { font-size: 1.75rem; font-weight: 700; color: #32325d; }
+    
+    .timeline-item {
+        padding-left: 2rem;
+        position: relative;
+        padding-bottom: 1.5rem;
+        border-left: 2px solid #e9ecef;
+    }
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -9px;
+        top: 0;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #fff;
+        border: 3px solid #4e73df;
+    }
+    .action-card {
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+    }
+    .action-card:hover { text-decoration: none; color: inherit; }
+</style>
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="h3 mb-1 text-gray-800 font-weight-bold">Hồ Sơ Sức Khỏe</h1>
+            <p class="text-muted mb-0">Tổng quan tình hình sức khỏe bệnh nhân</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="@Url.Action("ViewAll", "HealthProfile")" class="btn btn-primary shadow-sm rounded-pill px-4">
+                <i class="fas fa-list me-2"></i>Danh sách hồ sơ
+            </a>
+            <a href="@Url.Action("Statistics", "HealthProfile")" class="btn btn-white shadow-sm rounded-pill px-4 text-primary">
+                <i class="fas fa-chart-pie me-2"></i>Báo cáo thống kê
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="row g-4 mb-5">
+        <!-- Total Patients -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card-dashboard h-100 p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-1">Tổng Hồ Sơ</div>
+                        <div class="stat-value">@ViewBag.TotalProfiles</div>
+                        <div class="mt-2 text-success small">
+                            <i class="fas fa-arrow-up me-1"></i>
+                            <span>+@ViewBag.TodayUpdates hôm nay</span>
+                        </div>
+                    </div>
+                    <div class="icon-box bg-gradient-primary text-white shadow">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Complete Profiles -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card-dashboard h-100 p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-1">Hoàn Thiện</div>
+                        <div class="stat-value">@ViewBag.CompleteProfiles</div>
+                        <div class="mt-2 text-muted small">
+                            <i class="fas fa-percentage me-1"></i>
+                            @(ViewBag.TotalProfiles > 0 ? ((decimal)ViewBag.CompleteProfiles / ViewBag.TotalProfiles * 100).ToString("F0") : "0")% tổng số
+                        </div>
+                    </div>
+                    <div class="icon-box bg-gradient-success text-white shadow">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Updates -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card-dashboard h-100 p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-1">Cập Nhật Mới</div>
+                        <div class="stat-value">@ViewBag.TodayUpdates</div>
+                        <div class="mt-2 text-info small">
+                            <i class="fas fa-clock me-1"></i>24h qua
+                        </div>
+                    </div>
+                    <div class="icon-box bg-gradient-warning text-white shadow">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card-dashboard h-100 p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-1">Cần Chú Ý</div>
+                        <div class="stat-value text-danger">@ViewBag.AlertsCount</div>
+                        <div class="mt-2 text-danger small">
+                            <i class="fas fa-exclamation-circle me-1"></i>Chỉ số bất thường
+                        </div>
+                    </div>
+                    <div class="icon-box bg-gradient-danger text-white shadow">
+                        <i class="fas fa-heart-broken"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Row -->
+    <div class="row g-4 mb-5">
+        <!-- Chart -->
+        <div class="col-lg-8">
+            <div class="card-dashboard h-100">
+                <div class="card-header bg-transparent border-0 py-3 px-4 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">Xu Hướng Sức Khỏe</h6>
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body px-4 pb-4">
+                    <div class="chart-container" style="height: 350px;">
+                        <canvas id="healthProfileChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Feed -->
+        <div class="col-lg-4">
+            <div class="card-dashboard h-100">
+                <div class="card-header bg-transparent border-0 py-3 px-4">
+                    <h6 class="m-0 font-weight-bold text-primary">Hoạt Động Gần Đây</h6>
+                </div>
+                <div class="card-body px-4">
+                    <div class="timeline mt-2">
+                        <div class="timeline-item">
+                            <h6 class="font-weight-bold mb-1">Hồ sơ mới được tạo</h6>
+                            <p class="text-muted small mb-0">Nguyễn Văn A vừa cập nhật hồ sơ</p>
+                            <small class="text-muted">15 phút trước</small>
+                        </div>
+                        <div class="timeline-item">
+                            <h6 class="font-weight-bold mb-1 text-danger">Cảnh báo chỉ số</h6>
+                            <p class="text-muted small mb-0">Phát hiện huyết áp cao ở 3 bệnh nhân</p>
+                            <small class="text-muted">2 giờ trước</small>
+                        </div>
+                        <div class="timeline-item">
+                            <h6 class="font-weight-bold mb-1 text-success">Hoàn thành khám</h6>
+                            <p class="text-muted small mb-0">5 bệnh nhân đã hoàn tất cập nhật</p>
+                            <small class="text-muted">5 giờ trước</small>
+                        </div>
+                        <div class="timeline-item border-0 pb-0">
+                            <h6 class="font-weight-bold mb-1 text-info">Đồng bộ dữ liệu</h6>
+                            <p class="text-muted small mb-0">Hệ thống đã sao lưu dữ liệu</p>
+                            <small class="text-muted">1 ngày trước</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <h5 class="mb-4 text-gray-800 font-weight-bold px-1">Truy Cập Nhanh</h5>
+    <div class="row g-4">
+        <div class="col-md-6 col-xl-3">
+            <a href="@Url.Action("ViewAll", "HealthProfile")" class="card-dashboard action-card p-4 h-100">
+                <div class="text-center">
+                    <div class="icon-box bg-light text-primary mx-auto mb-3 rounded-circle">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h6 class="font-weight-bold mb-2">Tra Cứu Hồ Sơ</h6>
+                    <p class="text-muted small mb-0">Tìm kiếm và xem chi tiết hồ sơ bệnh nhân</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="card-dashboard action-card p-4 h-100" onclick="alert('Tính năng đang phát triển')">
+                <div class="text-center">
+                    <div class="icon-box bg-light text-success mx-auto mb-3 rounded-circle">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h6 class="font-weight-bold mb-2">Thêm Mới</h6>
+                    <p class="text-muted small mb-0">Tạo hồ sơ sức khỏe cho bệnh nhân mới</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <a href="@Url.Action("Export", "HealthProfile")" class="card-dashboard action-card p-4 h-100">
+                <div class="text-center">
+                    <div class="icon-box bg-light text-info mx-auto mb-3 rounded-circle">
+                        <i class="fas fa-file-export"></i>
+                    </div>
+                    <h6 class="font-weight-bold mb-2">Xuất Báo Cáo</h6>
+                    <p class="text-muted small mb-0">Tải xuống dữ liệu dạng Excel/PDF</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <a href="@Url.Action("ManageAccess", "HealthProfile")" class="card-dashboard action-card p-4 h-100">
+                <div class="text-center">
+                    <div class="icon-box bg-light text-secondary mx-auto mb-3 rounded-circle">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h6 class="font-weight-bold mb-2">Phân Quyền</h6>
+                    <p class="text-muted small mb-0">Quản lý quyền truy cập hồ sơ</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize chart
+            const ctx = document.getElementById('healthProfileChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6'],
+                    datasets: [{
+                        label: 'Hồ sơ hoàn chỉnh',
+                        data: [850, 920, 980, 1050, 1100, @ViewBag.CompleteProfiles],
+                        borderColor: '#4e73df',
+                        backgroundColor: 'rgba(78, 115, 223, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: 'Tổng hồ sơ',
+                        data: [1000, 1100, 1150, 1200, 1230, @ViewBag.TotalProfiles],
+                        borderColor: '#1cc88a',
+                        backgroundColor: 'rgba(28, 200, 138, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+}

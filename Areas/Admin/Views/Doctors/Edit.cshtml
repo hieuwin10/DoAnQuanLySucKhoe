@@ -1,0 +1,190 @@
+@model DoAnChamSocSucKhoe.Areas.Admin.Models.EditDoctorViewModel
+
+@{
+    ViewData["Title"] = "Sửa thông tin bác sĩ";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-edit me-2"></i>Sửa thông tin bác sĩ
+            </h1>
+            <p class="text-muted mb-0">Cập nhật thông tin bác sĩ @Model.FullName</p>
+        </div>
+        <a href="@Url.Action("Index")" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Quay lại danh sách
+        </a>
+    </div>
+
+    <!-- Edit Form -->
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Thông tin bác sĩ</h6>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" asp-action="Edit">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="FullName" class="form-label"></label>
+                                    <input asp-for="FullName" class="form-control" placeholder="Nhập họ tên đầy đủ">
+                                    <span asp-validation-for="FullName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Email" class="form-label"></label>
+                                    <input asp-for="Email" type="email" class="form-control" placeholder="Nhập địa chỉ email">
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="PhoneNumber" class="form-label"></label>
+                                    <input asp-for="PhoneNumber" class="form-control" placeholder="Nhập số điện thoại">
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Specialization" class="form-label"></label>
+                                    <select asp-for="Specialization" class="form-select">
+                                        <option value="">-- Chọn chuyên khoa --</option>
+                                        <option value="Tim mạch">Tim mạch</option>
+                                        <option value="Da liễu">Da liễu</option>
+                                        <option value="Thần kinh">Thần kinh</option>
+                                        <option value="Nhãn khoa">Nhãn khoa</option>
+                                        <option value="Chỉnh hình">Chỉnh hình</option>
+                                        <option value="Nhi khoa">Nhi khoa</option>
+                                        <option value="Tâm thần">Tâm thần</option>
+                                        <option value="Dinh dưỡng">Dinh dưỡng</option>
+                                        <option value="Khác">Khác</option>
+                                    </select>
+                                    <span asp-validation-for="Specialization" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="ExperienceYears" class="form-label"></label>
+                                    <input asp-for="ExperienceYears" type="number" min="0" max="50" class="form-control" placeholder="Nhập số năm kinh nghiệm">
+                                    <span asp-validation-for="ExperienceYears" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Bio" class="form-label"></label>
+                            <textarea asp-for="Bio" class="form-control" rows="4" placeholder="Mô tả ngắn gọn về bác sĩ..."></textarea>
+                            <span asp-validation-for="Bio" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Education" class="form-label"></label>
+                            <textarea asp-for="Education" class="form-control" rows="3" placeholder="Trình độ học vấn, bằng cấp..."></textarea>
+                            <span asp-validation-for="Education" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Certifications" class="form-label"></label>
+                            <textarea asp-for="Certifications" class="form-control" rows="3" placeholder="Chứng chỉ, chứng nhận chuyên môn..."></textarea>
+                            <span asp-validation-for="Certifications" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <a href="@Url.Action("Index")" class="btn btn-secondary me-2">
+                                <i class="fas fa-times me-1"></i>Hủy
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i>Cập nhật thông tin
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Form validation
+            $('form').validate({
+                rules: {
+                    FullName: {
+                        required: true,
+                        maxlength: 100
+                    },
+                    Email: {
+                        required: true,
+                        email: true
+                    },
+                    PhoneNumber: {
+                        required: true
+                    },
+                    Specialization: {
+                        maxlength: 200
+                    },
+                    ExperienceYears: {
+                        required: true,
+                        min: 0,
+                        max: 50
+                    },
+                    Bio: {
+                        maxlength: 1000
+                    },
+                    Education: {
+                        maxlength: 500
+                    },
+                    Certifications: {
+                        maxlength: 500
+                    }
+                },
+                messages: {
+                    FullName: {
+                        required: "Họ tên là bắt buộc",
+                        maxlength: "Họ tên không được vượt quá 100 ký tự"
+                    },
+                    Email: {
+                        required: "Email là bắt buộc",
+                        email: "Email không hợp lệ"
+                    },
+                    PhoneNumber: {
+                        required: "Số điện thoại là bắt buộc"
+                    },
+                    Specialization: {
+                        maxlength: "Chuyên môn không được vượt quá 200 ký tự"
+                    },
+                    ExperienceYears: {
+                        required: "Số năm kinh nghiệm là bắt buộc",
+                        min: "Số năm kinh nghiệm phải từ 0 trở lên",
+                        max: "Số năm kinh nghiệm không được vượt quá 50"
+                    },
+                    Bio: {
+                        maxlength: "Tiểu sử không được vượt quá 1000 ký tự"
+                    },
+                    Education: {
+                        maxlength: "Học vấn không được vượt quá 500 ký tự"
+                    },
+                    Certifications: {
+                        maxlength: "Chứng chỉ không được vượt quá 500 ký tự"
+                    }
+                }
+            });
+        });
+    </script>
+}

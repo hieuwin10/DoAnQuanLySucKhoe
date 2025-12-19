@@ -1,0 +1,541 @@
+@model DoAnChamSocSucKhoe.Areas.Admin.Models.EditUserViewModel
+@{
+    ViewData["Title"] = "Chỉnh sửa người dùng";
+    Layout = "_AdminLayout";
+}
+
+<style>
+    .edit-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 15px;
+        padding: 2rem;
+        color: white;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+    
+    .edit-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        overflow: hidden;
+    }
+    
+    .edit-card .card-header {
+        background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+        border-bottom: 3px solid #667eea;
+        font-weight: 600;
+        padding: 1.5rem;
+    }
+    
+    .avatar-upload-section {
+        position: relative;
+        text-align: center;
+    }
+    
+    .avatar-preview-large {
+        width: 180px;
+        height: 180px;
+        border: 5px solid #667eea;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .avatar-preview-large:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    }
+    
+    .avatar-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(102, 126, 234, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .avatar-preview-large:hover .avatar-overlay {
+        opacity: 1;
+    }
+    
+    .form-control, .form-select {
+        border-radius: 10px;
+        border: 2px solid #e9ecef;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0.5rem;
+    }
+    
+    .nav-pills .nav-link {
+        border-radius: 10px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        color: #667eea;
+        background: transparent;
+    }
+    
+    .nav-pills .nav-link:hover {
+        background: rgba(102, 126, 234, 0.1);
+    }
+    
+    .nav-pills .nav-link.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    .permission-item {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 12px;
+        padding: 1.25rem;
+        transition: all 0.3s ease;
+        margin-bottom: 1rem;
+    }
+    
+    .permission-item:hover {
+        border-color: #667eea;
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+        transform: translateX(5px);
+    }
+    
+    .form-check-input:checked {
+        background-color: #667eea;
+        border-color: #667eea;
+    }
+    
+    .form-switch .form-check-input {
+        width: 3rem;
+        height: 1.5rem;
+        cursor: pointer;
+    }
+    
+    .btn-modern {
+        border-radius: 10px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: none;
+    }
+    
+    .btn-modern:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    
+    .alert-modern {
+        border-radius: 12px;
+        border: none;
+        padding: 1rem 1.5rem;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .form-text {
+        color: #6c757d;
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+    }
+    
+    .section-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #e9ecef;
+    }
+</style>
+
+<!-- Header -->
+<div class="edit-header">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-light btn-modern mb-3">
+                <i class="fas fa-arrow-left me-2"></i> Quay lại
+            </a>
+            <h2 class="mb-2">Chỉnh sửa thông tin người dùng</h2>
+            <p class="mb-0 opacity-75">Cập nhật thông tin chi tiết và quyền hạn của người dùng</p>
+        </div>
+        <button type="submit" form="editUserForm" class="btn btn-warning btn-modern">
+            <i class="fas fa-save me-2"></i> Lưu thay đổi
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Left Column - Avatar -->
+    <div class="col-lg-4 mb-4">
+        <div class="edit-card card">
+            <div class="card-header">
+                <i class="fas fa-camera me-2"></i> Ảnh đại diện
+            </div>
+            <div class="card-body">
+                <div class="avatar-upload-section">
+                    <div class="avatar-preview-large rounded-circle mx-auto mb-4">
+                        <img src="@Model.Avatar" id="avatarPreview" class="w-100 h-100" alt="@Model.FullName" 
+                             style="object-fit: cover;">
+                        <label for="avatarInput" class="avatar-overlay rounded-circle">
+                            <i class="fas fa-camera fa-2x text-white"></i>
+                        </label>
+                    </div>
+                    <label for="avatarInput" class="btn btn-primary btn-modern w-100">
+                        <i class="fas fa-upload me-2"></i> Tải ảnh mới lên
+                    </label>
+                    <div class="mt-2">
+                        <button type="button" class="btn btn-outline-danger btn-sm w-100" id="resetAvatarBtn">
+                            <i class="fas fa-trash-alt me-2"></i> Xóa ảnh đại diện
+                        </button>
+                    </div>
+                    <p class="text-muted small mt-2 mb-0">Chọn ảnh đại diện. Kích thước tối đa: 2MB</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Info Card -->
+        <div class="edit-card card mt-4">
+            <div class="card-header">
+                <i class="fas fa-info-circle me-2"></i> Thông tin
+            </div>
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-primary bg-opacity-10 p-2 rounded me-3">
+                        <i class="fas fa-user text-primary"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted d-block">Họ tên</small>
+                        <strong>@Model.FullName</strong>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-success bg-opacity-10 p-2 rounded me-3">
+                        <i class="fas fa-envelope text-success"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted d-block">Email</small>
+                        <strong>@Model.Email</strong>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <div class="bg-warning bg-opacity-10 p-2 rounded me-3">
+                        <i class="fas fa-shield-alt text-warning"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted d-block">Trạng thái</small>
+                        <strong>@Model.Status</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column - Form -->
+    <div class="col-lg-8 mb-4">
+        <div class="edit-card card">
+            <div class="card-header">
+                <ul class="nav nav-pills" role="tablist">
+                    <li class="nav-item me-2">
+                        <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#info" type="button">
+                            <i class="fas fa-user-edit me-2"></i> Thông tin cơ bản
+                        </button>
+                    </li>
+                    <li class="nav-item me-2">
+                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#permissions" type="button">
+                            <i class="fas fa-shield-alt me-2"></i> Quyền hạn
+                        </button>
+                    </li>
+                    <li class="nav-item" id="patientTab" style="display: none;">
+                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#patient-assignment" type="button">
+                            <i class="fas fa-user-injured me-2"></i> Bệnh nhân chăm sóc
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <form id="editUserForm" asp-action="Edit" method="post" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="Avatar" />
+                    <input type="hidden" name="DeleteAvatar" id="deleteAvatarInput" value="false" />
+                    <input type="file" id="avatarInput" asp-for="AvatarFile" style="display: none;" accept="image/*" />
+                    
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-modern" role="alert"></div>
+                    
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-modern" role="alert">
+                            <i class="fas fa-check-circle me-2"></i> @TempData["SuccessMessage"]
+                        </div>
+                    }
+                    
+                    <div class="tab-content">
+                        <!-- Basic Info Tab -->
+                        <div class="tab-pane fade show active" id="info">
+                            <div class="section-title">
+                                <i class="fas fa-id-card me-2 text-primary"></i> Thông tin cá nhân
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="FullName" class="form-label">
+                                        <i class="fas fa-user me-1"></i> Họ và tên
+                                    </label>
+                                    <input asp-for="FullName" class="form-control" placeholder="Nhập họ và tên" />
+                                    <span asp-validation-for="FullName" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="Email" class="form-label">
+                                        <i class="fas fa-envelope me-1"></i> Email
+                                    </label>
+                                    <input asp-for="Email" class="form-control" placeholder="email@example.com" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="PhoneNumber" class="form-label">
+                                        <i class="fas fa-phone me-1"></i> Số điện thoại
+                                    </label>
+                                    <input asp-for="PhoneNumber" class="form-control" placeholder="0123456789" />
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                    <small class="form-text">Để trống nếu không muốn thay đổi</small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="RoleId" class="form-label">
+                                        <i class="fas fa-user-tag me-1"></i> Vai trò
+                                    </label>
+                                    <select asp-for="RoleId" class="form-select" asp-items="ViewBag.Roles" id="roleSelect"></select>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label asp-for="Address" class="form-label">
+                                    <i class="fas fa-map-marker-alt me-1"></i> Địa chỉ
+                                </label>
+                                <textarea asp-for="Address" class="form-control" rows="2" placeholder="Nhập địa chỉ chi tiết"></textarea>
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                                <small class="form-text">Để trống nếu không muốn thay đổi</small>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label asp-for="Status" class="form-label">
+                                    <i class="fas fa-toggle-on me-1"></i> Trạng thái tài khoản
+                                </label>
+                                <select asp-for="Status" class="form-select" asp-items="ViewBag.Statuses"></select>
+                            </div>
+                            
+                            <div class="section-title mt-4">
+                                <i class="fas fa-key me-2 text-primary"></i> Đổi mật khẩu
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="NewPassword" class="form-label">Mật khẩu mới</label>
+                                    <input asp-for="NewPassword" type="password" class="form-control" placeholder="Nhập mật khẩu mới" />
+                                    <span asp-validation-for="NewPassword" class="text-danger"></span>
+                                    <small class="form-text">Để trống nếu không muốn thay đổi mật khẩu</small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="ConfirmPassword" class="form-label">Xác nhận mật khẩu</label>
+                                    <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Nhập lại mật khẩu" />
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Permissions Tab -->
+                        <div class="tab-pane fade" id="permissions">
+                            <div class="section-title">
+                                <i class="fas fa-shield-alt me-2 text-primary"></i> Quản lý quyền hạn
+                            </div>
+                            
+                            <div class="permission-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">
+                                            <i class="fas fa-eye text-primary me-2"></i> Xem hồ sơ cá nhân
+                                        </h6>
+                                        <p class="text-muted small mb-0">Cho phép người dùng xem và quản lý thông tin cá nhân của mình</p>
+                                    </div>
+                                    <div class="form-check form-switch ms-3">
+                                        <input class="form-check-input" type="checkbox" asp-for="CanViewProfile">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="permission-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">
+                                            <i class="fas fa-calendar-check text-success me-2"></i> Đặt lịch hẹn
+                                        </h6>
+                                        <p class="text-muted small mb-0">Cho phép người dùng đặt lịch hẹn khám với bác sĩ</p>
+                                    </div>
+                                    <div class="form-check form-switch ms-3">
+                                        <input class="form-check-input" type="checkbox" asp-for="CanBookAppointment">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="permission-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">
+                                            <i class="fas fa-comments text-info me-2"></i> Gửi tư vấn
+                                        </h6>
+                                        <p class="text-muted small mb-0">Cho phép người dùng gửi câu hỏi và nhận tư vấn từ chuyên gia</p>
+                                    </div>
+                                    <div class="form-check form-switch ms-3">
+                                        <input class="form-check-input" type="checkbox" asp-for="CanSendConsultation">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="permission-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">
+                                            <i class="fas fa-file-medical text-warning me-2"></i> Xem lịch sử khám bệnh
+                                        </h6>
+                                        <p class="text-muted small mb-0">Cho phép người dùng xem lịch sử khám bệnh và hồ sơ y tế</p>
+                                    </div>
+                                    <div class="form-check form-switch ms-3">
+                                        <input class="form-check-input" type="checkbox" asp-for="CanViewMedicalHistory">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="permission-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">
+                                            <i class="fas fa-users-cog text-danger me-2"></i> Quản lý tài khoản
+                                        </h6>
+                                        <p class="text-muted small mb-0">Cấp quyền quản trị viên để quản lý các tài khoản khác</p>
+                                    </div>
+                                    <div class="form-check form-switch ms-3">
+                                        <input class="form-check-input" type="checkbox" asp-for="CanManageAccounts">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Patient Assignment Tab -->
+                        <div class="tab-pane fade" id="patient-assignment">
+                            <div class="section-title">
+                                <i class="fas fa-user-injured me-2 text-primary"></i> Phân công bệnh nhân
+                            </div>
+                            
+                            <div class="alert alert-info alert-modern">
+                                <i class="fas fa-info-circle me-2"></i> Chọn bệnh nhân mà người chăm sóc này sẽ chịu trách nhiệm quản lý và hỗ trợ.
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="SelectedPatientId" class="form-label">Chọn bệnh nhân chăm sóc</label>
+                                <select asp-for="SelectedPatientId" class="form-select" asp-items="ViewBag.Patients">
+                                    <option value="">-- Chọn bệnh nhân --</option>
+                                </select>
+                                <span asp-validation-for="SelectedPatientId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        $(document).ready(function () {
+            // Function to toggle patient tab visibility
+            function togglePatientTab() {
+                // Get the text of the selected option
+                var selectedRoleText = $('#roleSelect option:selected').text().trim();
+                
+                // Check if it matches "Người chăm sóc" or "Caregiver"
+                if (selectedRoleText === 'Người chăm sóc' || selectedRoleText === 'Caregiver') {
+                    $('#patientTab').show();
+                } else {
+                    $('#patientTab').hide();
+                    // If we're hiding the active tab, switch back to info tab
+                    if ($('#patientTab .nav-link').hasClass('active')) {
+                        $('button[data-bs-target="#info"]').tab('show');
+                    }
+                }
+            }
+
+            // Initial check
+            togglePatientTab();
+
+            // Check on change
+            $('#roleSelect').change(function() {
+                togglePatientTab();
+            });
+
+            // Hiển thị thông báo thành công trong 3 giây rồi ẩn đi
+            setTimeout(function () {
+                $('.alert-success').fadeOut('slow');
+            }, 3000);
+            // Xử lý xem trước ảnh khi chọn file
+            $('#avatarInput').on('change', function() {
+                var file = this.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#avatarPreview').attr('src', e.target.result);
+                        $('#deleteAvatarInput').val('false'); // Reset delete flag if new file selected
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Xử lý xóa ảnh đại diện
+            $('#resetAvatarBtn').on('click', function() {
+                if(confirm('Bạn có chắc muốn xóa ảnh đại diện hiện tại và quay về ảnh mặc định?')) {
+                    $('#avatarPreview').attr('src', '/images/avatar-default.png');
+                    $('#deleteAvatarInput').val('true');
+                    $('#avatarInput').val(''); // Clear file input
+                }
+            });
+
+            // Xử lý hiển thị dropdown chọn bệnh nhân
+            function togglePatientSelect() {
+                var selectedText = $('#roleSelect option:selected').text();
+                if (selectedText.includes('Caregiver') || selectedText.includes('Người chăm sóc')) {
+                    $('#patientSelectGroup').slideDown();
+                } else {
+                    $('#patientSelectGroup').slideUp();
+                }
+            }
+
+            // Chạy khi load trang
+            togglePatientSelect();
+
+            // Chạy khi thay đổi role
+            $('#roleSelect').on('change', togglePatientSelect);
+        });
+    </script>
+    </script>
+}

@@ -1,0 +1,2887 @@
+@model DoAnChamSocSucKhoe.Areas.Patient.Models.PatientDashboardViewModel
+@{
+    ViewData["Title"] = "Trang chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/reminder-styling.css" />
+
+<!-- CSS cho dashboard -->
+<style>
+    :root {
+        --primary: #1680eb;
+        --secondary: #6c757d;
+        --success: #00d97e;
+        --info: #39afd1;
+        --warning: #f6c343;
+        --danger: #e63757;
+        --light: #f8f9fa;
+        --dark: #212529;
+        --topbar-height: 70px;
+    }
+
+    /* Welcome Banner Styles */
+    .welcome-banner {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 1rem;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 1rem 3rem rgba(0,0,0,0.175);
+        margin-bottom: 2rem;
+    }
+
+    .welcome-banner::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="10" cy="50" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="90" cy="30" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        opacity: 0.3;
+    }
+
+    .welcome-content {
+        position: relative;
+        z-index: 2;
+        padding: 2.5rem;
+        color: white;
+    }
+
+    .welcome-greeting {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    .welcome-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+        line-height: 1.6;
+        animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    .welcome-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        animation: fadeInUp 0.8s ease-out 0.4s both;
+        position: relative; /* Ensure buttons are interactive */
+        z-index: 3;       /* Place above other elements like the illustration */
+    }
+
+    .welcome-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        border: 2px solid transparent;
+    }
+
+    .welcome-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .welcome-btn:hover::before {
+        left: 100%;
+    }
+
+    .welcome-btn-primary {
+        background: rgba(255,255,255,0.15);
+        color: white;
+        border-color: rgba(255,255,255,0.3);
+        backdrop-filter: blur(10px);
+    }
+
+    .welcome-btn-primary:hover {
+        background: rgba(255,255,255,0.25);
+        border-color: rgba(255,255,255,0.5);
+        transform: translateY(-2px);
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.2);
+    }
+
+    .welcome-btn-outline {
+        background: rgba(255,255,255,0.9);
+        color: #667eea;
+        border-color: rgba(255,255,255,0.9);
+    }
+
+    .welcome-btn-outline:hover {
+        background: white;
+        color: #5a67d8;
+        transform: translateY(-2px);
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.2);
+    }
+
+    .welcome-illustration {
+        position: absolute;
+        top: 50%;
+        right: 2rem;
+        transform: translateY(-50%);
+        width: 200px;
+        height: 200px;
+        opacity: 0.8;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .welcome-illustration img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        filter: drop-shadow(0 1rem 2rem rgba(0,0,0,0.2));
+    }
+
+    /* Global Animations & UX Improvements */
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes fadeInScale {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @@keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @@keyframes bounceIn {
+        0% {
+            opacity: 0;
+            transform: scale(0.3);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        70% {
+            transform: scale(0.9);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* Page Load Animations */
+    .welcome-banner {
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    .health-metrics-section {
+        animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    .health-chart-card {
+        animation: fadeInScale 0.8s ease-out 0.4s both;
+    }
+
+    .reminder-card-container {
+        animation: slideInRight 0.8s ease-out 0.6s both;
+    }
+
+    .appointment-card.enhanced {
+        animation: fadeInUp 0.6s ease-out both;
+    }
+
+    .appointment-card.enhanced:nth-child(1) { animation-delay: 0.8s; }
+    .appointment-card.enhanced:nth-child(2) { animation-delay: 0.9s; }
+    .appointment-card.enhanced:nth-child(3) { animation-delay: 1.0s; }
+
+    /* Micro-interactions */
+    .metric-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+    }
+
+    .welcome-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,0.1);
+    }
+
+    /* Notification dot animation */
+    .notification-dot {
+        animation: bounceIn 0.6s ease-out 2s both;
+    }
+
+    /* Health score animation */
+    .health-score-badge {
+        animation: bounceIn 0.8s ease-out 1.5s both;
+    }
+
+    /* Focus states for accessibility */
+    .btn:focus,
+    .action-btn:focus {
+        outline: 2px solid #667eea;
+        outline-offset: 2px;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+
+    /* Enhanced responsive design */
+    @@media (max-width: 768px) {
+        .welcome-banner {
+            padding: 2rem 1rem;
+        }
+
+        .welcome-greeting {
+            font-size: 1.5rem;
+        }
+
+        .welcome-subtitle {
+            font-size: 0.9rem;
+        }
+
+        .welcome-actions {
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .welcome-btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    @@media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+
+    /* Reminder badge styling */
+    .reminder-badge {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+        font-weight: 500;
+        color: white;
+        background: var(--primary);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .reminder-badge:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    /* Empty reminder styling */
+    .empty-reminder-container {
+        padding: 20px;
+    }
+
+    .empty-reminder-icon-container {
+        height: 100px;
+        width: 100px;
+        margin: 0 auto;
+        position: relative;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(108,117,125,0.1) 0%, rgba(255,255,255,0) 70%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .empty-reminder-icon-container i {
+        opacity: 0.7;
+    }
+
+    .empty-reminder-text {
+        max-width: 250px;
+        margin: 0 auto;
+        line-height: 1.5;
+    }
+
+    .empty-reminder-button {
+        border-radius: 50px;
+        padding: 8px 20px;
+    }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        color: #495057;
+        background-color: #f9fbfd;
+    }
+
+    /* Cards */
+    .card {
+        border: none;
+        border-radius: 0.75rem;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        margin-bottom: 20px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background-color: transparent;
+        border-bottom: 1px solid #e3e6ec;
+        padding: 1.25rem 1.5rem;
+        font-weight: 600;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    /* Health metrics card */
+    .metric-card {
+        position: relative;
+        cursor: default;
+        overflow: hidden;
+        height: 190px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #ffffff;
+        border-radius: 0.75rem;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        margin-bottom: 20px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        padding: 1.5rem;
+    }
+
+    .metric-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    }
+
+    .metric-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: rgba(44, 123, 229, 0.1);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin: 0 auto 1rem;
+    }
+
+    .metric-value {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #2c7be5 !important;
+        text-align: center !important;
+        display: block !important;
+        margin: 0.5rem 0 !important;
+        background-color: transparent !important;
+    }
+
+    .metric-title {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #6c757d;
+        margin-bottom: 0.5rem;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        line-height: 1.3;
+    }
+
+    .metric-change {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.875rem;
+    }
+
+    .metric-change i {
+        margin-right: 0.25rem;
+    }
+
+    .metric-change.positive {
+        color: var(--success);
+    }
+
+    .metric-change.negative {
+        color: var(--danger);
+    }
+
+    .metric-change.neutral {
+        color: var(--secondary);
+    }
+
+    /* Reminder card */
+    .reminder-card {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        background-color: white;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        margin-bottom: 1rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .reminder-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    }
+
+    .reminder-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: rgba(44, 123, 229, 0.1);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        margin-right: 1rem;
+        flex-shrink: 0;
+    }
+
+    .reminder-info {
+        flex: 1;
+    }
+
+    .reminder-title {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+
+    .reminder-details {
+        font-size: 0.875rem;
+        color: #6c757d;
+        margin-bottom: 0;
+    }
+
+    .reminder-time {
+        font-size: 0.875rem;
+        color: var(--primary);
+        font-weight: 500;
+        white-space: nowrap;
+        margin-left: 1rem;
+    }
+
+    .reminder-actions {
+        display: flex;
+        margin-left: 0.5rem;
+    }
+
+    .reminder-actions button {
+        padding: 0.15rem 0.5rem;
+        margin: 0 0.1rem;
+        white-space: nowrap;
+    }
+
+    .badge.bg-primary {
+        font-size: 0.7rem;
+        padding: 0.25em 0.5em;
+        margin-top: 0.25rem;
+    }
+
+    /* Enhanced Appointment Cards */
+    .appointment-card.enhanced {
+        display: flex;
+        flex-direction: column;
+        padding: 1.25rem;
+        border-radius: 1rem;
+        background: white;
+        box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0,0,0,0.05);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .appointment-card.enhanced::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .appointment-card.enhanced:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.12);
+    }
+
+    .appointment-card.enhanced:hover::before {
+        opacity: 1;
+    }
+
+    .appointment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+    }
+
+    .appointment-doctor {
+        display: flex;
+        align-items: center;
+        flex: 1;
+    }
+
+    .appointment-doctor-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 0.75rem;
+        border: 3px solid rgba(102, 126, 234, 0.1);
+        transition: border-color 0.3s ease;
+    }
+
+    .appointment-card.enhanced:hover .appointment-doctor-avatar {
+        border-color: rgba(102, 126, 234, 0.3);
+    }
+
+    .appointment-doctor-info {
+        flex: 1;
+    }
+
+    .appointment-doctor-name {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0.25rem;
+    }
+
+    .appointment-specialty {
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+
+    .appointment-status-badge {
+        flex-shrink: 0;
+    }
+
+    .appointment-status {
+        display: inline-block;
+        padding: 0.375rem 0.75rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        border-radius: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .appointment-status.confirmed {
+        background: linear-gradient(135deg, rgba(25,135,84,0.1), rgba(32,201,151,0.1));
+        color: #198754;
+        border: 1px solid rgba(25,135,84,0.2);
+    }
+
+    .appointment-status.pending {
+        background: linear-gradient(135deg, rgba(246,195,67,0.1), rgba(255,193,7,0.1));
+        color: #f6c343;
+        border: 1px solid rgba(246,195,67,0.2);
+    }
+
+    .appointment-status.cancelled {
+        background: linear-gradient(135deg, rgba(220,53,69,0.1), rgba(230,55,87,0.1));
+        color: #dc3545;
+        border: 1px solid rgba(220,53,69,0.2);
+    }
+
+    .appointment-details {
+        margin-bottom: 1rem;
+    }
+
+    .appointment-info-row {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .appointment-info-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        color: #6c757d;
+    }
+
+    .appointment-info-item i {
+        color: #667eea;
+        width: 16px;
+    }
+
+    .appointment-reason {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        color: #495057;
+        padding: 0.5rem;
+        background: rgba(102, 126, 234, 0.05);
+        border-radius: 0.5rem;
+        border-left: 3px solid #667eea;
+    }
+
+    .appointment-reason i {
+        color: #667eea;
+        margin-top: 0.125rem;
+        flex-shrink: 0;
+    }
+
+    .appointment-actions {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        padding-top: 0.75rem;
+        border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .appointment-actions .action-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.5rem;
+        font-size: 0.8rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        min-width: 80px;
+        justify-content: center;
+    }
+
+    .appointment-actions .action-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.1);
+    }
+
+    .appointment-actions .action-btn i {
+        font-size: 0.8rem;
+    }
+
+    .appointment-actions .btn-text {
+        font-size: 0.75rem;
+    }
+
+    /* Responsive adjustments for appointments */
+    @@media (max-width: 768px) {
+        .appointment-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .appointment-status-badge {
+            align-self: flex-end;
+        }
+
+        .appointment-info-row {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .appointment-actions {
+            justify-content: center;
+        }
+
+        .appointment-actions .action-btn {
+            flex: 1;
+            min-width: 70px;
+        }
+    }
+
+    /* Consultation card */
+    .consultation-card {
+        padding: 1rem;
+        border-radius: 0.5rem;
+        background-color: white;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        margin-bottom: 1rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .consultation-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    }
+
+    .consultation-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .consultation-title {
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+
+    .consultation-date {
+        font-size: 0.875rem;
+        color: #6c757d;
+    }
+
+    .consultation-doctor {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .consultation-doctor-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 0.5rem;
+    }
+
+    .consultation-doctor-name {
+        font-size: 0.875rem;
+        color: #6c757d;
+    }
+
+    .consultation-question {
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .consultation-answer {
+        font-size: 0.875rem;
+        padding: 0.5rem;
+        background-color: #f8f9fa;
+        border-radius: 0.375rem;
+        margin-bottom: 0;
+    }
+
+    .consultation-status {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        border-radius: 0.375rem;
+    }
+
+    .consultation-status.answered {
+        background-color: rgba(0, 217, 126, 0.1);
+        color: var(--success);
+    }
+
+    .consultation-status.pending {
+        background-color: rgba(246, 195, 67, 0.1);
+        color: var(--warning);
+    }
+
+    /* Health Chart Card */
+    .health-chart-card {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.1);
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .health-chart-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 1rem 2rem rgba(0,0,0,0.15);
+    }
+
+    .chart-title {
+        color: var(--dark);
+        font-weight: 600;
+    }
+
+    .chart-controls {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .chart-period-btn {
+        font-weight: 500;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .chart-period-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.1);
+    }
+
+    .period-option {
+        transition: all 0.2s ease;
+    }
+
+    .period-option:hover {
+        background-color: var(--primary);
+        color: white;
+    }
+
+    .period-option.active {
+        background-color: var(--primary);
+        color: white;
+    }
+
+    #refreshChartBtn {
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    #refreshChartBtn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.1);
+    }
+
+    #refreshChartBtn i {
+        transition: transform 0.3s ease;
+    }
+
+    #refreshChartBtn:hover i {
+        transform: rotate(180deg);
+    }
+
+    /* Chart Loading Overlay */
+    .chart-loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255,255,255,0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        backdrop-filter: blur(5px);
+    }
+
+    .loading-spinner {
+        text-align: center;
+        color: var(--primary);
+    }
+
+    .loading-spinner i {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    /* Enhanced Chart Legend */
+    .health-chart-legend {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: rgba(248,249,250,0.5);
+        border-radius: 0.75rem;
+    }
+
+    .health-chart-legend-item {
+        display: flex;
+        align-items: center;
+        margin: 0;
+        transition: transform 0.2s ease;
+    }
+
+    .health-chart-legend-item:hover {
+        transform: scale(1.05);
+    }
+
+    .health-chart-legend-color {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 0.5rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+
+    .weight-indicator {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        animation: pulse-weight 2s ease-in-out infinite;
+    }
+
+    .blood-pressure-indicator {
+        background: linear-gradient(135deg, #f093fb, #f5576c);
+        animation: pulse-bp 2s ease-in-out infinite 0.5s;
+    }
+
+    .blood-sugar-indicator {
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        animation: pulse-bs 2s ease-in-out infinite 1s;
+    }
+
+    .heart-rate-indicator {
+        background: linear-gradient(135deg, #43e97b, #38f9d7);
+        animation: pulse-hr 2s ease-in-out infinite 1.5s;
+    }
+
+    @@keyframes pulse-weight {
+        0%, 100% { box-shadow: 0 2px 4px rgba(102, 126, 234, 0.4); }
+        50% { box-shadow: 0 2px 8px rgba(102, 126, 234, 0.8); }
+    }
+
+    @@keyframes pulse-bp {
+        0%, 100% { box-shadow: 0 2px 4px rgba(240, 147, 251, 0.4); }
+        50% { box-shadow: 0 2px 8px rgba(240, 147, 251, 0.8); }
+    }
+
+    @@keyframes pulse-bs {
+        0%, 100% { box-shadow: 0 2px 4px rgba(79, 172, 254, 0.4); }
+        50% { box-shadow: 0 2px 8px rgba(79, 172, 254, 0.8); }
+    }
+
+    @@keyframes pulse-hr {
+        0%, 100% { box-shadow: 0 2px 4px rgba(67, 233, 123, 0.4); }
+        50% { box-shadow: 0 2px 8px rgba(67, 233, 123, 0.8); }
+    }
+
+    .health-chart-legend-text {
+        font-size: 0.875rem;
+        color: #6c757d;
+        font-weight: 500;
+    }
+
+    /* Chart Container */
+    .chart-container {
+        position: relative;
+        height: 280px;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    /* No Data Message */
+    .no-data-message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+    }
+
+    /* Making reminder cards clickable */
+    .reminder-card {
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .reminder-card:hover {
+        background-color: #f8f9fa;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .reminder-card .reminder-actions {
+        position: relative;
+        z-index: 5;
+    }
+
+    /* Health Metrics Section */
+    .health-metrics-section {
+        margin-bottom: 2rem;
+    }
+
+    .section-title {
+        color: var(--dark);
+        font-weight: 700;
+        margin-bottom: 0;
+    }
+
+    .health-score {
+        text-align: center;
+    }
+
+    .health-score-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        font-weight: 700;
+        font-size: 1.1rem;
+        box-shadow: 0 0.25rem 0.75rem rgba(255, 154, 158, 0.3);
+    }
+
+    .health-score-badge i {
+        color: #ffd700;
+    }
+
+    /* BMI Card Special Styling */
+    .metric-bmi {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .metric-bmi::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        animation: pulse 4s ease-in-out infinite;
+    }
+
+    .metric-bmi .metric-icon {
+        background: rgba(255,255,255,0.2);
+        color: white;
+    }
+
+    .metric-bmi .metric-value {
+        color: white !important;
+        font-weight: 800;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .metric-bmi .metric-title {
+        color: rgba(255,255,255,0.9);
+        font-weight: 600;
+    }
+
+    .metric-bmi .metric-change {
+        background: rgba(255,255,255,0.1);
+        border-radius: 1rem;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        backdrop-filter: blur(10px);
+    }
+
+    .metric-bmi .metric-change.warning {
+        background: rgba(255,193,7,0.2);
+        color: #ffc107;
+    }
+
+    .metric-bmi .metric-change.positive {
+        background: rgba(25,135,84,0.2);
+        color: #198754;
+    }
+
+    .metric-bmi .metric-change.negative {
+        background: rgba(220,53,69,0.2);
+        color: #dc3545;
+    }
+
+    @@keyframes pulse {
+        0%, 100% { transform: scale(1); opacity: 0.5; }
+        50% { transform: scale(1.1); opacity: 0.8; }
+    }
+
+    /* Health Insights */
+    .health-insights-card .card {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.1);
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+    }
+
+    .health-insights-card .card-header {
+        background: rgba(255,255,255,0.1);
+        border: none;
+        color: white;
+        backdrop-filter: blur(10px);
+    }
+
+    .insight-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background: rgba(255,255,255,0.1);
+        border-radius: 0.75rem;
+        backdrop-filter: blur(10px);
+        transition: transform 0.3s ease;
+    }
+
+    .insight-item:hover {
+        transform: translateY(-2px);
+    }
+
+    .insight-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        margin-right: 1rem;
+        flex-shrink: 0;
+    }
+
+    .insight-content h6 {
+        margin-bottom: 0.25rem;
+        font-weight: 600;
+    }
+
+    .insight-content p {
+        margin: 0;
+        font-size: 0.875rem;
+        opacity: 0.9;
+    }
+
+    /* Enhanced Reminder Card Styling */
+    .reminder-column {
+        min-width: 380px;
+        max-width: 420px;
+        display: flex;
+        align-items: stretch;
+    }
+
+    .reminder-card-container {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        height: auto;
+        max-height: 450px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .reminder-card-container:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.15);
+    }
+
+    /* Reminder filter dropdown styling */
+    #reminder-filter {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 0.375rem;
+        padding: 0.375rem 0.625rem;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+    }
+
+    #reminder-filter:hover {
+        background: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    #reminder-filter:focus {
+        background: rgba(255, 255, 255, 0.35);
+        border-color: rgba(255, 255, 255, 0.8);
+        color: white;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        outline: none;
+    }
+
+    #reminder-filter option {
+        background: #667eea;
+        color: white;
+    }
+
+    #reminder-filter option:hover {
+        background: #764ba2;
+    }
+
+    .reminder-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1.25rem 1.5rem;
+        border: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        border-radius: 1rem 1rem 0 0;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+    }
+
+    .reminder-title {
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: white;
+        margin: 0;
+        flex-shrink: 0;
+    }
+
+    .reminder-actions {
+        display: flex;
+        gap: 0.5rem;
+        flex-shrink: 0;
+    }
+
+    .btn-reminder {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        padding: 0.5rem 0.875rem;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        min-width: 70px;
+        justify-content: center;
+    }
+
+    .btn-reminder i {
+        font-size: 0.875rem;
+        transition: transform 0.3s ease;
+    }
+
+    .btn-text {
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    .btn-reminder-outline {
+        background: rgba(255, 255, 255, 0.15);
+        color: white;
+        border-color: rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-reminder-outline:hover {
+        background: rgba(255, 255, 255, 0.28);
+        border-color: rgba(255, 255, 255, 0.6);
+        transform: translateY(-2px);
+        color: white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-reminder-outline:hover i {
+        transform: scale(1.15);
+    }
+
+    .btn-reminder-primary {
+        background: rgba(255, 255, 255, 0.95);
+        color: #667eea;
+        border-color: rgba(255, 255, 255, 0.95);
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-reminder-primary:hover {
+        background: #ffffff;
+        color: #5a67d8;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+    }
+
+    .btn-reminder-primary:hover i {
+        transform: scale(1.2) rotate(90deg);
+    }
+
+    /* Responsive adjustments */
+    @@media (max-width: 991.98px) {
+        .reminder-column {
+            min-width: 100%;
+            max-width: 100%;
+        }
+        
+        .reminder-header {
+            padding: 1rem 1.25rem;
+        }
+        
+        .btn-reminder {
+            padding: 0.45rem 0.75rem;
+            font-size: 0.8rem;
+        }
+        
+        .btn-text {
+            font-size: 0.75rem;
+        }
+    }
+    
+    @@media (max-width: 575.98px) {
+        .reminder-actions {
+            flex-direction: column;
+            width: 100%;
+            gap: 0.375rem;
+        }
+        
+        .btn-reminder {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .reminder-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.75rem;
+        }
+        
+        .reminder-title {
+            text-align: center;
+        }
+    }    /* Responsive: chỉnh bề ngang các nút chỉ số sức khỏe đẹp hơn */
+    .metric-card {
+        min-width: 180px;
+        max-width: 220px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+    }
+
+    /* CSS cho các phần Lịch hẹn và Tư vấn - sử dụng toàn bộ chiều rộng container */
+    .appointment-section,
+    .consultation-section {
+        width: 100%;
+        margin: 0;
+    }
+
+    /* CSS cho card lịch hẹn và tư vấn - sử dụng toàn bộ chiều rộng */
+    .appointment-card,
+    .consultation-card {
+        width: 100%;
+        margin: 0;
+    }
+
+    /* CSS cho card khi chưa có dữ liệu - sử dụng toàn bộ chiều rộng */
+    .empty-state-card {
+        width: 100%;
+        margin: 0;
+    }
+
+    /* Đảm bảo các card trong appointment và consultation sections sử dụng toàn bộ chiều rộng */
+    .appointment-section .card,
+    .consultation-section .card {
+        width: 100%;
+        margin: 0;
+    }
+
+    /* Responsive cho các phần appointment và consultation */
+    @@media (max-width: 991.98px) {
+        .appointment-section,
+        .consultation-section {
+            width: 100%;
+            margin: 0;
+        }
+    }
+
+    @@media (max-width: 991.98px) {
+        .metric-card {
+            min-width: 150px;
+            max-width: 100%;
+        }
+    }
+
+    @@media (max-width: 767.98px) {
+        .metric-card {
+            min-width: 120px;
+            max-width: 100%;
+            padding: 1rem;
+        }
+    }
+
+    .row.g-3 > [class^='col-'] {
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Enhanced Reminder List */
+    .reminder-list {
+        padding: 0.75rem;
+        background: linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(248,249,251,0.5) 100%);
+        border-radius: 0.5rem;
+    }
+
+    /* Make the card body a flex column and let the list fill remaining space */
+    .reminder-card-container .card-body {
+        display: flex;
+        flex-direction: column;
+        padding: 0.5rem 0;
+        overflow: hidden; /* prevent body from expanding beyond container */
+    }
+
+    .reminder-list {
+        /* allow the list to take remaining vertical space and scroll internally */
+        flex: 1 1 auto;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch; /* smooth scrolling on mobile */
+    }
+
+    .reminder-item {
+        background: rgba(255,255,255,0.8);
+        border: 1px solid rgba(0,0,0,0.05);
+        border-radius: 0.75rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 0.75rem;
+        padding: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .reminder-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 16px rgba(102, 126, 234, 0.15);
+        background: rgba(255,255,255,0.95);
+        border-color: rgba(102, 126, 234, 0.2);
+    }
+
+    .reminder-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .reminder-item:hover::before {
+        opacity: 1;
+    }
+
+    .reminder-item.completed {
+        background: rgba(25,135,84,0.04);
+        border-color: rgba(25,135,84,0.15);
+    }
+
+    .reminder-item.completed::before {
+        background: linear-gradient(135deg, #198754, #20c997);
+        opacity: 0.4;
+    }
+
+    .reminder-item.completed:hover {
+        box-shadow: 0 6px 16px rgba(25, 135, 84, 0.1);
+    }
+
+    .reminder-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        flex-shrink: 0;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.25);
+    }
+
+    .reminder-item:hover .reminder-icon {
+        transform: scale(1.15) rotate(10deg);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .reminder-item.completed .reminder-icon {
+        background: linear-gradient(135deg, #198754, #20c997);
+        box-shadow: 0 2px 8px rgba(25, 135, 84, 0.25);
+    }
+
+    .reminder-item h6 {
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+        color: #495057;
+    }
+
+    .reminder-item.completed h6 {
+        text-decoration: line-through;
+        opacity: 0.7;
+    }
+
+    .reminder-item p {
+        font-size: 0.8rem;
+        line-height: 1.4;
+        margin-bottom: 0.5rem;
+    }
+
+    .reminder-item .badge {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.5rem;
+    }
+
+    /* Scrollbar styling for reminder list */
+    .reminder-list::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .reminder-list::-webkit-scrollbar-track {
+        background: rgba(102, 126, 234, 0.05);
+        border-radius: 4px;
+        margin: 5px 0;
+    }
+
+    .reminder-list::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, rgba(102, 126, 234, 0.4), rgba(118, 75, 162, 0.4));
+        border-radius: 4px;
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .reminder-list::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(180deg, rgba(102, 126, 234, 0.6), rgba(118, 75, 162, 0.6));
+        box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .reminder-list::-webkit-scrollbar-thumb:active {
+        background: linear-gradient(180deg, rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8));
+    }
+
+    /* Firefox scrollbar */
+    .reminder-list {
+        scrollbar-color: rgba(102, 126, 234, 0.4) rgba(102, 126, 234, 0.05);
+        scrollbar-width: thin;
+    }
+</style>
+
+
+<div class="container">
+    <!-- Welcome Banner -->
+    <div class="welcome-banner">
+        <div class="welcome-content">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="welcome-greeting">
+                        <i class="fas fa-heartbeat me-3 text-white"></i>
+                        Xin chào, @User.Identity?.Name!
+                    </h1>
+                    <p class="welcome-subtitle">
+                        Chào mừng bạn đến với hệ thống quản lý sức khỏe. Hãy theo dõi sức khỏe của bạn và đặt lịch hẹn với bác sĩ khi cần thiết.
+                    </p>
+                    <div class="welcome-actions">
+                        <a asp-area="Patient" asp-controller="Appointment" asp-action="Index" class="welcome-btn welcome-btn-primary">
+                            <i class="fas fa-calendar-plus"></i>
+                            <span>Đặt lịch hẹn</span>
+                        </a>
+                        <button type="button" class="welcome-btn welcome-btn-primary" id="quickScheduleBtn" data-bs-toggle="modal" data-bs-target="#quickAppointmentModal" title="Đặt ngay">
+                            <i class="fas fa-bolt"></i>
+                            <span>Đặt ngay</span>
+                        </button>
+                        <a asp-area="Patient" asp-controller="TuVanSucKhoe" asp-action="Index" class="welcome-btn welcome-btn-outline">
+                            <i class="fas fa-comment-medical"></i>
+                            <span>Tư vấn sức khỏe</span>
+                        </a>
+                        <a href="/Patient/HealthProfile" class="welcome-btn welcome-btn-outline">
+                            <i class="fas fa-heartbeat"></i>
+                            <span>Hồ sơ sức khỏe</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-none d-lg-block">
+                    <div class="welcome-illustration">
+                        <img src="/images/health-dashboard.svg" alt="Health Dashboard Illustration" onerror="this.src='/images/AVATA.jpg'">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    <!-- Health Metrics -->
+    <div class="health-metrics-section">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="section-title">
+                <i class="fas fa-chart-line me-2 text-primary"></i>
+                Chỉ số sức khỏe của bạn
+            </h3>
+            <div class="health-score">
+                <div class="health-score-badge">
+                    <i class="fas fa-star"></i>
+                    <span id="healthScore">100%</span>
+                </div>
+                <small class="text-muted">Điểm sức khỏe</small>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-4 health-metrics-container">
+            <!-- BMI Card -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="card metric-card metric-bmi" data-metric="BMI">
+                    <div class="metric-icon bmi-icon">
+                        <i class="fas fa-weight-scale"></i>
+                    </div>
+                    <div class="metric-value" id="metric-BMI">
+                        @(Model?.HealthProfile?.CanNang != null && Model?.HealthProfile?.ChieuCao != null ?
+                            ((double)Model.HealthProfile.CanNang / Math.Pow((double)Model.HealthProfile.ChieuCao / 100, 2)).ToString("0.0") : "--")
+                    </div>
+                    <div class="metric-title">BMI</div>
+                    <div class="metric-change @(Model?.HealthProfile?.CanNang != null && Model?.HealthProfile?.ChieuCao != null ?
+                        (((double)Model.HealthProfile.CanNang / Math.Pow((double)Model.HealthProfile.ChieuCao / 100, 2)) < 18.5 ? "warning" :
+                         ((double)Model.HealthProfile.CanNang / Math.Pow((double)Model.HealthProfile.ChieuCao / 100, 2)) < 25 ? "positive" :
+                         ((double)Model.HealthProfile.CanNang / Math.Pow((double)Model.HealthProfile.ChieuCao / 100, 2)) < 30 ? "warning" : "negative") : "neutral")">
+                        @if (Model?.HealthProfile?.CanNang != null && Model?.HealthProfile?.ChieuCao != null)
+                        {
+                            var bmi = (double)Model.HealthProfile.CanNang / Math.Pow((double)Model.HealthProfile.ChieuCao / 100, 2);
+                            if (bmi < 18.5)
+                            {
+                                <i class="fas fa-arrow-down"></i> <span>Thiếu cân</span>
+                            }
+                            else if (bmi < 25)
+                            {
+                                <i class="fas fa-check"></i> <span>Bình thường</span>
+                            }
+                            else if (bmi < 30)
+                            {
+                                <i class="fas fa-arrow-up"></i> <span>Thừa cân</span>
+                            }
+                            else
+                            {
+                                <i class="fas fa-exclamation-triangle"></i> <span>Béo phì</span>
+                            }
+                        }
+                        else
+                        {
+                            <i class="fas fa-equals"></i> <span>Chưa có dữ liệu</span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="card metric-card metric-editable" data-metric="CanNang">
+                    <div class="metric-icon">
+                        <i class="fas fa-weight"></i>
+                    </div>
+                    <div class="metric-value metric-value-editable" id="metric-CanNang">@(Model?.HealthProfile?.CanNang != null ? Model.HealthProfile.CanNang.ToString("0.0") : "--")</div>
+                    <div class="metric-title">Cân nặng (kg)</div>
+                    <button class="btn btn-link btn-sm edit-metric-btn" data-metric="CanNang" title="Chỉnh sửa cân nặng"><i class="fas fa-pen"></i></button>
+                    <div class="metric-change neutral">
+                        <i class="fas fa-equals"></i> Ổn định
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="card metric-card metric-editable" data-metric="ChieuCao">
+                    <div class="metric-icon">
+                        <i class="fas fa-ruler-vertical"></i>
+                    </div>
+                    <div class="metric-value metric-value-editable" id="metric-ChieuCao">@(Model?.HealthProfile?.ChieuCao != null ? Model.HealthProfile.ChieuCao.ToString("0.0") : "--")</div>
+                    <div class="metric-title">Chiều cao (cm)</div>
+                    <button class="btn btn-link btn-sm edit-metric-btn" data-metric="ChieuCao" title="Chỉnh sửa chiều cao"><i class="fas fa-pen"></i></button>
+                    <div class="metric-change neutral">
+                        <i class="fas fa-equals"></i> Ổn định
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="card metric-card metric-editable" data-metric="NhipTim">
+                    <div class="metric-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <div class="metric-value metric-value-editable" id="metric-NhipTim">@(Model?.HealthProfile?.NhipTim != null ? Model.HealthProfile.NhipTim.ToString() : "--")</div>
+                    <div class="metric-title">Nhịp tim (bpm)</div>
+                    <button class="btn btn-link btn-sm edit-metric-btn" data-metric="NhipTim" title="Chỉnh sửa nhịp tim"><i class="fas fa-pen"></i></button>
+                    <div class="metric-change @(Model?.HealthProfile?.NhipTim != null && (Model.HealthProfile.NhipTim < 60 || Model.HealthProfile.NhipTim > 100) ? "negative" : "positive")">
+                        @if (Model?.HealthProfile?.NhipTim != null && Model.HealthProfile.NhipTim < 60)
+                        {
+                            <i class="fas fa-arrow-down"></i> <span>Thấp</span>
+                        }
+                        else if (Model?.HealthProfile?.NhipTim != null && Model.HealthProfile.NhipTim > 100)
+                        {
+                            <i class="fas fa-arrow-up"></i> <span>Cao</span>
+                        }
+                        else
+                        {
+                            <i class="fas fa-check"></i> <span>Bình thường</span>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="card metric-card metric-editable" data-metric="HuyetAp">
+                    <div class="metric-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <div class="metric-value metric-value-editable" id="metric-HuyetAp">@(Model?.HealthProfile?.HuyetApTamThu != null ? Model.HealthProfile.HuyetApTamThu.ToString("0") : "--")/@(Model?.HealthProfile?.HuyetApTamTruong != null ? Model.HealthProfile.HuyetApTamTruong.ToString("0") : "--")</div>
+                    <div class="metric-title">Huyết áp (mmHg)</div>
+                    <button class="btn btn-link btn-sm edit-metric-btn" data-metric="HuyetAp" title="Chỉnh sửa huyết áp"><i class="fas fa-pen"></i></button>
+                    <div class="metric-change @(Model?.HealthProfile?.HuyetApTamThu != null && Model?.HealthProfile?.HuyetApTamTruong != null && (Model.HealthProfile.HuyetApTamThu > 140 || Model.HealthProfile.HuyetApTamTruong > 90) ? "negative" : "positive")">
+                        @if (Model?.HealthProfile?.HuyetApTamThu != null && Model?.HealthProfile?.HuyetApTamTruong != null && (Model.HealthProfile.HuyetApTamThu > 140 || Model.HealthProfile.HuyetApTamTruong > 90))
+                        {
+                            <i class="fas fa-arrow-up"></i> <span>Cao</span>
+                        }
+                        else if (Model?.HealthProfile?.HuyetApTamThu != null && Model?.HealthProfile?.HuyetApTamTruong != null && (Model.HealthProfile.HuyetApTamThu < 90 || Model.HealthProfile.HuyetApTamTruong < 60))
+                        {
+                            <i class="fas fa-arrow-down"></i> <span>Thấp</span>
+                        }
+                        else
+                        {
+                            <i class="fas fa-check"></i> <span>Bình thường</span>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="card metric-card metric-editable" data-metric="DuongHuyet">
+                    <div class="metric-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <div class="metric-value metric-value-editable" id="metric-DuongHuyet">@(Model?.HealthProfile?.DuongHuyet != null ? Model.HealthProfile.DuongHuyet.ToString("0.0") : "--")</div>
+                    <div class="metric-title">Đường huyết (mmol/L)</div>
+                    <button class="btn btn-link btn-sm edit-metric-btn" data-metric="DuongHuyet" title="Chỉnh sửa đường huyết"><i class="fas fa-pen"></i></button>
+                    <div class="metric-change @(Model?.HealthProfile?.DuongHuyet != null && Model.HealthProfile.DuongHuyet > 7.0M ? "negative" : "positive")">
+                        @if (Model?.HealthProfile?.DuongHuyet != null && Model.HealthProfile.DuongHuyet > 7.0M)
+                        {
+                            <i class="fas fa-arrow-up"></i> <span>Cao</span>
+                        }
+                        else if (Model?.HealthProfile?.DuongHuyet != null && Model.HealthProfile.DuongHuyet < 3.9M)
+                        {
+                            <i class="fas fa-arrow-down"></i> <span>Thấp</span>
+                        }
+                        else
+                        {
+                            <i class="fas fa-check"></i> <span>Bình thường</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Health Insights -->
+        <div class="health-insights-card">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-lightbulb text-warning me-2"></i>
+                        Gợi ý sức khỏe
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="insight-item">
+                                <div class="insight-icon">
+                                    <i class="fas fa-utensils text-success"></i>
+                                </div>
+                                <div class="insight-content">
+                                    <h6>Dinh dưỡng</h6>
+                                    <p>Uống đủ 2 lít nước mỗi ngày và ăn nhiều rau xanh</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="insight-item">
+                                <div class="insight-icon">
+                                    <i class="fas fa-running text-primary"></i>
+                                </div>
+                                <div class="insight-content">
+                                    <h6>Vận động</h6>
+                                    <p>Tập thể dục 30 phút mỗi ngày để duy trì sức khỏe</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Health Chart and Reminders -->
+    <div class="row g-4 mb-4 justify-content-center">
+        <div class="col-lg-8" style="max-width: 900px;">
+            <div class="card health-chart-card" style="min-height: 440px; height: auto;">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 chart-title">
+                        <i class="fas fa-chart-line me-2 text-primary"></i>
+                        Biểu đồ theo dõi sức khỏe
+                    </h5>
+                    <div class="chart-controls">
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-primary dropdown-toggle chart-period-btn" type="button" data-bs-toggle="dropdown" id="chartPeriodBtn">
+                                <i class="fas fa-calendar me-1"></i>
+                                <span id="currentPeriod">3 tháng gần đây</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item period-option" href="#" data-period="7" data-label="7 ngày gần đây">
+                                    <i class="fas fa-calendar-week me-2"></i>7 ngày gần đây
+                                </a>
+                                <a class="dropdown-item period-option active" href="#" data-period="30" data-label="30 ngày gần đây">
+                                    <i class="fas fa-calendar-alt me-2"></i>30 ngày gần đây
+                                </a>
+                                <a class="dropdown-item period-option" href="#" data-period="90" data-label="3 tháng gần đây">
+                                    <i class="fas fa-calendar me-2"></i>3 tháng gần đây
+                                </a>
+                                <a class="dropdown-item period-option" href="#" data-period="180" data-label="6 tháng gần đây">
+                                    <i class="fas fa-calendar-plus me-2"></i>6 tháng gần đây
+                                </a>
+                                <a class="dropdown-item period-option" href="#" data-period="365" data-label="Năm nay">
+                                    <i class="fas fa-calendar-check me-2"></i>Năm nay
+                                </a>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-outline-secondary ms-2" id="refreshChartBtn" title="Làm mới dữ liệu">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body position-relative">
+                    <!-- Loading Overlay -->
+                    <div class="chart-loading-overlay" id="chartLoadingOverlay" style="display: none;">
+                        <div class="loading-spinner">
+                            <i class="fas fa-chart-line fa-spin"></i>
+                            <span>Đang tải dữ liệu...</span>
+                        </div>
+                    </div>
+
+                    <!-- Chart Legend -->
+                    <div class="health-chart-legend">
+                        <div class="health-chart-legend-item">
+                            <div class="health-chart-legend-color weight-indicator"></div>
+                            <div class="health-chart-legend-text">Cân nặng (kg)</div>
+                        </div>
+                        <div class="health-chart-legend-item">
+                            <div class="health-chart-legend-color blood-pressure-indicator"></div>
+                            <div class="health-chart-legend-text">Huyết áp (mmHg)</div>
+                        </div>
+                        <div class="health-chart-legend-item">
+                            <div class="health-chart-legend-color blood-sugar-indicator"></div>
+                            <div class="health-chart-legend-text">Đường huyết (mmol/L)</div>
+                        </div>
+                        <div class="health-chart-legend-item">
+                            <div class="health-chart-legend-color heart-rate-indicator"></div>
+                            <div class="health-chart-legend-text">Nhịp tim (bpm)</div>
+                        </div>
+                    </div>
+
+                    <!-- Chart Container -->
+                    <div class="chart-container">
+                        <canvas id="healthChart" height="280"></canvas>
+                    </div>
+
+                    <!-- No Data Message -->
+                    <div class="no-data-message" id="noDataMessage" style="display: none;">
+                        <div class="text-center py-4">
+                            <i class="fas fa-chart-line fa-3x text-muted mb-3"></i>
+                            <h6 class="text-muted">Chưa có dữ liệu</h6>
+                            <p class="text-muted small">Cập nhật hồ sơ sức khỏe để xem biểu đồ theo dõi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <div class="col-lg-4 reminder-column" style="display: flex;">
+            <div class="card reminder-card-container" style="height: 440px;">
+                <div class="card-header reminder-header gradient-bg-reminder">
+                    <h5 class="mb-0 reminder-title">
+                        <span class="position-relative d-inline-block me-3">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-dot"></span>
+                        </span>
+                        Nhắc nhở sức khỏe
+                        <span id="reminder-count-badge" class="badge bg-danger ms-2" style="display: none;">0</span>
+                    </h5>
+                    <div class="reminder-actions d-flex gap-2 align-items-center">
+                        <!-- Filter dropdown -->
+                        <select id="reminder-filter" class="form-select form-select-sm" style="width: auto; font-size: 0.85rem;" onchange="filterReminders(this.value)" title="Lọc nhắc nhở">
+                            <option value="all">Tất cả</option>
+                            <option value="pending" selected>Chưa hoàn thành</option>
+                            <option value="completed">Đã hoàn thành</option>
+                            <option value="today">Hôm nay</option>
+                        </select>
+                        <button type="button" class="btn-reminder btn-reminder-outline" onclick="viewAllReminders()" title="Xem tất cả nhắc nhở">
+                            <i class="fas fa-list-ul me-1"></i>
+                            <span class="btn-text d-none d-md-inline">Tất cả</span>
+                        </button>
+                        <button type="button" class="btn-reminder btn-reminder-primary" onclick="addReminder()" title="Thêm nhắc nhở mới">
+                            <i class="fas fa-plus me-1"></i>
+                            <span class="btn-text d-none d-md-inline">Thêm mới</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" id="reminderCardBody" style="flex-grow: 1; width: 100%; padding: 0.5rem 0; background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(248,249,251,0.9) 100%);">
+                    <div id="reminders-list" class="list-group list-group-flush reminder-list" style="border-radius: 0.5rem; background: transparent;">
+                        <!-- Nội dung nhắc nhở sẽ được tải bằng JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Upcoming Appointments -->
+    <h5 class="mb-3">
+        <i class="fas fa-calendar-check me-2 text-primary"></i>
+        Lịch hẹn sắp tới
+    </h5>
+    <div class="row g-3 mb-4 appointment-section">
+        <div class="col-12">
+            @if (Model?.UpcomingAppointments == null || !Model.UpcomingAppointments.Any())
+            {
+                <div class="card empty-state-card">
+                    <div class="card-body text-center py-4">
+                        <div class="mb-3">
+                            <i class="fas fa-calendar-times fa-4x text-muted"></i>
+                        </div>
+                        <h5>Bạn chưa có lịch hẹn nào sắp tới</h5>
+                        <p class="text-muted">Đặt lịch hẹn với bác sĩ để được tư vấn và khám sức khỏe định kỳ</p>
+                        <a asp-area="Patient" asp-controller="Appointment" asp-action="Index" class="btn btn-primary mt-2">
+                            <i class="fas fa-calendar-plus me-2"></i> Đặt lịch hẹn ngay
+                        </a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                @foreach (var appointment in Model.UpcomingAppointments)
+                {
+                    <div class="appointment-card enhanced" data-appointment-id="@appointment.Id">
+                        <div class="appointment-header">
+                            <div class="appointment-doctor">
+                                @if (appointment.ChuyenGia != null && !string.IsNullOrEmpty(appointment.ChuyenGia.AnhDaiDien))
+                                {
+                                    <img src="@appointment.ChuyenGia.AnhDaiDien" alt="Doctor" class="appointment-doctor-avatar"
+                                         onerror="this.src='/images/AVATA.png'; this.onerror='';">
+                                }
+                                else
+                                {
+                                    <img src="/images/AVATA.png" alt="Doctor" class="appointment-doctor-avatar">
+                                }
+                                <div class="appointment-doctor-info">
+                                    <h6 class="appointment-doctor-name">
+                                        @(appointment.ChuyenGia != null ? appointment.ChuyenGia.HoTen : "Chưa phân công bác sĩ")
+                                    </h6>
+                                    <small class="appointment-specialty text-muted">
+                                        @(appointment.ChuyenGia != null ? "Bác sĩ chuyên khoa" : "")
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="appointment-status-badge">
+                                <span class="appointment-status @(appointment.TrangThai == "1" ? "confirmed" : (appointment.TrangThai == "0" ? "pending" : "cancelled"))">
+                                    @(appointment.TrangThai == "1" ? "Đã xác nhận" : (appointment.TrangThai == "0" ? "Chờ xác nhận" : "Đã hủy"))
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="appointment-details">
+                            <div class="appointment-info-row">
+                                <div class="appointment-info-item">
+                                    <i class="fas fa-calendar-alt text-primary"></i>
+                                    <span>@appointment.NgayGioHen.ToString("dd/MM/yyyy")</span>
+                                </div>
+                                <div class="appointment-info-item">
+                                    <i class="fas fa-clock text-primary"></i>
+                                    <span>@appointment.NgayGioHen.ToString("HH:mm")</span>
+                                </div>
+                            </div>
+                            <div class="appointment-reason">
+                                <i class="fas fa-comment-medical text-primary"></i>
+                                <span>@appointment.LyDo</span>
+                            </div>
+                        </div>
+
+                        <div class="appointment-actions">
+                            <button class="btn btn-sm btn-outline-primary action-btn" onclick="viewAppointmentDetail(@appointment.Id)" title="Xem chi tiết">
+                                <i class="fas fa-eye"></i>
+                                <span class="btn-text">Chi tiết</span>
+                            </button>
+                            @if (appointment.TrangThai == "0")
+                            {
+                                <button class="btn btn-sm btn-outline-danger action-btn" onclick="cancelAppointment(@appointment.Id)" title="Hủy lịch hẹn">
+                                    <i class="fas fa-times"></i>
+                                    <span class="btn-text">Hủy</span>
+                                </button>
+                            }
+                            @if (appointment.TrangThai == "2")
+                            {
+                                <button class="btn btn-sm btn-outline-success action-btn" onclick="rescheduleAppointment(@appointment.Id)" title="Đặt lại lịch hẹn">
+                                    <i class="fas fa-calendar-plus"></i>
+                                    <span class="btn-text">Đặt lại</span>
+                                </button>
+                            }
+                            <button class="btn btn-sm btn-outline-info action-btn" onclick="contactDoctor(@appointment.Id)" title="Liên hệ bác sĩ">
+                                <i class="fas fa-phone"></i>
+                                <span class="btn-text">Liên hệ</span>
+                            </button>
+                        </div>
+                    </div>
+                }
+                <div class="text-center mt-3">
+                    <a asp-area="Patient" asp-controller="Appointment" asp-action="Index" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-calendar me-2"></i> Xem tất cả lịch hẹn
+                    </a>
+                </div>
+            }
+            }
+        </div>
+    </div>
+    
+    <!-- Recent Consultations -->
+    <h5 class="mb-3">Tư vấn gần đây</h5>
+    <div class="row g-3 mb-4 consultation-section">
+        @if (Model?.RecentConsultations == null || !Model.RecentConsultations.Any())
+        {
+            <div class="col-12">
+                <div class="card empty-state-card">
+                    <div class="card-body text-center py-4">
+                        <div class="mb-3">
+                            <i class="fas fa-comment-medical fa-4x text-muted"></i>
+                        </div>
+                        <h5>Bạn chưa có tư vấn nào</h5>
+                        <p class="text-muted">Đặt câu hỏi để được các chuyên gia tư vấn về vấn đề sức khỏe của bạn</p>
+                        <a asp-area="Patient" asp-controller="TuVanSucKhoe" asp-action="Index" class="btn btn-primary mt-2">
+                            <i class="fas fa-comment-medical me-2"></i> Tạo tư vấn mới
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            @foreach (var consultation in Model.RecentConsultations.Take(2))
+            {
+                <div class="col-md-6">
+                    <div class="consultation-card">
+                        <div class="consultation-header">
+                            <h6 class="consultation-title">@consultation.TieuDe</h6>
+                            <span class="consultation-status @(consultation.TrangThai == 1 ? "answered" : "pending")">
+                                @(consultation.TrangThai == 1 ? "Đã trả lời" : "Chờ trả lời")
+                            </span>
+                        </div>
+                        <div class="consultation-doctor">
+                            @if (consultation.ChuyenGia != null)
+                            {
+                                <img src="@(string.IsNullOrEmpty(consultation.ChuyenGia.HinhAnh) ? "/images/AVATA.png" : consultation.ChuyenGia.HinhAnh)" 
+                                     alt="Doctor" class="consultation-doctor-avatar" onerror="this.src='/images/AVATA.png'; this.onerror='';">
+                                <span class="consultation-doctor-name">@consultation.ChuyenGia.HoTen</span>
+                            }
+                            else
+                            {
+                                <img src="/images/AVATA.png" alt="Doctor" class="consultation-doctor-avatar">
+                                <span class="consultation-doctor-name">Chưa phân công bác sĩ</span>
+                            }
+                        </div>
+                        <p class="consultation-question">@(consultation.NoiDung?.Length > 100 ? consultation.NoiDung.Substring(0, 100) + "..." : consultation.NoiDung)</p>
+                        @if (!string.IsNullOrEmpty(consultation.TraLoi))
+                        {
+                            <p class="consultation-answer">@(consultation.TraLoi?.Length > 100 ? consultation.TraLoi.Substring(0, 100) + "..." : consultation.TraLoi)</p>
+                        }
+                        <div class="consultation-date mt-2 text-end">@consultation.NgayCapNhat.ToString("dd/MM/yyyy")</div>
+                    </div>
+                </div>
+            }
+            <div class="col-12 text-center mt-2">
+                <a asp-area="Patient" asp-controller="TuVanSucKhoe" asp-action="Index" class="btn btn-outline-primary btn-sm">
+                    <i class="fas fa-comment-medical me-2"></i> Xem tất cả tư vấn
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Modal Nhắc nhở - đã bị loại bỏ -->
+<!-- Modal Chi tiết chỉ số sức khỏe -->
+<div class="modal fade" id="healthMetricModal" tabindex="-1" aria-labelledby="healthMetricModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="healthMetricModalLabel">Chi tiết chỉ số sức khỏe</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h2 id="healthMetricValue" class="mb-0 fw-bold">--</h2>
+                        <h6 id="healthMetricTitle" class="text-muted">--</h6>
+                    </div>
+                    <div>
+                        <span id="healthMetricStatus" class="badge bg-secondary fs-6">--</span>
+                    </div>
+                </div>
+                  <!-- Tab Navigation -->
+                <ul class="nav nav-tabs" id="metricTabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="infoTab" data-bs-toggle="tab" href="#infoContent">Thông tin</a>
+                    </li>
+                </ul>
+                  <!-- Tab Content -->
+                <div class="tab-content mt-3">
+                    <!-- Phần hiển thị lịch sử -->
+                        <div id="metricHistorySection" class="d-none">
+                            <div id="metricHistoryChartContainer">
+                                <canvas id="metricHistoryChart" height="300"></canvas>
+                            </div>
+                            <div class="text-center mt-3">
+                                <button type="button" id="backToUpdateBtn" class="btn btn-outline-secondary">
+                                    <i class="fas fa-arrow-left me-1"></i> Quay lại
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Thông tin tab -->
+                    <div class="tab-pane fade" id="infoContent">
+                        <div class="metric-info-content">
+                            <!-- Nội dung sẽ được cập nhật động theo loại chỉ số -->
+                            <div class="metric-info-weight d-none">
+                                <h6 class="mb-3">Về chỉ số cân nặng</h6>
+                                <p>Cân nặng là một trong những chỉ số quan trọng để đánh giá sức khỏe tổng quát. Duy trì cân nặng hợp lý giúp giảm nguy cơ mắc nhiều bệnh mãn tính như tim mạch, tiểu đường và huyết áp cao.</p>
+                                <h6>Phân loại:</h6>
+                                <ul>
+                                    <li>Cân nặng cần được đánh giá kết hợp với chiều cao thông qua chỉ số BMI</li>
+                                    <li>Sự thay đổi cân nặng đột ngột có thể là dấu hiệu của vấn đề sức khỏe</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="metric-info-height d-none">
+                                <h6 class="mb-3">Về chiều cao</h6>
+                                <p>Chiều cao là thông số cơ bản trong đánh giá sức khỏe và là một yếu tố quan trọng để tính toán chỉ số BMI. Chiều cao ở người trưởng thành thường không thay đổi nhiều, trừ khi có vấn đề về xương.</p>
+                                <p>Chiều cao có thể giảm nhẹ khi người cao tuổi do thoái hóa đĩa đệm cột sống.</p>
+                            </div>
+                            
+                            <div class="metric-info-bmi d-none">
+                                <h6 class="mb-3">Về chỉ số BMI</h6>
+                                <p>BMI (Body Mass Index) là chỉ số khối cơ thể, được tính bằng cân nặng (kg) chia cho bình phương chiều cao (m²).</p>
+                                <h6>Phân loại BMI:</h6>
+                                <ul>
+                                    <li>Dưới 18.5: Thiếu cân</li>
+                                    <li>18.5 - 24.9: Bình thường</li>
+                                    <li>25.0 - 29.9: Thừa cân</li>
+                                    <li>30.0 trở lên: Béo phì</li>
+                                </ul>
+                                <p class="text-muted">Lưu ý: BMI chỉ là chỉ số tham khảo, không phải chỉ số duy nhất đánh giá sức khỏe, đặc biệt với vận động viên có tỷ lệ cơ bắp cao.</p>
+                            </div>
+                            
+                            <div class="metric-info-heart-rate d-none">
+                                <h6 class="mb-3">Về nhịp tim</h6>
+                                <p>Nhịp tim là số lần tim đập trong một phút (bpm - beats per minute). Đo nhịp tim giúp đánh giá tình trạng tim mạch và sức khỏe tổng quát.</p>
+                                <h6>Phân loại nhịp tim (người trưởng thành):</h6>
+                                <ul>
+                                    <li>Dưới 60 bpm: Nhịp tim chậm (Bradycardia)</li>
+                                    <li>60-100 bpm: Nhịp tim bình thường</li>
+                                    <li>Trên 100 bpm: Nhịp tim nhanh (Tachycardia)</li>
+                                </ul>
+                                <p class="text-muted">Lưu ý: Vận động viên có thể có nhịp tim nghỉ thấp hơn bình thường. Luôn tham khảo ý kiến bác sĩ nếu nhịp tim bất thường.</p>
+                            </div>
+                            
+                            <div class="metric-info-blood-pressure d-none">
+                                <h6 class="mb-3">Về huyết áp</h6>
+                                <p>Huyết áp được ghi bằng hai chỉ số: huyết áp tâm thu (số trên) và huyết áp tâm trương (số dưới), đơn vị mmHg.</p>
+                                <h6>Phân loại huyết áp:</h6>
+                                <ul>
+                                    <li>Dưới 90/60: Huyết áp thấp</li>
+                                    <li>90-119/60-79: Huyết áp lý tưởng</li>
+                                    <li>120-129/80-84: Huyết áp bình thường</li>
+                                    <li>130-139/85-89: Huyết áp bình thường cao</li>
+                                    <li>140/90 trở lên: Huyết áp cao</li>
+                                </ul>
+                                <p class="text-warning">Huyết áp cao không điều trị có thể dẫn đến biến chứng tim mạch, đột quỵ và nhiều vấn đề sức khỏe nghiêm trọng khác.</p>
+                            </div>
+                            
+                            <div class="metric-info-blood-sugar d-none">
+                                <h6 class="mb-3">Về đường huyết</h6>
+                                <p>Đường huyết (glucose) là nồng độ đường trong máu, đơn vị đo phổ biến là mmol/L. Chỉ số này quan trọng để theo dõi, phát hiện và kiểm soát bệnh tiểu đường.</p>
+                                <h6>Phân loại đường huyết lúc đói:</h6>
+                                <ul>
+                                    <li>Dưới 3.9 mmol/L: Hạ đường huyết</li>
+                                    <li>3.9-5.5 mmol/L: Bình thường</li>
+                                    <li>5.6-6.9 mmol/L: Tiền tiểu đường</li>
+                                    <li>7.0 mmol/L trở lên: Nghi ngờ tiểu đường</li>
+                                </ul>
+                                <p class="text-muted">Lưu ý: Đường huyết có thể thay đổi theo bữa ăn. Việc đo nên được thực hiện vào buổi sáng trước khi ăn để có kết quả chính xác nhất.</p>
+                            </div>
+                            
+                            <div class="metric-info-default">
+                                <div class="text-center py-4">
+                                    <i class="fas fa-info-circle fa-4x text-primary mb-3"></i>
+                                    <h6>Chọn tab để xem thông tin chi tiết</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Đã xóa modal cài đặt nhắc nhở -->
+
+<!-- Quick appointment modal -->
+<div class="modal fade" id="quickAppointmentModal" tabindex="-1" aria-labelledby="quickAppointmentLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="quickAppointmentLabel">Đặt lịch hẹn nhanh</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="quickDoctor" class="form-label">Chọn chuyên gia (tùy chọn)</label>
+          <select id="quickDoctor" class="form-select">
+            <option value="">-- Tùy chọn --</option>
+            @if (ViewBag.DanhSachChuyenGia != null)
+            {
+                foreach(var ch in (IEnumerable<DoAnChamSocSucKhoe.Models.ChuyenGia>)ViewBag.DanhSachChuyenGia)
+                {
+                    <option value="@ch.NguoiDungId">@ch.NguoiDung.HoTen</option>
+                }
+            }
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="quickReason" class="form-label">Lý do</label>
+          <input id="quickReason" class="form-control" placeholder="Ví dụ: Khám bệnh, hỏi tư vấn..." />
+        </div>
+        <div class="form-text text-muted">Lịch hẹn sẽ được đặt mặc định 30 phút kể từ bây giờ. Bạn có thể chỉnh sửa thời gian sau trong trang Lịch hẹn.</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button type="button" id="submitQuickAppointment" class="btn btn-primary">Đặt ngay</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Quick consultation modal -->
+<div class="modal fade" id="quickConsultModal" tabindex="-1" aria-labelledby="quickConsultLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="quickConsultLabel">Tạo tư vấn nhanh</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="quickConsultTitle" class="form-label">Tiêu đề</label>
+          <input id="quickConsultTitle" class="form-control" placeholder="Tiêu đề tư vấn" />
+        </div>
+        <div class="mb-3">
+          <label for="quickConsultContent" class="form-label">Nội dung</label>
+          <textarea id="quickConsultContent" class="form-control" rows="4" placeholder="Mô tả vấn đề, triệu chứng, ..."></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="quickConsultDoctor" class="form-label">Chọn chuyên gia (tùy chọn)</label>
+          <select id="quickConsultDoctor" class="form-select">
+            <option value="">-- Tùy chọn --</option>
+            @if (ViewBag.DanhSachChuyenGia != null)
+            {
+                foreach(var ch in (IEnumerable<DoAnChamSocSucKhoe.Models.ChuyenGia>)ViewBag.DanhSachChuyenGia)
+                {
+                    <option value="@ch.ChuyenGiaId">@ch.NguoiDung.HoTen</option>
+                }
+            }
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button type="button" id="submitQuickConsult" class="btn btn-primary">Tạo tư vấn</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // =================================================================
+            // REMINDER FUNCTIONS
+            // =================================================================
+
+            function escapeHtml(unsafe) {
+                if (unsafe === null || typeof unsafe === 'undefined') return '';
+                return unsafe.toString()
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+
+            function getIconForReminderType(type) {
+                switch (type) {
+                    case 'Uống thuốc': return 'fa-pills';
+                    case 'Tập thể dục': return 'fa-dumbbell';
+                    case 'Khám bệnh': return 'fa-heartbeat';
+                    case 'Khác': return 'fa-bell';
+                    default: return 'fa-bell';
+                }
+            }
+
+            function getColorForReminderType(type) {
+                switch (type) {
+                    case 'Uống thuốc': return '#dc3545'; // red
+                    case 'Tập thể dục': return '#28a745'; // green
+                    case 'Khám bệnh': return '#17a2b8'; // cyan
+                    case 'Khác': return '#6c757d'; // gray
+                    default: return '#6c757d';
+                }
+            }
+
+            function createReminderCard(reminder) {
+                const isCompleted = reminder.daThucHien || reminder.trangThai === 1;
+                const iconClass = getIconForReminderType(reminder.loaiNhacNho);
+                const iconColor = getColorForReminderType(reminder.loaiNhacNho);
+                const reminderDate = new Date(reminder.thoiGianNhac);
+                const formattedDate = reminderDate.toLocaleDateString('vi-VN');
+                const formattedTime = reminderDate.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+
+                const tieuDe = reminder.tieuDe || 'Không có tiêu đề';
+                const noiDung = reminder.noiDung || 'Không có nội dung';
+                const loaiNhacNho = reminder.loaiNhacNho || 'Khác';
+
+                const completedClass = isCompleted ? 'reminder-completed' : '';
+                const statusBadge = isCompleted 
+                    ? '<span class="badge bg-success ms-2"><i class="fas fa-check me-1"></i>Đã hoàn thành</span>'
+                    : '<span class="badge bg-warning text-dark ms-2"><i class="fas fa-clock me-1"></i>Chưa hoàn thành</span>';
+
+                return `
+                    <div class="reminder-item ${completedClass}" data-id="${reminder.id}" style="border-left: 4px solid ${iconColor}; margin-bottom: 0.5rem; border-radius: 0.375rem; background: white; padding: 0.75rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: all 0.3s; cursor: pointer;">
+                        <div class="d-flex align-items-start gap-3">
+                            <div class="reminder-icon" style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: ${iconColor}15; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas ${iconClass}" style="color: ${iconColor}; font-size: 1.1rem;"></i>
+                            </div>
+                            <div class="flex-grow-1" style="min-width: 0;">
+                                <div class="d-flex justify-content-between align-items-start mb-1">
+                                    <h6 class="mb-0" style="font-weight: 600; font-size: 0.95rem; ${isCompleted ? 'text-decoration: line-through; opacity: 0.6;' : ''}">${escapeHtml(tieuDe)}</h6>
+                                    <div class="reminder-quick-actions d-flex gap-1 ms-2" style="flex-shrink: 0;">
+                                        ${!isCompleted ? `
+                                        <button class="btn btn-sm btn-success" onclick="quickCompleteReminder(${reminder.id}, event)" title="Đánh dấu hoàn thành" style="padding: 0.2rem 0.4rem; font-size: 0.75rem;">
+                                            <i class="fas fa-check"></i>
+                                        </button>` : ''}
+                                        <button class="btn btn-sm btn-primary" onclick="quickEditReminder(${reminder.id}, event)" title="Sửa" style="padding: 0.2rem 0.4rem; font-size: 0.75rem;">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <p class="mb-1 text-muted small" style="font-size: 0.85rem; line-height: 1.4; ${isCompleted ? 'text-decoration: line-through; opacity: 0.6;' : ''}">${escapeHtml(noiDung)}</p>
+                                <div class="d-flex flex-wrap gap-2 align-items-center" style="font-size: 0.8rem;">
+                                    <span class="badge" style="background: ${iconColor};">${escapeHtml(loaiNhacNho)}</span>
+                                    <span class="text-muted"><i class="far fa-calendar me-1"></i>${formattedDate}</span>
+                                    <span class="text-muted"><i class="far fa-clock me-1"></i>${formattedTime}</span>
+                                    ${statusBadge}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            let currentFilter = 'pending'; // Default filter
+
+            function filterReminders(filter) {
+                currentFilter = filter;
+                fetchAndRenderReminders();
+            }
+
+            function fetchAndRenderReminders() {
+                const listElement = document.getElementById('reminders-list');
+                if (!listElement) return;
+
+                fetch(`/Patient/Dashboard/GetRecentReminders?filter=${currentFilter}`)
+                    .then(response => {
+                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                        return response.json();
+                    })
+                    .then(data => {
+                        const reminders = Array.isArray(data) ? data : (data.reminders || []);
+                        listElement.innerHTML = ''; // Clear old list
+
+                        if (reminders && reminders.length > 0) {
+                            reminders.forEach(reminder => {
+                                const cardHtml = createReminderCard(reminder);
+                                listElement.insertAdjacentHTML('beforeend', cardHtml);
+                            });
+                            
+                            // Update count badge
+                            const countBadge = document.getElementById('reminder-count-badge');
+                            if (countBadge) {
+                                const pendingCount = reminders.filter(r => !r.daThucHien).length;
+                                if (pendingCount > 0) {
+                                    countBadge.textContent = pendingCount;
+                                    countBadge.style.display = 'inline-block';
+                                } else {
+                                    countBadge.style.display = 'none';
+                                }
+                            }
+                        } else {
+                            const emptyMessage = currentFilter === 'pending' 
+                                ? 'Không có nhắc nhở chưa hoàn thành' 
+                                : currentFilter === 'completed'
+                                ? 'Không có nhắc nhở đã hoàn thành'
+                                : 'Không có nhắc nhở nào';
+                            listElement.innerHTML = `
+                                <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-3">
+                                    <div class="empty-reminder-icon-container mb-3">
+                                        <i class="fas fa-bell-slash fa-3x text-muted"></i>
+                                    </div>
+                                    <h6 class="text-muted">${emptyMessage}</h6>
+                                    <p class="text-muted small">Thêm nhắc nhở mới để theo dõi sức khỏe của bạn.</p>
+                                    <button class="btn btn-sm btn-primary mt-2" onclick="addReminder()">
+                                        <i class="fas fa-plus me-1"></i>Thêm nhắc nhở
+                                    </button>
+                                </div>`;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Lỗi khi tải nhắc nhở:', error);
+                        if (listElement) {
+                            listElement.innerHTML = '<p class="text-center text-danger">Không thể tải được danh sách nhắc nhở.</p>';
+                        }
+                    });
+            }
+
+            // Initial load
+            fetchAndRenderReminders();
+
+            // Event delegation for clicking on a reminder item
+            const reminderCardBody = document.getElementById('reminderCardBody');
+            if (reminderCardBody) {
+                reminderCardBody.addEventListener('click', function (e) {
+                    // Don't navigate if clicking on action buttons
+                    if (e.target.closest('.reminder-quick-actions')) {
+                        return;
+                    }
+                    
+                    const target = e.target.closest('.reminder-item');
+                    if (target) {
+                        const reminderId = target.dataset.id;
+                        if (reminderId) {
+                            window.location.href = '/Patient/Reminder/Details/' + reminderId;
+                        }
+                    }
+                });
+            }
+
+            // Quick action functions
+            window.quickCompleteReminder = async function(id, event) {
+                event.stopPropagation();
+                event.preventDefault();
+                
+                if (!confirm('Đánh dấu nhắc nhở này đã hoàn thành?')) {
+                    return;
+                }
+                
+                try {
+                    // Use the AJAX endpoint (no antiforgery token required) which returns JSON
+                    const response = await fetch(`/Patient/Reminder/MarkAsCompletedAjax/${id}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    const result = await response.json();
+                    if (result.success) {
+                        fetchAndRenderReminders(); // Refresh list
+                    } else {
+                        alert('Lỗi: ' + (result.message || 'Không thể cập nhật trạng thái'));
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi cập nhật trạng thái');
+                }
+            };
+
+            window.quickEditReminder = function(id, event) {
+                event.stopPropagation();
+                event.preventDefault();
+                window.location.href = `/Patient/Reminder/Edit/${id}`;
+            };
+
+            // Automatically refresh reminders when navigating back to the page
+            window.addEventListener('pageshow', function (event) {
+                if (event.persisted) {
+                    fetchAndRenderReminders();
+                }
+            });
+
+            // Functions for header buttons
+            window.viewAllReminders = function () {
+                window.location.href = '/Patient/Reminder';
+            };
+
+            window.addReminder = function () {
+                window.location.href = '/Patient/Reminder/Create';
+            };
+
+            // =================================================================
+            // CHART FUNCTIONS
+            // =================================================================
+            
+            let healthChart = null;
+            const ctx = document.getElementById('healthChart').getContext('2d');
+            
+            // Gradient definitions
+            const gradientWeight = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientWeight.addColorStop(0, 'rgba(102, 126, 234, 0.5)');
+            gradientWeight.addColorStop(1, 'rgba(102, 126, 234, 0.0)');
+            
+            const gradientBP = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientBP.addColorStop(0, 'rgba(240, 147, 251, 0.5)');
+            gradientBP.addColorStop(1, 'rgba(240, 147, 251, 0.0)');
+            
+            const gradientBS = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientBS.addColorStop(0, 'rgba(79, 172, 254, 0.5)');
+            gradientBS.addColorStop(1, 'rgba(79, 172, 254, 0.0)');
+            
+            const gradientHR = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientHR.addColorStop(0, 'rgba(67, 233, 123, 0.5)');
+            gradientHR.addColorStop(1, 'rgba(67, 233, 123, 0.0)');
+
+            function initChart() {
+                healthChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: [],
+                        datasets: [
+                            {
+                                label: 'Cân nặng (kg)',
+                                data: [],
+                                borderColor: '#667eea',
+                                backgroundColor: gradientWeight,
+                                borderWidth: 2,
+                                pointBackgroundColor: '#ffffff',
+                                pointBorderColor: '#667eea',
+                                pointRadius: 4,
+                                pointHoverRadius: 6,
+                                fill: true,
+                                tension: 0.4,
+                                yAxisID: 'y'
+                            },
+                            {
+                                label: 'Huyết áp (mmHg)',
+                                data: [],
+                                borderColor: '#f093fb',
+                                backgroundColor: gradientBP,
+                                borderWidth: 2,
+                                pointBackgroundColor: '#ffffff',
+                                pointBorderColor: '#f093fb',
+                                pointRadius: 4,
+                                pointHoverRadius: 6,
+                                fill: true,
+                                tension: 0.4,
+                                yAxisID: 'y1'
+                            },
+                            {
+                                label: 'Đường huyết (mmol/L)',
+                                data: [],
+                                borderColor: '#4facfe',
+                                backgroundColor: gradientBS,
+                                borderWidth: 2,
+                                pointBackgroundColor: '#ffffff',
+                                pointBorderColor: '#4facfe',
+                                pointRadius: 4,
+                                pointHoverRadius: 6,
+                                fill: true,
+                                tension: 0.4,
+                                yAxisID: 'y2'
+                            },
+                            {
+                                label: 'Nhịp tim (bpm)',
+                                data: [],
+                                borderColor: '#43e97b',
+                                backgroundColor: gradientHR,
+                                borderWidth: 2,
+                                pointBackgroundColor: '#ffffff',
+                                pointBorderColor: '#43e97b',
+                                pointRadius: 4,
+                                pointHoverRadius: 6,
+                                fill: true,
+                                tension: 0.4,
+                                yAxisID: 'y1'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: {
+                            padding: {
+                                left: 10,
+                                right: 10,
+                                top: 10,
+                                bottom: 10
+                            }
+                        },
+                        interaction: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        plugins: {
+                            legend: {
+                                display: false // We use custom legend
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                titleColor: '#212529',
+                                bodyColor: '#212529',
+                                borderColor: 'rgba(0,0,0,0.1)',
+                                borderWidth: 1,
+                                padding: 10,
+                                boxPadding: 4
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    maxTicksLimit: 7
+                                }
+                            },
+                            y: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                title: {
+                                    display: true,
+                                    text: 'Cân nặng (kg)'
+                                },
+                                grid: {
+                                    borderDash: [5, 5]
+                                }
+                            },
+                            y1: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                title: {
+                                    display: true,
+                                    text: 'Huyết áp / Nhịp tim'
+                                },
+                                grid: {
+                                    drawOnChartArea: false
+                                }
+                            },
+                            y2: {
+                                type: 'linear',
+                                display: false, // Hide axis but keep scale
+                                position: 'right',
+                                grid: {
+                                    drawOnChartArea: false
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function loadChartData(period) {
+                const loadingOverlay = document.getElementById('chartLoadingOverlay');
+                const noDataMessage = document.getElementById('noDataMessage');
+                
+                if (loadingOverlay) loadingOverlay.style.display = 'flex';
+                if (noDataMessage) noDataMessage.style.display = 'none';
+
+                fetch(`/Patient/Dashboard/GetChartData?period=${period}`)
+                    .then(response => response.json())
+                    .then(result => {
+                        if (loadingOverlay) loadingOverlay.style.display = 'none';
+                        
+                        if (result.success && result.data && result.data.length > 0) {
+                            updateChart(result.data);
+                        } else {
+                            if (noDataMessage) noDataMessage.style.display = 'block';
+                            clearChart();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error loading chart data:', error);
+                        if (loadingOverlay) loadingOverlay.style.display = 'none';
+                    });
+            }
+
+            function updateChart(data) {
+                if (!healthChart) return;
+
+                const labels = data.map(item => {
+                    const date = new Date(item.date);
+                    return date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' });
+                });
+
+                const weightData = data.map(item => item.weight);
+                const bpData = data.map(item => item.systolic); // Using systolic for now
+                const bsData = data.map(item => item.bloodSugar);
+                const hrData = data.map(item => item.heartRate);
+
+                healthChart.data.labels = labels;
+                healthChart.data.datasets[0].data = weightData;
+                healthChart.data.datasets[1].data = bpData;
+                healthChart.data.datasets[2].data = bsData;
+                healthChart.data.datasets[3].data = hrData;
+                
+                healthChart.update();
+            }
+
+            function clearChart() {
+                if (!healthChart) return;
+                healthChart.data.labels = [];
+                healthChart.data.datasets.forEach(dataset => {
+                    dataset.data = [];
+                });
+                healthChart.update();
+            }
+
+            // Initialize
+            initChart();
+            loadChartData(30); // Default 30 days
+
+            // Event listeners for period selection
+            document.querySelectorAll('.period-option').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Update active state
+                    document.querySelectorAll('.period-option').forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update button text
+                    const label = this.getAttribute('data-label');
+                    document.getElementById('currentPeriod').textContent = label;
+                    
+                    // Load data
+                    const period = this.getAttribute('data-period');
+                    loadChartData(period);
+                });
+            });
+
+            // Refresh button
+            document.getElementById('refreshChartBtn')?.addEventListener('click', function() {
+                const activePeriod = document.querySelector('.period-option.active')?.getAttribute('data-period') || 30;
+                loadChartData(activePeriod);
+            });
+
+            // Legend interactions
+            document.querySelectorAll('.health-chart-legend-item').forEach((item, index) => {
+                item.addEventListener('click', function() {
+                    const datasetIndex = index;
+                    const meta = healthChart.getDatasetMeta(datasetIndex);
+                    
+                    // Toggle visibility
+                    meta.hidden = meta.hidden === null ? !healthChart.data.datasets[datasetIndex].hidden : null;
+                    
+                    // Visual feedback
+                    this.style.opacity = meta.hidden ? '0.5' : '1';
+                    
+                    healthChart.update();
+                });
+            });
+
+            // Quick appointment submission
+            const submitQuickAppointment = document.getElementById('submitQuickAppointment');
+            if (submitQuickAppointment) {
+                submitQuickAppointment.addEventListener('click', async function () {
+                    const chuyenGiaId = document.getElementById('quickDoctor')?.value || '';
+                    const lyDo = document.getElementById('quickReason')?.value || '';
+                    submitQuickAppointment.disabled = true;
+                    try {
+                        const res = await fetch('/Patient/QuickActions/QuickCreateAppointment', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: new URLSearchParams({ chuyenGiaId: chuyenGiaId, lyDo: lyDo })
+                        });
+                        const data = await res.json();
+                        if (data.success) {
+                            // Close modal and redirect to appointments page or details
+                            var modal = bootstrap.Modal.getInstance(document.getElementById('quickAppointmentModal'));
+                            if (modal) modal.hide();
+                            alert('Đã đặt lịch hẹn.');
+                            window.location.href = '/Patient/Appointment/Index';
+                        } else {
+                            alert('Lỗi: ' + (data.message || 'Không thể tạo lịch hẹn'));
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        alert('Có lỗi xảy ra khi tạo lịch hẹn');
+                    } finally {
+                        submitQuickAppointment.disabled = false;
+                    }
+                });
+            }
+
+            // Quick consultation submission
+            const submitQuickConsult = document.getElementById('submitQuickConsult');
+            if (submitQuickConsult) {
+                submitQuickConsult.addEventListener('click', async function () {
+                    const tieuDe = document.getElementById('quickConsultTitle')?.value || '';
+                    const noiDung = document.getElementById('quickConsultContent')?.value || '';
+                    const chuyenGiaId = document.getElementById('quickConsultDoctor')?.value || '';
+                    submitQuickConsult.disabled = true;
+                    try {
+                        const res = await fetch('/Patient/QuickActions/QuickCreateConsultation', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: new URLSearchParams({ tieuDe: tieuDe, noiDung: noiDung, chuyenGiaId: chuyenGiaId })
+                        });
+                        const data = await res.json();
+                        if (data.success) {
+                            var modal = bootstrap.Modal.getInstance(document.getElementById('quickConsultModal'));
+                            if (modal) modal.hide();
+                            alert('Tạo tư vấn thành công.');
+                            window.location.href = '/Patient/TuVanSucKhoe/Chat/' + data.id;
+                        } else {
+                            alert('Lỗi: ' + (data.message || 'Không thể tạo tư vấn'));
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        alert('Có lỗi xảy ra khi tạo tư vấn');
+                    } finally {
+                        submitQuickConsult.disabled = false;
+                    }
+                });
+            }
+
+        });
+    </script>
+}
+

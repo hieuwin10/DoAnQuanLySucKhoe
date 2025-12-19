@@ -1,0 +1,218 @@
+@model DoAnChamSocSucKhoe.Areas.Admin.Models.FeedbackListViewModel
+
+@{
+    ViewData["Title"] = "Quản lý phản hồi";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-comments me-2"></i>Quản lý phản hồi
+            </h1>
+            <p class="text-muted mb-0">Quản lý các phản hồi từ người dùng</p>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Tổng phản hồi</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Feedbacks.Count</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Chưa xử lý</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Feedbacks.Count(f => f.Status == "Chưa xử lý")</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-clock fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Đã xử lý</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Feedbacks.Count(f => f.Status == "Đã xử lý")</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search and Filter -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Tìm kiếm và lọc</h6>
+        </div>
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <input type="text" name="searchTerm" value="@Model.SearchTerm"
+                           class="form-control" placeholder="Tìm theo nội dung, tên hoặc email...">
+                </div>
+                <div class="col-md-3">
+                    <select name="statusFilter" class="form-select">
+                        <option value="all" selected="@(Model.StatusFilter == "all")">Tất cả trạng thái</option>
+                        <option value="pending" selected="@(Model.StatusFilter == "pending")">Chưa xử lý</option>
+                        <option value="processed" selected="@(Model.StatusFilter == "processed")">Đã xử lý</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search me-2"></i>Tìm kiếm
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Feedback List -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách phản hồi</h6>
+        </div>
+        <div class="card-body">
+            @if (Model.Feedbacks.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Người gửi</th>
+                                <th>Email</th>
+                                <th>Nội dung</th>
+                                <th>Ngày tạo</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var feedback in Model.Feedbacks)
+                            {
+                                <tr>
+                                    <td>@feedback.Id</td>
+                                    <td>@feedback.SenderName</td>
+                                    <td>@feedback.SenderEmail</td>
+                                    <td>
+                                        @if (feedback.Content.Length > 50)
+                                        {
+                                            @(feedback.Content.Substring(0, 50) + "...")
+                                        }
+                                        else
+                                        {
+                                            @feedback.Content
+                                        }
+                                    </td>
+                                    <td>@feedback.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>
+                                        <span class="badge bg-@feedback.StatusClass">@feedback.Status</span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a href="@Url.Action("Details", new { id = feedback.Id })"
+                                               class="btn btn-sm btn-info">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            @if (feedback.Status == "Chưa xử lý")
+                                            {
+                                                <form method="post" action="@Url.Action("MarkAsProcessed", new { id = feedback.Id })"
+                                                      style="display: inline;"
+                                                      onsubmit="return confirm('Bạn có chắc muốn đánh dấu phản hồi này là đã xử lý?')">
+                                                    @Html.AntiForgeryToken()
+                                                    <button type="submit" class="btn btn-sm btn-success">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                </form>
+                                            }
+                                            <form method="post" action="@Url.Action("Delete", new { id = feedback.Id })"
+                                                  style="display: inline;"
+                                                  onsubmit="return confirm('Bạn có chắc muốn xóa phản hồi này?')">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                @if (Model.TotalPages > 1)
+                {
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            @if (Model.PageNumber > 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.PageNumber - 1, searchTerm = Model.SearchTerm, statusFilter = Model.StatusFilter })">
+                                        Trước
+                                    </a>
+                                </li>
+                            }
+
+                            @for (int i = Math.Max(1, Model.PageNumber - 2); i <= Math.Min(Model.TotalPages, Model.PageNumber + 2); i++)
+                            {
+                                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = i, searchTerm = Model.SearchTerm, statusFilter = Model.StatusFilter })">
+                                        @i
+                                    </a>
+                                </li>
+                            }
+
+                            @if (Model.PageNumber < Model.TotalPages)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.PageNumber + 1, searchTerm = Model.SearchTerm, statusFilter = Model.StatusFilter })">
+                                        Sau
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                }
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="fas fa-comments fa-3x text-gray-300 mb-3"></i>
+                    <h5 class="text-muted">Không có phản hồi nào</h5>
+                    <p class="text-muted">Chưa có phản hồi từ người dùng nào.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

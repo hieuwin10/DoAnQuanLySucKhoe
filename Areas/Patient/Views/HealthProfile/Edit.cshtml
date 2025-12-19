@@ -1,0 +1,115 @@
+@using DoAnChamSocSucKhoe.Models
+@model HoSoSucKhoe
+
+@{
+    ViewData["Title"] = "Cập Nhật Hồ Sơ Sức Khỏe";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Cập Nhật Hồ Sơ Sức Khỏe</h2>
+
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-weight"></i> Thông Tin Cơ Bản</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label asp-for="ChieuCao" class="form-label">Chiều Cao (cm)</label>
+                            <input asp-for="ChieuCao" class="form-control" type="number" step="0.1" />
+                            <span asp-validation-for="ChieuCao" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="CanNang" class="form-label">Cân Nặng (kg)</label>
+                            <input asp-for="CanNang" class="form-control" type="number" step="0.1" />
+                            <span asp-validation-for="CanNang" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="NhipTim" class="form-label">Nhịp Tim (bpm)</label>
+                            <input asp-for="NhipTim" class="form-control" type="number" />
+                            <span asp-validation-for="NhipTim" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="fas fa-tint"></i> Chỉ Số Sức Khỏe</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label asp-for="HuyetApTamThu" class="form-label">Huyết Áp Tâm Thu (mmHg)</label>
+                            <input asp-for="HuyetApTamThu" class="form-control" type="number" />
+                            <span asp-validation-for="HuyetApTamThu" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="HuyetApTamTruong" class="form-label">Huyết Áp Tâm Trường (mmHg)</label>
+                            <input asp-for="HuyetApTamTruong" class="form-control" type="number" />
+                            <span asp-validation-for="HuyetApTamTruong" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="DuongHuyet" class="form-label">Đường Huyết (mmol/L)</label>
+                            <input asp-for="DuongHuyet" class="form-control" type="number" step="0.1" />
+                            <span asp-validation-for="DuongHuyet" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0"><i class="fas fa-notes-medical"></i> Thông Tin Y Khoa</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="TienSuBenh" class="form-label">Tiền Sử Bệnh</label>
+                            <textarea asp-for="TienSuBenh" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="TienSuBenh" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="DiUng" class="form-label">Dị Ứng</label>
+                            <textarea asp-for="DiUng" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="DiUng" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="ThuocDangDung" class="form-label">Thuốc Đang Dùng</label>
+                            <textarea asp-for="ThuocDangDung" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="ThuocDangDung" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="GhiChu" class="form-label">Ghi Chú</label>
+                            <textarea asp-for="GhiChu" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="GhiChu" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-save"></i> Lưu Thay Đổi
+            </button>
+            <a asp-action="Index" class="btn btn-secondary btn-lg">
+                <i class="fas fa-times"></i> Hủy
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        // Add any client-side validation or enhancements here
+    </script>
+}

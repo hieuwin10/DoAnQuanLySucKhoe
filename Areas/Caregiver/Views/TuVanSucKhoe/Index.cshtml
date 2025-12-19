@@ -1,0 +1,249 @@
+@model IEnumerable<DoAnChamSocSucKhoe.Models.TuVanSucKhoe>
+@{
+    ViewData["Title"] = "Tư vấn sức khỏe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-hero">
+    <div class="container">
+        <h2>Tư vấn sức khỏe</h2>
+        <p>Kết nối với chuyên gia để được tư vấn sức khỏe trực tuyến</p>
+    </div>
+</div>
+
+<div class="container main-container">
+    <div class="search-box-container">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <h5 class="mb-0 fw-bold text-primary"><i class="fas fa-comments-medical me-2"></i>Danh sách tư vấn</h5>
+            <div>
+                <button class="btn btn-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#newConsultationModal">
+                    <i class="fas fa-plus me-2"></i> Tư vấn mới
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Danh sách tư vấn -->
+    <div class="feature-card">
+        @if (!Model.Any())
+        {
+            <div class="text-center py-5">
+                <div class="feature-icon-box bg-secondary mb-3" style="width: 80px; height: 80px; font-size: 2.5rem;">
+                    <i class="fas fa-comment-medical"></i>
+                </div>
+                <h5>Bạn chưa có tư vấn nào</h5>
+                <p class="text-muted">Hãy tạo một yêu cầu tư vấn mới để được hỗ trợ từ các chuyên gia sức khỏe</p>
+                <button class="btn btn-primary rounded-pill px-4 mt-3" data-bs-toggle="modal" data-bs-target="#newConsultationModal">
+                    <i class="fas fa-plus me-2"></i> Tạo tư vấn mới
+                </button>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Tiêu đề</th>
+                            <th>Chuyên gia</th>
+                            <th>Ngày tạo</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="fw-bold">@item.TieuDe</td>
+                                <td>
+                                    @if (item.ChuyenGia != null && item.ChuyenGia.NguoiDung != null)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <img src="@(string.IsNullOrEmpty(item.ChuyenGia.NguoiDung.AnhDaiDien) ? "/images/default-avatar.png" : item.ChuyenGia.NguoiDung.AnhDaiDien)" 
+                                                 class="rounded-circle me-2" width="32" height="32" alt="@item.ChuyenGia.NguoiDung.HoTen">
+                                            <span>@item.ChuyenGia.NguoiDung.HoTen</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Chưa phân công</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div>@item.NgayTao.ToString("dd/MM/yyyy")</div>
+                                    <small class="text-muted">@item.NgayTao.ToString("HH:mm")</small>
+                                </td>
+                                <td>
+                                    @switch (item.TrangThai)
+                                    {
+                                        case 0:
+                                            <span class="badge bg-warning rounded-pill">Chờ tư vấn</span>
+                                            break;
+                                        case 1:
+                                            <span class="badge bg-success rounded-pill">Đã tư vấn</span>
+                                            break;
+                                        case 2:
+                                            <span class="badge bg-danger rounded-pill">Đã hủy</span>
+                                            break;
+                                        default:
+                                            <span class="badge bg-secondary rounded-pill">Không xác định</span>
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-action="Chat" asp-route-id="@item.TuVanSucKhoeId" class="btn btn-sm btn-outline-primary rounded-pill">
+                                        <i class="fas fa-comments"></i> Chat
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-outline-danger rounded-pill" data-bs-toggle="modal" data-bs-target="#cancelModal@(item.TuVanSucKhoeId)">
+                                        <i class="fas fa-times"></i> Hủy
+                                    </button>
+                                    
+                                    <!-- Modal Hủy -->
+                                    <div class="modal fade" id="cancelModal@(item.TuVanSucKhoeId)" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Xác nhận hủy tư vấn</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Bạn có chắc chắn muốn hủy yêu cầu tư vấn này không?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                                    <form asp-action="Cancel" method="post">
+                                                        <input type="hidden" name="id" value="@item.TuVanSucKhoeId" />
+                                                        <button type="submit" class="btn btn-danger">Xác nhận hủy</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+    
+    <!-- Bài viết sức khỏe -->
+    <div class="mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0 fw-bold text-primary"><i class="fas fa-newspaper me-2"></i>Bài viết sức khỏe dành cho bạn</h5>
+            <a href="#" class="btn btn-sm btn-outline-primary rounded-pill">Xem tất cả</a>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-6 mb-3">
+                <div class="feature-card h-100 p-0 overflow-hidden">
+                    <div class="row g-0 h-100">
+                        <div class="col-md-4">
+                            <img src="/images/articles/heart-health.jpg" onerror="this.src='"/images/default-article.jpg"" alt="Heart Health" class="img-fluid h-100 w-100" style="object-fit: cover; min-height: 150px;">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body p-3">
+                                <h6 class="card-title fw-bold">5 cách đơn giản để kiểm soát huyết áp mà không cần thuốc</h6>
+                                <p class="card-text text-muted small mb-2">Huyết áp cao là một trong những yếu tố nguy cơ hàng đầu gây ra bệnh tim mạch...</p>
+                                <div class="small text-muted d-flex align-items-center flex-wrap gap-2">
+                                    <span><i class="fas fa-user-md me-1"></i>Bs. Nguyễn Văn B</span>
+                                    <span><i class="far fa-calendar-alt me-1"></i>05/04/2025</span>
+                                    <span class="badge bg-light text-primary border">Tim mạch</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 mb-3">
+                <div class="feature-card h-100 p-0 overflow-hidden">
+                    <div class="row g-0 h-100">
+                        <div class="col-md-4">
+                            <img src="/images/articles/nutrition.jpg" onerror="this.src='"/images/default-article.jpg"" alt="Nutrition" class="img-fluid h-100 w-100" style="object-fit: cover; min-height: 150px;">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body p-3">
+                                <h6 class="card-title fw-bold">Chế độ ăn DASH - Giải pháp dinh dưỡng cho người huyết áp cao</h6>
+                                <p class="card-text text-muted small mb-2">Chế độ ăn DASH (Dietary Approaches to Stop Hypertension) được thiết kế đặc biệt để giúp giảm huyết áp...</p>
+                                <div class="small text-muted d-flex align-items-center flex-wrap gap-2">
+                                    <span><i class="fas fa-user-md me-1"></i>Bs. Trần Thị C</span>
+                                    <span><i class="far fa-calendar-alt me-1"></i>01/04/2025</span>
+                                    <span class="badge bg-light text-primary border">Dinh dưỡng</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tạo Tư Vấn Mới -->
+<div class="modal fade" id="newConsultationModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tạo tư vấn mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="Create" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="TieuDe" class="form-label">Tiêu đề</label>
+                            <input type="text" class="form-control" id="TieuDe" name="TieuDe" required placeholder="Nhập tiêu đề tư vấn...">
+                        </div>
+                        
+                        <div class="col-md-12 mb-3">
+                            <label for="NoiDung" class="form-label">Nội dung tư vấn</label>
+                            <textarea class="form-control" id="NoiDung" name="NoiDung" rows="4" required placeholder="Mô tả chi tiết vấn đề sức khỏe của bạn..."></textarea>
+                        </div>
+                        
+                        <div class="col-md-12 mb-3">
+                            <label for="ChuyenGiaId" class="form-label">Chọn chuyên gia (Tùy chọn)</label>
+                            <select class="form-select" id="ChuyenGiaId" name="ChuyenGiaId">
+                                <option value="" selected>-- Hệ thống tự phân công --</option>
+                                @if (ViewBag.DanhSachChuyenGia != null && ((List<DoAnChamSocSucKhoe.Models.ChuyenGia>)ViewBag.DanhSachChuyenGia).Any())
+                                {
+                                    foreach (var chuyenGia in ViewBag.DanhSachChuyenGia)
+                                    {
+                                        <option value="@chuyenGia.ChuyenGiaId">@chuyenGia.HoTen - @chuyenGia.ChuyenKhoa</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="" disabled>Hiện không có chuyên gia nào khả dụng</option>
+                                }
+                            </select>
+                            <small class="form-text text-muted">Để trống nếu bạn muốn hệ thống tự động phân công chuyên gia phù hợp</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Gửi yêu cầu tư vấn</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Thêm Font Awesome nếu chưa có
+            if (!document.querySelector("link[href*=\"font-awesome\"]")) {
+                const link = document.createElement("link");
+                link.rel = "stylesheet";
+                link.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css";
+                document.head.appendChild(link);
+            }
+        });
+    </script>
+}
+
+

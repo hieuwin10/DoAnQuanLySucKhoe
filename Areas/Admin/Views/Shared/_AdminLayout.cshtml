@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin Dashboard</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/sidebar.css" />
+    <link rel="stylesheet" href="~/css/admin-modern.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* Enhanced Sidebar Styles */
+        .sidebar {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar.collapsed .sidebar-text,
+        .sidebar.collapsed .sidebar-heading,
+        .sidebar.collapsed .sidebar-badge,
+        .sidebar.collapsed .sidebar-arrow {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .sidebar.collapsed .sidebar-link {
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .sidebar.collapsed .sidebar-icon {
+            margin-right: 0;
+        }
+
+        .sidebar-heading {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 1.5rem 1.5rem 0.5rem;
+            margin-top: 1rem;
+            position: relative;
+        }
+
+        .sidebar-heading::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 1.5rem;
+            right: 1.5rem;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        }
+
+        .sidebar-heading:first-of-type {
+            margin-top: 0;
+        }
+
+        .sidebar-link {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            color: rgba(255,255,255,0.8);
+            border-radius: 8px;
+            margin: 0.25rem 0.75rem;
+            padding: 0.875rem 1rem;
+        }
+
+        .sidebar-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-link:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateX(5px);
+            color: white;
+        }
+
+        .sidebar-link:hover::before {
+            transform: scaleY(1);
+        }
+
+        .sidebar-link.active {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .sidebar-link.active::before {
+            transform: scaleY(1);
+        }
+
+        .sidebar-icon {
+            width: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-link:hover .sidebar-icon {
+            transform: scale(1.15);
+        }
+
+        .sidebar-dropdown-menu {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 0;
+            overflow: hidden;
+            background: rgba(0,0,0,0.1);
+            border-radius: 8px;
+            margin: 0 0.75rem 0.5rem;
+        }
+
+        .sidebar-dropdown.active .sidebar-dropdown-menu {
+            max-height: 500px;
+            padding: 0.5rem 0;
+        }
+
+        .sidebar-dropdown-item .sidebar-link {
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            margin: 0.125rem 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-arrow {
+            transition: transform 0.3s ease;
+            font-size: 0.75rem;
+            margin-left: auto;
+        }
+
+        .sidebar-dropdown.active .sidebar-arrow {
+            transform: rotate(180deg);
+        }
+
+        .sidebar-badge {
+            transition: all 0.3s ease;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .sidebar-link:hover .sidebar-badge {
+            transform: scale(1.1);
+        }
+
+        /* Tooltip for collapsed sidebar */
+        .sidebar.collapsed .sidebar-link {
+            position: relative;
+        }
+
+        .sidebar.collapsed .sidebar-link::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            margin-left: 10px;
+        }
+
+        .sidebar.collapsed .sidebar-link:hover::after {
+            opacity: 1;
+            visibility: visible;
+            margin-left: 15px;
+        }
+
+        /* Topbar Enhancement */
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        @@media (max-width: 991.98px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+                z-index: 1050;
+            }
+
+            .main-content {
+                margin-left: 0 !important;
+            }
+        }
+    </style>
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="#" class="sidebar-brand">
+                <img src="~/images/admin.png" alt="Logo" height="30">
+                <span class="sidebar-text">Admin Panel</span>
+            </a>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <div class="sidebar-menu">
+            <div class="sidebar-item">
+                <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="sidebar-link" data-tooltip="Dashboard">
+                    <span class="sidebar-icon"><i class="fas fa-tachometer-alt"></i></span>
+                    <span class="sidebar-text">Dashboard</span>
+                </a>
+            </div>
+            
+            <div class="sidebar-heading">
+                <span>Quản lý người dùng</span>
+            </div>
+            
+            <div class="sidebar-item">
+                <a asp-area="Admin" asp-controller="Users" asp-action="Index" class="sidebar-link" data-tooltip="Người dùng">
+                    <span class="sidebar-icon"><i class="fas fa-users"></i></span>
+                    <span class="sidebar-text">Người dùng</span>
+                </a>
+            </div>
+            
+            <div class="sidebar-item">
+                <a asp-area="Admin" asp-controller="Roles" asp-action="Index" class="sidebar-link" data-tooltip="Phân quyền">
+                    <span class="sidebar-icon"><i class="fas fa-user-shield"></i></span>
+                    <span class="sidebar-text">Phân quyền</span>
+                </a>
+            </div>
+            
+            <div class="sidebar-heading">
+                <span>Quản lý chuyên môn</span>
+            </div>
+            
+            <div class="sidebar-item">
+                <a asp-area="Admin" asp-controller="Doctors" asp-action="Index" class="sidebar-link" data-tooltip="Bác sĩ">
+                    <span class="sidebar-icon"><i class="fas fa-user-md"></i></span>
+                    <span class="sidebar-text">Bác sĩ</span>
+                </a>
+            </div>
+            
+            <div class="sidebar-item">
+                <a asp-area="Admin" asp-controller="Patients" asp-action="Index" class="sidebar-link" data-tooltip="Bệnh nhân">
+                    <span class="sidebar-icon"><i class="fas fa-procedures"></i></span>
+                    <span class="sidebar-text">Bệnh nhân</span>
+                </a>
+            </div>
+            
+            <div class="sidebar-item">
+                <a asp-area="Admin" asp-controller="HealthProfile" asp-action="Index" class="sidebar-link" data-tooltip="Hồ sơ sức khỏe">
+                    <span class="sidebar-icon"><i class="fas fa-heartbeat"></i></span>
+                    <span class="sidebar-text">Hồ sơ sức khỏe</span>
+                </a>
+            </div>
+            
+            <div class="sidebar-heading">
+                <span>Quản lý dịch vụ</span>
+            </div>
+            
+            <div class="sidebar-item sidebar-dropdown">
+                <a href="#" class="sidebar-link sidebar-dropdown-toggle" data-tooltip="Tư vấn sức khỏe">
+                    <span class="sidebar-icon"><i class="fas fa-comment-medical"></i></span>
+                    <span class="sidebar-text">Tư vấn sức khỏe</span>
+                    @if (ViewBag.NewConsultationCount != null && (int)ViewBag.NewConsultationCount > 0)
+                    {
+                        <span class="sidebar-badge bg-danger ms-1">@ViewBag.NewConsultationCount</span>
+                    }
+                    <span class="sidebar-arrow"><i class="fas fa-chevron-down"></i></span>
+                </a>
+                <div class="sidebar-dropdown-menu">
+                    <div class="sidebar-dropdown-item">
+                        <a asp-area="Admin" asp-controller="Consultations" asp-action="Index" class="sidebar-link">
+                            <span class="sidebar-icon"><i class="fas fa-list"></i></span>
+                            <span class="sidebar-text">Tất cả tư vấn</span>
+                        </a>
+                    </div>
+                    <div class="sidebar-dropdown-item">
+                        <a asp-area="Admin" asp-controller="Consultations" asp-action="Pending" class="sidebar-link">
+                            <span class="sidebar-icon"><i class="fas fa-clock"></i></span>
+                            <span class="sidebar-text">Tư vấn mới</span>
+                            @if (ViewBag.NewConsultationCount != null && (int)ViewBag.NewConsultationCount > 0)
+                            {
+                                <span class="sidebar-badge bg-danger ms-1">@ViewBag.NewConsultationCount</span>
+                            }
+                        </a>
+                    </div>
+                    <div class="sidebar-dropdown-item">
+                        <a asp-area="Admin" asp-controller="Consultations" asp-action="Answered" class="sidebar-link">
+                            <span class="sidebar-icon"><i class="fas fa-check-circle"></i></span>
+                            <span class="sidebar-text">Đã trả lời</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-item sidebar-dropdown">
+                <a href="#" class="sidebar-link sidebar-dropdown-toggle" data-tooltip="Lịch hẹn">
+                    <span class="sidebar-icon"><i class="fas fa-calendar-check"></i></span>
+                    <span class="sidebar-text">Lịch hẹn</span>
+                    @if (ViewBag.PendingAppointmentCount != null && (int)ViewBag.PendingAppointmentCount > 0)
+                    {
+                        <span class="sidebar-badge bg-warning text-dark ms-1">@ViewBag.PendingAppointmentCount</span>
+                    }
+                    <span class="sidebar-arrow"><i class="fas fa-chevron-down"></i></span>
+                </a>
+                <div class="sidebar-dropdown-menu">
+                    <div class="sidebar-dropdown-item">
+                        <a asp-area="Admin" asp-controller="Appointments" asp-action="Index" class="sidebar-link">
+                            <span class="sidebar-icon"><i class="fas fa-list"></i></span>
+                            <span class="sidebar-text">Tất cả lịch hẹn</span>
+                        </a>
+                    </div>
+                    <div class="sidebar-dropdown-item">
+                        <a asp-area="Admin" asp-controller="Appointments" asp-action="Pending" class="sidebar-link">
+                            <span class="sidebar-icon"><i class="fas fa-hourglass-half"></i></span>
+                            <span class="sidebar-text">Chờ xác nhận</span>
+                            @if (ViewBag.PendingAppointmentCount != null && (int)ViewBag.PendingAppointmentCount > 0)
+                            {
+                                <span class="sidebar-badge bg-warning text-dark ms-1">@ViewBag.PendingAppointmentCount</span>
+                            }
+                        </a>
+                    </div>
+                    <div class="sidebar-dropdown-item">
+                        <a asp-area="Admin" asp-controller="Appointments" asp-action="Confirmed" class="sidebar-link">
+                            <span class="sidebar-icon"><i class="fas fa-check"></i></span>
+                            <span class="sidebar-text">Đã xác nhận</span>
+                        </a>
+                    </div>
+                    <div class="sidebar-dropdown-item">
+                        <a asp-area="Admin" asp-controller="Appointments" asp-action="Completed" class="sidebar-link">
+                            <span class="sidebar-icon"><i class="fas fa-check-double"></i></span>
+                            <span class="sidebar-text">Đã hoàn thành</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-item">
+                <a asp-area="Admin" asp-controller="Feedback" asp-action="Index" class="sidebar-link" data-tooltip="Phản hồi">
+                    <span class="sidebar-icon"><i class="fas fa-comments"></i></span>
+                    <span class="sidebar-text">Phản hồi</span>
+                    @await Component.InvokeAsync("FeedbackCount")
+                </a>
+            </div>
+            
+            <div class="sidebar-heading">
+                <span>Hệ thống</span>
+            </div>
+            
+            <div class="sidebar-item">
+                <a asp-area="Admin" asp-controller="Settings" asp-action="Index" class="sidebar-link" data-tooltip="Cài đặt">
+                    <span class="sidebar-icon"><i class="fas fa-cog"></i></span>
+                    <span class="sidebar-text">Cài đặt</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+            <div class="container-fluid">
+                <button class="btn btn-link" id="sidebarToggleMobile">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="ms-auto d-flex align-items-center">
+                    <div class="dropdown me-3">
+                        <button class="btn btn-link dropdown-toggle" type="button" id="notificationDropdown" data-bs-toggle="dropdown">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge bg-danger">3</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Thông báo 1</a></li>
+                            <li><a class="dropdown-item" href="#">Thông báo 2</a></li>
+                            <li><a class="dropdown-item" href="#">Thông báo 3</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="dropdown">
+                        <button class="btn btn-link dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                            <img src="~/images/admin.png" class="rounded-circle me-2" width="32" height="32" alt="Avatar">
+                            <span>Admin</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Hồ sơ</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Cài đặt</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Landing", "Home", new { area = "" })" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="dropdown-item w-100 text-start">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="container-fluid p-4">
+            @RenderBody()
+        </div>
+    </div>
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Enhanced Sidebar Toggle with smooth transitions
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            var sidebar = document.getElementById('sidebar');
+            var mainContent = document.getElementById('mainContent');
+            
+            if (window.innerWidth < 992) {
+                sidebar.classList.toggle('show');
+            } else {
+                sidebar.classList.toggle('collapsed');
+                mainContent.classList.toggle('expanded');
+            }
+        });
+        
+        // Enhanced Mobile Sidebar Toggle
+        document.getElementById('sidebarToggleMobile').addEventListener('click', function() {
+            var sidebar = document.getElementById('sidebar');
+            sidebar.classList.remove('collapsed');
+            sidebar.classList.toggle('show');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggleMobile');
+            
+            if (window.innerWidth < 992 && 
+                !sidebar.contains(event.target) && 
+                !sidebarToggle.contains(event.target)) {
+                sidebar.classList.remove('show');
+            }
+        });
+
+        // Add active class to current menu item
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            
+            sidebarLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                    // Also activate parent dropdown if exists
+                    const dropdown = link.closest('.sidebar-dropdown');
+                    if (dropdown) {
+                        dropdown.classList.add('active');
+                    }
+                }
+            });
+        });
+    </script>
+    <script src="~/js/sidebar-dropdown.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,531 @@
+@model DoAnChamSocSucKhoe.Areas.Admin.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "_AdminLayout";
+}
+
+<style>
+    .dashboard-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 20px;
+        padding: 2rem;
+        color: white;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+    
+    .stat-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: none;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 150px;
+        height: 150px;
+        background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        transform: translate(30%, -30%);
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+    
+    .stat-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .stat-card:hover .stat-icon {
+        transform: rotate(10deg) scale(1.1);
+    }
+    
+    .icon-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .icon-success {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    }
+    
+    .icon-info {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+    
+    .icon-warning {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .growth-badge {
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+    
+    .chart-card {
+        background: white;
+        border-radius: 20px;
+        border: none;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        min-height: 400px;
+        max-height: 500px;
+        overflow: hidden;
+    }
+    
+    .chart-card .card-body {
+        height: 300px;
+        position: relative;
+    }
+    
+    .chart-card canvas {
+        max-height: 300px !important;
+        width: 100% !important;
+    }
+    
+    .chart-card:hover {
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+    
+    .chart-card .card-header {
+        background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+        border-radius: 20px 20px 0 0;
+        border-bottom: 3px solid #667eea;
+        padding: 1.5rem 2rem;
+    }
+    
+    .recent-activity-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        border-left: 4px solid #667eea;
+        transition: all 0.3s ease;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .recent-activity-card:hover {
+        transform: translateX(5px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .action-btn-modern {
+        border-radius: 12px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .action-btn-modern:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+    
+    .table-modern {
+        border-collapse: separate;
+        border-spacing: 0 0.75rem;
+    }
+    
+    .table-modern tbody tr {
+        background: white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+    }
+    
+    .table-modern tbody tr:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .table-modern tbody td:first-child {
+        border-radius: 12px 0 0 12px;
+        padding-left: 1.5rem;
+    }
+    
+    .table-modern tbody td:last-child {
+        border-radius: 0 12px 12px 0;
+        padding-right: 1.5rem;
+    }
+    
+    .badge-modern {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+</style>
+
+<div class="dashboard-header">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="mb-2">Dashboard Admin</h1>
+            <p class="mb-0 opacity-75">Chào mừng trở lại! Đây là tổng quan về hệ thống của bạn.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-light action-btn-modern">
+                <i class="fas fa-download me-2"></i> Xuất báo cáo
+            </button>
+            <button class="btn btn-warning action-btn-modern" onclick="location.reload()">
+                <i class="fas fa-sync-alt me-2"></i> Làm mới
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Thống kê tổng quan -->
+<div class="row g-4 mb-4">
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center">
+                <div class="stat-icon icon-primary me-3">
+                    <i class="fas fa-users text-white"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <h6 class="text-muted mb-1 small">Tổng người dùng</h6>
+                    <div class="stat-number">@Model.TotalUsers</div>
+                    <div class="growth-badge bg-success bg-opacity-10 text-success mt-2">
+                        <i class="fas fa-arrow-up"></i>
+                        @Model.UserGrowthRate.ToString("0.0")%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center">
+                <div class="stat-icon icon-success me-3">
+                    <i class="fas fa-user-md text-white"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <h6 class="text-muted mb-1 small">Tổng bác sĩ</h6>
+                    <div class="stat-number">@Model.TotalDoctors</div>
+                    <div class="growth-badge bg-success bg-opacity-10 text-success mt-2">
+                        <i class="fas fa-arrow-up"></i>
+                        @Model.DoctorGrowthRate.ToString("0.0")%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center">
+                <div class="stat-icon icon-info me-3">
+                    <i class="fas fa-procedures text-white"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <h6 class="text-muted mb-1 small">Tổng bệnh nhân</h6>
+                    <div class="stat-number">@Model.TotalPatients</div>
+                    <div class="growth-badge bg-success bg-opacity-10 text-success mt-2">
+                        <i class="fas fa-arrow-up"></i>
+                        @Model.PatientGrowthRate.ToString("0.0")%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center">
+                <div class="stat-icon icon-warning me-3">
+                    <i class="fas fa-calendar-alt text-white"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <h6 class="text-muted mb-1 small">Tổng lịch hẹn</h6>
+                    <div class="stat-number">@Model.TotalAppointments</div>
+                    <div class="growth-badge bg-success bg-opacity-10 text-success mt-2">
+                        <i class="fas fa-arrow-up"></i>
+                        @Model.AppointmentGrowthRate.ToString("0.0")%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Biểu đồ thống kê -->
+<div class="row g-4 mb-4">
+    <div class="col-xl-8">
+        <div class="chart-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0 fw-bold">
+                    <i class="fas fa-chart-line me-2"></i>
+                    Thống kê lịch hẹn 7 ngày gần nhất
+                </h5>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-light action-btn-modern dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-filter me-1"></i> Tuần này
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-calendar-week me-2"></i>7 ngày qua</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-calendar-alt me-2"></i>Tháng này</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-calendar me-2"></i>Quý này</a></li>
+                    </ul>
+                </div>
+            </div>
+            <canvas id="appointmentsChart" height="300"></canvas>
+        </div>
+    </div>
+    <div class="col-xl-4">
+        <div class="chart-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0 fw-bold">
+                    <i class="fas fa-chart-pie me-2"></i>
+                    Trạng thái lịch hẹn
+                </h5>
+            </div>
+            <canvas id="appointmentStatusChart" height="300"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Thống kê theo chuyên khoa -->
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm animate-fade-in-up">
+            <div class="card-header bg-white border-0 py-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold">Thống kê theo chuyên khoa</h5>
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-light action-btn-modern dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-sort me-1"></i> Sắp xếp theo
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Số lượng bác sĩ</a></li>
+                            <li><a class="dropdown-item" href="#">Số lượng lịch hẹn</a></li>
+                            <li><a class="dropdown-item" href="#">Doanh thu</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-modern mb-0">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-stethoscope me-2"></i>Chuyên khoa</th>
+                                <th><i class="fas fa-user-md me-2"></i>Số bác sĩ</th>
+                                <th><i class="fas fa-calendar-check me-2"></i>Số lịch hẹn</th>
+                                <th><i class="fas fa-dollar-sign me-2"></i>Doanh thu</th>
+                                <th class="text-center"><i class="fas fa-chart-bar me-2"></i>Tỷ lệ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var specialty in Model.SpecialtyStats)
+                            {
+                                <tr class="table-row-modern">
+                                    <td class="fw-semibold">@specialty.SpecialtyName</td>
+                                    <td>
+                                        <span class="badge bg-light text-dark px-3 py-2">@specialty.TotalDoctors</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2">
+                                            @specialty.TotalAppointments
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="text-success fw-semibold">@specialty.Revenue.ToString("N0") đ</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center justify-content-center gap-2">
+                                            <div class="progress flex-grow-1" style="height: 8px; max-width: 100px;">
+                                                <div class="progress-bar bg-gradient" role="progressbar" 
+                                                     style="width: @((specialty.TotalAppointments * 100.0 / Model.TotalAppointments).ToString("0.0"))%; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);">
+                                                </div>
+                                            </div>
+                                            <small class="text-muted fw-semibold">
+                                                @((specialty.TotalAppointments * 100.0 / Model.TotalAppointments).ToString("0.0"))%
+                                            </small>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Lịch hẹn gần đây -->
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm animate-fade-in-up">
+            <div class="card-header bg-white border-0 py-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold">Lịch hẹn gần đây</h5>
+                    <a asp-area="Admin" asp-controller="Appointments" asp-action="Index" class="btn btn-sm btn-primary action-btn-modern">
+                        <i class="fas fa-arrow-right me-2"></i>Xem tất cả
+                    </a>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-modern mb-0">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-user me-2"></i>Bệnh nhân</th>
+                                <th><i class="fas fa-user-md me-2"></i>Bác sĩ</th>
+                                <th><i class="fas fa-stethoscope me-2"></i>Chuyên khoa</th>
+                                <th><i class="fas fa-calendar me-2"></i>Ngày hẹn</th>
+                                <th><i class="fas fa-clock me-2"></i>Thời gian</th>
+                                <th><i class="fas fa-circle-notch me-2"></i>Trạng thái</th>
+                                <th class="text-center"><i class="fas fa-cog me-2"></i>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var appointment in Model.RecentAppointments)
+                            {
+                                <tr class="table-row-modern">
+                                    <td class="fw-semibold">@appointment.PatientName</td>
+                                    <td>@appointment.DoctorName</td>
+                                    <td>
+                                        <span class="badge bg-light text-dark px-3 py-2">@appointment.Specialty</span>
+                                    </td>
+                                    <td>@appointment.AppointmentDate.ToString("dd/MM/yyyy")</td>
+                                    <td>@appointment.AppointmentTime.ToString("HH:mm")</td>
+                                    <td>
+                                        <span class="badge-modern badge-@appointment.StatusClass">
+                                            @appointment.Status
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <a href="#" class="action-btn-modern btn-sm" data-bs-toggle="tooltip" title="Xem chi tiết">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="#" class="action-btn-modern btn-sm" data-bs-toggle="tooltip" title="Xác nhận">
+                                                <i class="fas fa-check"></i>
+                                            </a>
+                                            <a href="#" class="action-btn-modern btn-sm" data-bs-toggle="tooltip" title="Hủy">
+                                                <i class="fas fa-times"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        // Appointments Chart
+        var appointmentsCtx = document.getElementById('appointmentsChart').getContext('2d');
+        var appointmentsChart = new Chart(appointmentsCtx, {
+            type: 'line',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.DailyStats.Select(d => d.Date.ToString("dd/MM")))),
+                datasets: [{
+                    label: 'Lịch hẹn mới',
+                    data: @Html.Raw(Json.Serialize(Model.DailyStats.Select(d => d.NewAppointments))),
+                    backgroundColor: 'rgba(44, 123, 229, 0.2)',
+                    borderColor: 'rgba(44, 123, 229, 1)',
+                    borderWidth: 2,
+                    tension: 0.3
+                }, {
+                    label: 'Lịch hẹn hoàn thành',
+                    data: @Html.Raw(Json.Serialize(Model.DailyStats.Select(d => d.CompletedAppointments))),
+                    backgroundColor: 'rgba(0, 217, 126, 0.2)',
+                    borderColor: 'rgba(0, 217, 126, 1)',
+                    borderWidth: 2,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 2,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Appointment Status Chart
+        var statusCtx = document.getElementById('appointmentStatusChart').getContext('2d');
+        var statusChart = new Chart(statusCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Đã xác nhận', 'Đang chờ', 'Đã hủy', 'Đã hoàn thành'],
+                datasets: [{
+                    data: [
+                        @Model.AppointmentStatusStats.Confirmed,
+                        @Model.AppointmentStatusStats.Pending,
+                        @Model.AppointmentStatusStats.Cancelled,
+                        @Model.AppointmentStatusStats.Completed
+                    ],
+                    backgroundColor: [
+                        'rgba(0, 217, 126, 0.8)',
+                        'rgba(246, 195, 67, 0.8)',
+                        'rgba(230, 55, 87, 0.8)',
+                        'rgba(44, 123, 229, 0.8)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 1,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    }
+                }
+            }
+        });
+    </script>
+}

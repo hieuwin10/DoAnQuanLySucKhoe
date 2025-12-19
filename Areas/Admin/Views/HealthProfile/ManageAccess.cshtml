@@ -1,0 +1,87 @@
+@using DoAnChamSocSucKhoe.Models
+@model HoSoSucKhoe
+
+@{
+    ViewData["Title"] = "Quản Lý Quyền Truy Cập";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Quản Lý Quyền Truy Cập Hồ Sơ - @Model?.NguoiDung?.HoTen</h2>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0"><i class="fas fa-lock"></i> Cài Đặt Quyền Truy Cập</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="ManageAccess" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="HoSoSucKhoeId" />
+                <input type="hidden" asp-for="NguoiDungId" />
+
+                <div class="mb-3">
+                    <label class="form-label">Quyền Xem Hồ Sơ</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="viewPatient" checked>
+                        <label class="form-check-label" for="viewPatient">
+                            Bệnh nhân có thể xem hồ sơ của mình
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="viewDoctor" checked>
+                        <label class="form-check-label" for="viewDoctor">
+                            Bác sĩ có thể xem hồ sơ
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="viewAdmin" checked>
+                        <label class="form-check-label" for="viewAdmin">
+                            Quản trị viên có thể xem hồ sơ
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Quyền Chỉnh Sửa</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="editPatient">
+                        <label class="form-check-label" for="editPatient">
+                            Bệnh nhân có thể chỉnh sửa hồ sơ
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="editDoctor" checked>
+                        <label class="form-check-label" for="editDoctor">
+                            Bác sĩ có thể cập nhật chẩn đoán
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="accessNotes" class="form-label">Ghi Chú Quyền Truy Cập</label>
+                    <textarea class="form-control" id="accessNotes" rows="3" placeholder="Ghi chú về quyền truy cập..."></textarea>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-save"></i> Lưu Cài Đặt
+                    </button>
+                    <a asp-action="Details" asp-route-id="@Model?.NguoiDungId" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-times"></i> Hủy
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a asp-action="ViewAll" class="btn btn-primary">
+            <i class="fas fa-arrow-left"></i> Quay Lại Danh Sách
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Add any client-side enhancements here
+    </script>
+}

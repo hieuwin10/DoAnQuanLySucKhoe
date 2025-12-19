@@ -1,0 +1,131 @@
+@{
+    ViewData["Title"] = "Thống Kê Hồ Sơ Sức Khỏe";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Thống Kê Hồ Sơ Sức Khỏe</h2>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm border-0">
+                <div class="card-body">
+                    <i class="fas fa-users fa-2x text-primary mb-2"></i>
+                    <h5 class="card-title">Tổng Hồ Sơ</h5>
+                    <p class="card-text" id="totalProfiles">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm border-0">
+                <div class="card-body">
+                    <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                    <h5 class="card-title">Trạng Thái Tốt</h5>
+                    <p class="card-text" id="goodStatus">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm border-0">
+                <div class="card-body">
+                    <i class="fas fa-exclamation-triangle fa-2x text-warning mb-2"></i>
+                    <h5 class="card-title">Cần Chú Ý</h5>
+                    <p class="card-text" id="attentionStatus">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm border-0">
+                <div class="card-body">
+                    <i class="fas fa-times-circle fa-2x text-danger mb-2"></i>
+                    <h5 class="card-title">Nguy Hiểm</h5>
+                    <p class="card-text" id="dangerStatus">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-chart-pie"></i> Phân Bổ Trạng Thái</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="statusChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-chart-bar"></i> Thống Kê Theo Tháng</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="monthlyChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a asp-action="Index" class="btn btn-primary">
+            <i class="fas fa-arrow-left"></i> Quay Lại Dashboard
+        </a>
+        <a asp-action="ViewAll" class="btn btn-secondary">
+            <i class="fas fa-list"></i> Xem Tất Cả
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Placeholder data - in real implementation, fetch from server
+        document.getElementById('totalProfiles').textContent = '150';
+        document.getElementById('goodStatus').textContent = '120';
+        document.getElementById('attentionStatus').textContent = '25';
+        document.getElementById('dangerStatus').textContent = '5';
+
+        // Status Distribution Chart
+        new Chart(document.getElementById('statusChart'), {
+            type: 'pie',
+            data: {
+                labels: ['Tốt', 'Cần chú ý', 'Nguy hiểm'],
+                datasets: [{
+                    data: [120, 25, 5],
+                    backgroundColor: [
+                        'rgb(40, 167, 69)',
+                        'rgb(255, 193, 7)',
+                        'rgb(220, 53, 69)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+        // Monthly Statistics Chart
+        new Chart(document.getElementById('monthlyChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6'],
+                datasets: [{
+                    label: 'Số hồ sơ mới',
+                    data: [20, 25, 30, 35, 28, 32],
+                    backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+}

@@ -1,0 +1,95 @@
+@model DoAnChamSocSucKhoe.Areas.Admin.Models.DoctorViewModel
+
+@{
+    ViewData["Title"] = "Xóa bác sĩ";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-trash me-2"></i>Xóa bác sĩ
+            </h1>
+            <p class="text-muted mb-0">Xác nhận xóa bác sĩ khỏi hệ thống</p>
+        </div>
+        <a href="@Url.Action("Index")" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Quay lại danh sách
+        </a>
+    </div>
+
+    <!-- Delete Confirmation -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow border-danger">
+                <div class="card-header py-3 bg-danger text-white">
+                    <h6 class="m-0 font-weight-bold">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Cảnh báo: Hành động không thể hoàn tác
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger">
+                        <h5><i class="fas fa-exclamation-circle me-2"></i>Bạn có chắc chắn muốn xóa bác sĩ này?</h5>
+                        <p class="mb-0">Hành động này sẽ xóa bác sĩ khỏi hệ thống và không thể hoàn tác.</p>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h6 class="m-0 font-weight-bold text-primary">Thông tin bác sĩ sẽ bị xóa:</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 text-center">
+                                    <img src="@Model.Avatar" alt="Avatar" class="rounded-circle mb-3" width="100" height="100">
+                                </div>
+                                <div class="col-md-8">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">Họ tên:</dt>
+                                        <dd class="col-sm-8">@Model.FullName</dd>
+
+                                        <dt class="col-sm-4">Email:</dt>
+                                        <dd class="col-sm-8">@Model.Email</dd>
+
+                                        <dt class="col-sm-4">Số điện thoại:</dt>
+                                        <dd class="col-sm-8">@Model.PhoneNumber</dd>
+
+                                        <dt class="col-sm-4">Chuyên môn:</dt>
+                                        <dd class="col-sm-8">@Model.Specialty</dd>
+
+                                        <dt class="col-sm-4">Trạng thái:</dt>
+                                        <dd class="col-sm-8">
+                                            <span class="badge badge-@Model.StatusClass">@Model.Status</span>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <h6><i class="fas fa-exclamation-triangle me-2"></i>Lưu ý quan trọng:</h6>
+                        <p class="mb-0">
+                            Việc xóa bác sĩ sẽ ảnh hưởng đến tất cả dữ liệu liên quan bao gồm lịch hẹn,
+                            đánh giá và các thông tin khác. Hãy cân nhắc kỹ trước khi thực hiện hành động này.
+                        </p>
+                    </div>
+
+                    <form method="post" asp-action="Delete">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.Id" />
+
+                        <div class="d-flex justify-content-end">
+                            <a href="@Url.Action("Index")" class="btn btn-secondary me-2">
+                                <i class="fas fa-times me-1"></i>Hủy
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash me-1"></i>Xác nhận xóa
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

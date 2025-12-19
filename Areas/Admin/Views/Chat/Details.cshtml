@@ -1,0 +1,62 @@
+@model DoAnChamSocSucKhoe.Models.TuVanSucKhoe
+@{
+    ViewData["Title"] = "Chi tiết cuộc trò chuyện";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Chat giữa @Model.NguoiDung.HoTen và @Model.ChuyenGia.HoTen</h5>
+                </div>
+                <div class="card-body">
+                    <div id="chat-messages" class="chat-messages">
+                        @foreach (var message in Model.Messages)
+                        {
+                            <div class="message @(message.SenderId == Model.NguoiDungId ? "received" : "sent")">
+                                <div class="message-content">@message.Content</div>
+                                <div class="message-time">@message.SentTime.ToString("HH:mm dd/MM/yyyy")</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .chat-messages {
+        height: 400px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    .message {
+        margin-bottom: 10px;
+    }
+    .message.sent {
+        text-align: right;
+    }
+    .message.received {
+        text-align: left;
+    }
+    .message-content {
+        display: inline-block;
+        padding: 8px 12px;
+        border-radius: 18px;
+        background-color: #e3f2fd;
+        max-width: 70%;
+    }
+    .message.sent .message-content {
+        background-color: #007bff;
+        color: white;
+    }
+    .message-time {
+        font-size: 0.8em;
+        color: #666;
+        margin-top: 2px;
+    }
+</style>

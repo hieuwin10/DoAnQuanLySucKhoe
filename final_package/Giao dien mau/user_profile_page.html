@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ sơ người dùng - Hệ thống Quản lý Sức khỏe Online</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #2c7be5;
+            --secondary: #6c757d;
+            --success: #00d97e;
+            --info: #39afd1;
+            --warning: #f6c343;
+            --danger: #e63757;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --topbar-height: 70px;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #495057;
+            background-color: #f9fbfd;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar */
+        .navbar {
+            height: var(--topbar-height);
+            background-color: white;
+            border-bottom: 1px solid #e3e6ec;
+            padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+        
+        .navbar-brand img {
+            margin-right: 10px;
+        }
+        
+        .navbar-search {
+            position: relative;
+            max-width: 300px;
+        }
+        
+        .navbar-search-input {
+            padding-left: 40px;
+            background-color: #f8f9fa;
+            border: 1px solid #e3e6ec;
+            border-radius: 50rem;
+        }
+        
+        .navbar-search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+        
+        .navbar-icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            margin-left: 10px;
+        }
+        
+        .navbar-icon-btn:hover {
+            background-color: #f8f9fa;
+            color: var(--primary);
+        }
+        
+        .navbar-icon-btn .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 0.65rem;
+        }
+        
+        .navbar-user {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+        
+        .navbar-user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+        
+        .navbar-user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .navbar-user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        .navbar-user-role {
+            font-size: 0.75rem;
+            color: #6c757d;
+            margin: 0;
+        }
+        
+        .nav-link {
+            color: #495057;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+            background-color: rgba(44, 123, 229, 0.1);
+        }
+        
+        .nav-link.active {
+            color: var(--primary);
+            background-color: rgba(44, 123, 229, 0.1);
+        }
+        
+        .nav-link i {
+            margin-right: 0.5rem;
+        }
+        
+        /* Content */
+        .content {
+            padding: 20px;
+        }
+        
+        /* Cards */
+        .card {
+            border: none;
+            border-radius: 0.75rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            background-color: transparent;
+            border-bottom: 1px solid #e3e6ec;
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        /* Profile */
+        .profile-header {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-cover {
+            height: 200px;
+            background-color: var(--primary);
+            background-image: linear-gradient(135deg, #2c7be5 0%, #1a68d1 100%);
+            border-radius: 0.75rem;
+            position: relative;
+        }
+        
+        .profile-avatar-wrapper {
+            position: absolute;
+            bottom: -50px;
+            left: 50px;
+            display: flex;
+            align-items: flex-end;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            object-fit: cover;
+        }
+        
+        .profile-avatar-edit {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+        
+        .profile-cover-edit {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .profile-info {
+            margin-top: 60px;
+            padding: 0 50px;
+        }
+        
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .profile-role {
+            font-size: 1rem;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-stats {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+        
+        .profile-stat {
+            margin-right: 2rem;
+            text-align: center;
+        }
+        
+        .profile-stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .profile-stat-label {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+        
+        .profile-actions {
+            margin-top: 1rem;
+        }
+        
+        .profile-action-btn {
+            margin-right: 0.5rem;
+        }
+        
+        /* Profile tabs */
+        .profile-tabs {
+            margin-bottom: 1.5rem;
+        }
+        
+        .profile-tabs .nav-link {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            color: #6c757d;
+            border: none;
+        }
+        
+        .profile-tabs .nav-link.active {
+            color: var(--primary);
+            background-color: transparent;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        /* Form */
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control {
+            padding: 0.75rem 1rem;
+            border-color: #e3e6ec;
+            border-radius: 0.375rem;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(44, 123, 229, 0.25);
+        }
+        
+        .form-select {
+            padding: 0.75rem 1rem;
+            border-color: #e3e6ec;
+            border-radius: 0.375rem;
+        }
+        
+        .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(44, 123, 229, 0.25);
+        }
+        
+        .form-check-input:checked {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .form-check-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(44, 123, 229, 0.25);
+        }
+        
+        /* Health record */
+        .health-record-item {
+            padding: 1rem;
+            border-bottom: 1px solid #e3e6ec;
+        }
+        
+        .health-record-item:last-child {
+            border-bottom: none;
+        }
+        
+        .health-record-date {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+        
+        .health-record-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .health-record-doctor {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .health-record-doctor-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 0.5rem;
+        }
+        
+        .health-record-doctor-name {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+        
+        .health-record-details {
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .health-record-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .health-record-action-btn {
+            margin-left: 0.5rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .navbar-search {
+                display: none;
+            }
+            
+            .navbar-user-info {
+                display: none;
+            }
+            
+            .profile-avatar-wrapper {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .profile-info {
+                text-align: center;
+                padding: 0 20px;
+            }
+            
+            .profile-stats {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="images/logo.png" alt="Logo" height="30">
+                <span>HealthCare</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="navbar-search d-none d-lg-block">
+                <i class="fas fa-search navbar-search-icon"></i>
+                <input type="text" class="form-control navbar-search-input" placeholder="Tìm kiếm...">
+            </div>
+            
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-home"></i> Trang chủ
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            <i class="fas fa-user"></i> Hồ sơ
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-heartbeat"></i> Sức khỏe
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-calendar-check"></i> Lịch hẹn
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-comment-medical"></i> Tư vấn
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex align-items-center">
+                    <button class="navbar-icon-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge bg-danger">3</span>
+                    </button>
+                    
+                    <button class="navbar-icon-btn">
+                        <i class="fas fa-envelope"></i>
+                        <span class="badge bg-primary">2</span>
+                    </button>
+                    
+                    <div class="dropdown">
+                        <div class="navbar-user" data-bs-toggle="dropdown">
+                            <img src="images/patient-avatar.jpg" alt="Avatar" class="navbar-user-avatar">
+                            <div class="navbar-user-info">
+                                <h6 class="navbar-user-name">Nguyễn Văn A</h6>
+                                <p class="navbar-user-role">Bệnh nhân</p>
+                            </div>
+                        </div>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-user me-2"></i> Hồ sơ cá nhân
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-cog me-2"></i> Cài đặt tài khoản
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-list me-2"></i> Hoạt động
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-sign-out-alt me-2"></i> Đăng xuất
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="content">
+        <div class="container">
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="profile-cover">
+                    <div class="profile-cover-edit">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                </div>
+                <div class="profile-avatar-wrapper">
+                    <img src="images/patient-avatar.jpg" alt="Avatar" class="profile-avatar">
+                    <div class="profile-avatar-edit">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <h1 class="profile-name">Nguyễn Văn A</h1>
+                    <p class="profile-role">Bệnh nhân</p>
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <div class="profile-stat-value">12</div>
+                            <div class="profile-stat-label">Lịch hẹn</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="profile-stat-value">8</div>
+                            <div class="profile-stat-label">Tư vấn</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="profile-stat-value">5</div>
+                            <div class="profile-stat-label">Bác sĩ</div>
+                        </div>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="btn btn-primary profile-action-btn">
+                            <i class="fas fa-edit me-2"></i> Chỉnh sửa hồ sơ
+                        </button>
+                        <button class="btn btn-outline-primary profile-action-btn">
+                            <i class="fas fa-share-alt me-2"></i> Chia sẻ hồ sơ
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Profile Tabs -->
+            <ul class="nav nav-tabs profile-tabs" id="profileTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">Thông tin cá nhân</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="health-tab" data-bs-toggle="tab" data-bs-target="#health" type="button" role="tab" aria-controls="health" aria-selected="false">Hồ sơ sức khỏe</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab" aria-controls="security" aria-selected="false">Bảo mật</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="notification-tab" data-bs-toggle="tab" data-bs-target="#notification" type="button" role="tab" aria-controls="notification" aria-selected="false">Thông báo</button>
+                </li>
+            </ul>
+            
+            <!-- Tab Content -->
+            <div class="tab-content" id="profileTabsContent">
+                <!-- Personal Information Tab -->
+                <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Thông tin cá nhân</h5>
+                                    <button class="btn btn-sm btn-primary">
+                                        <i class="fas fa-save me-2"></i> Lưu thay đổi
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="firstName" class="form-label">Họ</label>
+                                                <input type="text" class="form-control" id="firstName" value="Nguyễn">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="lastName" class="form-label">Tên</label>
+                                                <input type="text" class="form-control" id="lastName" value="Văn A">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="email" class="form-label">Email</label>
+                                                <input type="email" class="form-control" id="email" value="nguyenvana@example.com">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="phone" class="form-label">Số điện thoại</label>
+                                                <input type="tel" class="form-control" id="phone" value="0912345678">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="birthdate" class="form-label">Ngày sinh</label>
+                                                <input type="date" class="form-control" id="birthdate" value="1980-05-15">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="gender" class="form-label">Giới tính</label>
+                                                <select class="form-select" id="gender">
+                                                    <option value="male" selected>Nam</option>
+                                                    <option value="female">Nữ</option>
+                                                    <option value="other">Khác</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="address" class="form-label">Địa chỉ</label>
+                                            <input type="text" class="form-control" id="address" value="123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh">
+                                        </div>
+                                        
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <label for="city" class="form-label">Thành phố</label>
+                                                <input type="text" class="form-control" id="city" value="TP. Hồ Chí Minh">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="district" class="form-label">Quận/Huyện</label>
+                                                <input type="text" class="form-control" id="district" value="Quận 1">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="ward" class="form-label">Phường/Xã</label>
+                                                <input type="text" class="form-control" id="ward" value="Phường Bến Nghé">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="bio" class="form-label">Giới thiệu</label>
+                                            <textarea class="form-control" id="bio" rows="3">Tôi là Nguyễn Văn A, hiện đang làm việc tại công ty ABC. Tôi quan tâm đến sức khỏe và muốn theo dõi sức khỏe của mình một cách thường xuyên.</textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Thông tin liên hệ khẩn cấp</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="emergencyName" class="form-label">Họ tên</label>
+                                                <input type="text" class="form-control" id="emergencyName" value="Nguyễn Thị B">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="emergencyRelation" class="form-label">Mối quan hệ</label>
+                                                <input type="text" class="form-control" id="emergencyRelation" value="Vợ">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="emergencyPhone" class="form-label">Số điện thoại</label>
+                                                <input type="tel" class="form-control" id="emergencyPhone" value="0987654321">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="emergencyEmail" class="form-label">Email</label>
+                                                <input type="email" class="form-control" id="emergencyEmail" value="nguyenthib@example.com">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="emergencyAddress" class="form-label">Địa chỉ</label>
+                                            <input type="text" class="form-control" id="emergencyAddress" value="123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh">
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-end">
+                                            <button class="btn btn-primary">
+                                                <i class="fas fa-save me-2"></i> Lưu thay đổi
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Thông tin bảo hiểm</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="insuranceProvider" class="form-label">Nhà cung cấp bảo hiểm</label>
+                                            <input type="text" class="form-control" id="insuranceProvider" value="Bảo hiểm XYZ">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="insuranceNumber" class="form-label">Số thẻ bảo hiểm</label>
+                                            <input type="text" class="form-control" id="insuranceNumber" value="BH123456789">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="insuranceExpiry" class="form-label">Ngày hết hạn</label>
+                                            <input type="date" class="form-control" id="insuranceExpiry" value="2026-12-31">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="insuranceType" class="form-label">Loại bảo hiểm</label>
+                                            <select class="form-select" id="insuranceType">
+                                                <option value="health" selected>Bảo hiểm y tế</option>
+                                                <option value="life">Bảo hiểm nhân thọ</option>
+                                                <option value="social">Bảo hiểm xã hội</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-end">
+                                            <button class="btn btn-primary">
+                                                <i class="fas fa-save me-2"></i> Lưu thay đổi
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Thông tin bổ sung</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="bloodType" class="form-label">Nhóm máu</label>
+                                            <select class="form-select" id="bloodType">
+                                                <option value="A+">A+</option>
+                                                <option value="A-">A-</option>
+                                                <option value="B+" selected>B+</option>
+                                                <option value="B-">B-</option>
+                                                <option value="AB+">AB+</option>
+                                                <option value="AB-">AB-</option>
+                                                <option value="O+">O+</option>
+                                                <option value="O-">O-</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="occupation" class="form-label">Nghề nghiệp</label>
+                                            <input type="text" class="form-control" id="occupation" value="Kỹ sư phần mềm">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="maritalStatus" class="form-label">Tình trạng hôn nhân</label>
+                                            <select class="form-select" id="maritalStatus">
+                                                <option value="single">Độc thân</option>
+                                                <option value="married" selected>Đã kết hôn</option>
+                                                <option value="divorced">Đã ly hôn</option>
+                                                <option value="widowed">Góa phụ</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="language" class="form-label">Ngôn ngữ</label>
+                                            <select class="form-select" id="language">
+                                                <option value="vietnamese" selected>Tiếng Việt</option>
+                                                <option value="english">Tiếng Anh</option>
+                                                <option value="french">Tiếng Pháp</option>
+                                                <option value="chinese">Tiếng Trung</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-end">
+                                            <button class="btn btn-primary">
+                                                <i class="fas fa-save me-2"></i> Lưu thay đổi
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Health Record Tab -->
+                <div class="tab-pane fade" id="health" role="tabpanel" aria-labelledby="health-tab">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Lịch sử khám bệnh</h5>
+                                    <button class="btn btn-sm btn-primary">
+                                        <i class="fas fa-plus me-2"></i> Thêm mới
+                                    </button>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="health-record-item">
+                                        <div class="health-record-date">15/03/2025</div>
+                                        <h6 class="health-record-title">Khám định kỳ - Theo dõi huyết áp</h6>
+                                        <div class="health-record-doctor">
+                                            <img src="images/doctor-1.jpg" alt="Doctor" class="health-record-doctor-avatar">
+                                            <span class="health-record-doctor-name">Bs. Nguyễn Văn B</span>
+                                        </div>
+                                        <p class="health-record-details">Huyết áp: 120/80 mmHg, Nhịp tim: 72 bpm, Cân nặng: 75 kg. Tình trạng sức khỏe ổn định, tiếp tục duy trì chế độ ăn uống và tập luyện hiện tại.</p>
+                                        <div class="health-record-actions">
+                                            <button class="btn btn-sm btn-outline-primary health-record-action-btn">
+                                                <i class="fas fa-eye me-1"></i> Xem chi tiết
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-secondary health-record-action-btn">
+                                                <i class="fas fa-download me-1"></i> Tải xuống
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-info health-record-action-btn">
+                                                <i class="fas fa-share-alt me-1"></i> Chia sẻ
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="health-record-item">
+                                        <div class="health-record-date">10/02/2025</div>
+                                        <h6 class="health-record-title">Tư vấn dinh dưỡng</h6>
+                                        <div class="health-record-doctor">
+                                            <img src="images/doctor-2.jpg" alt="Doctor" class="health-record-doctor-avatar">
+                                            <span class="health-record-doctor-name">Bs. Trần Thị C</span>
+                                        </div>
+                                        <p class="health-record-details">Đánh giá chế độ ăn uống hiện tại và đưa ra các khuyến nghị để cải thiện. Giảm lượng muối và đường, tăng cường rau xanh và protein nạc. Cung cấp kế hoạch dinh dưỡng chi tiết.</p>
+                                        <div class="health-record-actions">
+                                            <button class="btn btn-sm btn-outline-primary health-record-action-btn">
+                                                <i class="fas fa-eye me-1"></i> Xem chi tiết
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-secondary health-record-action-btn">
+                                                <i class="fas fa-download me-1"></i> Tải xuống
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-info health-record-action-btn">
+                                                <i class="fas fa-share-alt me-1"></i> Chia sẻ
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="health-record-item">
+                                        <div class="health-record-date">05/01/2025</div>
+                                        <h6 class="health-record-title">Khám mắt định kỳ</h6>
+                                        <div class="health-record-doctor">
+                                            <img src="images/doctor-3.jpg" alt="Doctor" class="health-record-doctor-avatar">
+                                            <span class="health-record-doctor-name">Bs. Lê Văn D</span>
+                                        </div>
+                                        <p class="health-record-details">Thị lực: 20/20 ở cả hai mắt. Không có dấu hiệu của bệnh lý mắt. Khuyến nghị giảm thời gian sử dụng màn hình và áp dụng quy tắc 20-20-20 khi làm việc với máy tính.</p>
+                                        <div class="health-record-actions">
+                                            <button class="btn btn-sm btn-outline-primary health-record-action-btn">
+                                                <i class="fas fa-eye me-1"></i> Xem chi tiết
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-secondary health-record-action-btn">
+                                                <i class="fas fa-download me-1"></i> Tải xuống
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-info health-record-action-btn">
+                                                <i class="fas fa-share-alt me-1"></i> Chia sẻ
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="health-record-item">
+                                        <div class="health-record-date">20/12/2024</div>
+                                        <h6 class="health-record-title">Khám tổng quát</h6>
+                                        <div class="health-record-doctor">
+                                            <img src="images/doctor-1.jpg" alt="Doctor" class="health-record-doctor-avatar">
+                                            <span class="health-record-doctor-name">Bs. Nguyễn Văn B</span>
+                                        </div>
+                                        <p class="health-record-details">Khám tổng quát định kỳ. Các chỉ số xét nghiệm máu trong giới hạn bình thường. Huyết áp: 125/85 mmHg, Nhịp tim: 75 bpm, Cân nặng: 73 kg. Khuyến nghị tiếp tục theo dõi huyết áp.</p>
+                                        <div class="health-record-actions">
+                                            <button class="btn btn-sm btn-outline-primary health-record-action-btn">
+                                                <i class="fas fa-eye me-1"></i> Xem chi tiết
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-secondary health-record-action-btn">
+                                                <i class="fas fa-download me-1"></i> Tải xuống
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-info health-record-action-btn">
+                                                <i class="fas fa-share-alt me-1"></i> Chia sẻ
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Tiền sử bệnh</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label class="form-label">Bệnh mãn tính</label>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="hypertension" checked>
+                                                <label class="form-check-label" for="hypertension">Tăng huyết áp</label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="diabetes">
+                                                <label class="form-check-label" for="diabetes">Tiểu đường</label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="heartDisease">
+                                                <label class="form-check-label" for="heartDisease">Bệnh tim mạch</label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="asthma">
+                                                <label class="form-check-label" for="asthma">Hen suyễn</label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="arthritis">
+                                                <label class="form-check-label" for="arthritis">Viêm khớp</label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Tiền sử phẫu thuật</label>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="appendectomy" checked>
+                                                <label class="form-check-label" for="appendectomy">Cắt ruột thừa (2010)</label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="tonsillectomy">
+                                                <label class="form-check-label" for="tonsillectomy">Cắt amidan</label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="allergies" class="form-label">Dị ứng</label>
+                                            <textarea class="form-control" id="allergies" rows="3">Dị ứng với penicillin, hải sản</textarea>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="medications" class="form-label">Thuốc đang sử dụng</label>
+                                            <textarea class="form-control" id="medications" rows="3">Amlodipine 5mg (1 viên/ngày, sáng)
+Aspirin 81mg (1 viên/ngày, tối)</textarea>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="familyHistory" class="form-label">Tiền sử gia đình</label>
+                                            <textarea class="form-control" id="familyHistory" rows="3">Cha: Tăng huyết áp, đột quỵ (65 tuổi)
+Mẹ: Tiểu đường type 2
+Anh trai: Tăng huyết áp</textarea>
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-end">
+                                            <button class="btn btn-primary">
+                                                <i class="fas fa-save me-2"></i> Lưu thay đổi
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Lối sống</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="exercise" class="form-label">Tập thể dục</label>
+                                            <select class="form-select" id="exercise">
+                                                <option value="none">Không tập thể dục</option>
+                                                <option value="light">Nhẹ (1-2 lần/tuần)</option>
+                                                <option value="moderate" selected>Vừa phải (3-4 lần/tuần)</option>
+                                                <option value="active">Tích cực (5+ lần/tuần)</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="diet" class="form-label">Chế độ ăn uống</label>
+                                            <select class="form-select" id="diet">
+                                                <option value="regular" selected>Bình thường</option>
+                                                <option value="vegetarian">Ăn chay</option>
+                                                <option value="vegan">Thuần chay</option>
+                                                <option value="keto">Keto</option>
+                                                <option value="lowCarb">Ít carb</option>
+                                                <option value="lowFat">Ít chất béo</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="smoking" class="form-label">Hút thuốc</label>
+                                            <select class="form-select" id="smoking">
+                                                <option value="never" selected>Không bao giờ</option>
+                                                <option value="former">Đã bỏ</option>
+                                                <option value="occasional">Thỉnh thoảng</option>
+                                                <option value="regular">Thường xuyên</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="alcohol" class="form-label">Rượu bia</label>
+                                            <select class="form-select" id="alcohol">
+                                                <option value="never">Không bao giờ</option>
+                                                <option value="occasional" selected>Thỉnh thoảng</option>
+                                                <option value="moderate">Vừa phải</option>
+                                                <option value="heavy">Nhiều</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="sleep" class="form-label">Giấc ngủ</label>
+                                            <select class="form-select" id="sleep">
+                                                <option value="less6">Ít hơn 6 giờ/ngày</option>
+                                                <option value="6to8" selected>6-8 giờ/ngày</option>
+                                                <option value="more8">Hơn 8 giờ/ngày</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-end">
+                                            <button class="btn btn-primary">
+                                                <i class="fas fa-save me-2"></i> Lưu thay đổi
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Security Tab -->
+                <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Đổi mật khẩu</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="currentPassword" class="form-label">Mật khẩu hiện tại</label>
+                                            <input type="password" class="form-control" id="currentPassword">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="newPassword" class="form-label">Mật khẩu mới</label>
+                                            <input type="password" class="form-control" id="newPassword">
+                                            <div class="form-text">Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.</div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="confirmPassword" class="form-label">Xác nhận mật khẩu mới</label>
+                                            <input type="password" class="form-control" id="confirmPassword">
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-end">
+                                            <button class="btn btn-primary">
+                                                <i class="fas fa-save me-2"></i> Cập nhật mật khẩu
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Xác thực hai yếu tố</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div>
+                                            <h6 class="mb-1">Xác thực hai yếu tố</h6>
+                                            <p class="mb-0 text-muted">Bảo vệ tài khoản của bạn bằng xác thực hai yếu tố.</p>
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="twoFactorAuth" checked>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="twoFactorMethod" class="form-label">Phương thức xác thực</label>
+                                        <select class="form-select" id="twoFactorMethod">
+                                            <option value="sms" selected>SMS</option>
+                                            <option value="email">Email</option>
+                                            <option value="app">Ứng dụng xác thực</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="twoFactorPhone" class="form-label">Số điện thoại</label>
+                                        <input type="tel" class="form-control" id="twoFactorPhone" value="0912345678">
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn btn-primary">
+                                            <i class="fas fa-save me-2"></i> Lưu thay đổi
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Phiên đăng nhập</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div>
+                                            <h6 class="mb-1">Windows - Chrome</h6>
+                                            <p class="mb-0 text-muted">TP. Hồ Chí Minh, Việt Nam - Hiện tại</p>
+                                        </div>
+                                        <span class="badge bg-success">Hiện tại</span>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div>
+                                            <h6 class="mb-1">Android - Chrome</h6>
+                                            <p class="mb-0 text-muted">TP. Hồ Chí Minh, Việt Nam - 2 giờ trước</p>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">iOS - Safari</h6>
+                                            <p class="mb-0 text-muted">TP. Hồ Chí Minh, Việt Nam - 1 ngày trước</p>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2 mt-3">
+                                        <button class="btn btn-danger">
+                                            <i class="fas fa-sign-out-alt me-2"></i> Đăng xuất tất cả các thiết bị khác
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Quyền riêng tư</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label class="form-label">Ai có thể xem hồ sơ của bạn?</label>
+                                        <select class="form-select">
+                                            <option value="public">Tất cả mọi người</option>
+                                            <option value="doctors" selected>Chỉ bác sĩ của tôi</option>
+                                            <option value="private">Chỉ tôi</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Ai có thể xem lịch sử khám bệnh của bạn?</label>
+                                        <select class="form-select">
+                                            <option value="public">Tất cả mọi người</option>
+                                            <option value="doctors" selected>Chỉ bác sĩ của tôi</option>
+                                            <option value="private">Chỉ tôi</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="emailNotification" checked>
+                                            <label class="form-check-label" for="emailNotification">Cho phép gửi email thông báo</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="smsNotification" checked>
+                                            <label class="form-check-label" for="smsNotification">Cho phép gửi SMS thông báo</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="dataSharing">
+                                            <label class="form-check-label" for="dataSharing">Cho phép chia sẻ dữ liệu ẩn danh cho nghiên cứu</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn btn-primary">
+                                            <i class="fas fa-save me-2"></i> Lưu thay đổi
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Notification Tab -->
+                <div class="tab-pane fade" id="notification" role="tabpanel" aria-labelledby="notification-tab">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Cài đặt thông báo</h5>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="mb-3">Thông báo qua email</h6>
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="emailAppointment" checked>
+                                            <label class="form-check-label" for="emailAppointment">Lịch hẹn</label>
+                                        </div>
+                                        <div class="form-text ms-4">Nhận thông báo khi có lịch hẹn mới, thay đổi hoặc hủy lịch hẹn.</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="emailConsultation" checked>
+                                            <label class="form-check-label" for="emailConsultation">Tư vấn</label>
+                                        </div>
+                                        <div class="form-text ms-4">Nhận thông báo khi có phản hồi tư vấn mới.</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="emailReminder" checked>
+                                            <label class="form-check-label" for="emailReminder">Nhắc nhở</label>
+                                        </div>
+                                        <div class="form-text ms-4">Nhận thông báo nhắc nhở uống thuốc, tập thể dục và các hoạt động khác.</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="emailHealthTips">
+                                            <label class="form-check-label" for="emailHealthTips">Mẹo sức khỏe</label>
+                                        </div>
+                                        <div class="form-text ms-4">Nhận thông báo về các mẹo sức khỏe và bài viết mới.</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="emailPromotion">
+                                            <label class="form-check-label" for="emailPromotion">Khuyến mãi</label>
+                                        </div>
+                                        <div class="form-text ms-4">Nhận thông báo về các chương trình khuyến mãi và ưu đãi.</div>
+                                    </div>
+                                    
+                                    <hr>
+                                    
+                                    <h6 class="mb-3">Thông báo qua SMS</h6>
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="smsAppointment" checked>
+                                            <label class="form-check-label" for="smsAppointment">Lịch hẹn</label>
+                                        </div>
+                                        <div class="form-text ms-4">Nhận thông báo khi có lịch hẹn mới, thay đổi hoặc hủy lịch hẹn.</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="smsConsultation">
+                                            <label class="form-check-label" for="smsConsultation">Tư vấn</label>
+                                        </div>
+                                        <div class="form-text ms-4">Nhận thông báo khi có phản hồi tư vấn mới.</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="smsReminder" checked>
+                                            <label class="form-check-label" for="smsReminder">Nhắc nhở</label>
+                                        </div>
+                                        <div class="form-text ms-4">Nhận thông báo nhắc nhở uống thuốc, tập thể dục và các hoạt động khác.</div>
+                                    </div>
+                                    
+                                    <hr>
+                                    
+                                    <h6 class="mb-3">Thông báo đẩy</h6>
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="pushAll" checked>
+                                            <label class="form-check-label" for="pushAll">Tất cả thông báo</label>
+                                        </div>
+                                        <div class="form-text ms-4">Nhận tất cả thông báo đẩy từ ứng dụng.</div>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn btn-primary">
+                                            <i class="fas fa-save me-2"></i> Lưu thay đổi
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Thông báo gần đây</h5>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="list-group list-group-flush">
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">Nhắc nhở lịch hẹn</h6>
+                                                <small class="text-muted">3 giờ trước</small>
+                                            </div>
+                                            <p class="mb-1">Bạn có lịch hẹn với Bs. Nguyễn Văn B vào ngày mai lúc 09:00.</p>
+                                        </a>
+                                        
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">Phản hồi tư vấn</h6>
+                                                <small class="text-muted">1 ngày trước</small>
+                                            </div>
+                                            <p class="mb-1">Bs. Trần Thị C đã trả lời câu hỏi của bạn về vấn đề đau đầu.</p>
+                                        </a>
+                                        
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">Nhắc nhở uống thuốc</h6>
+                                                <small class="text-muted">1 ngày trước</small>
+                                            </div>
+                                            <p class="mb-1">Đã đến giờ uống thuốc huyết áp Amlodipine 5mg.</p>
+                                        </a>
+                                        
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">Cập nhật hồ sơ sức khỏe</h6>
+                                                <small class="text-muted">3 ngày trước</small>
+                                            </div>
+                                            <p class="mb-1">Hồ sơ sức khỏe của bạn đã được cập nhật sau lần khám gần nhất.</p>
+                                        </a>
+                                        
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">Bài viết mới</h6>
+                                                <small class="text-muted">5 ngày trước</small>
+                                            </div>
+                                            <p class="mb-1">Bài viết mới: "5 cách đơn giản để kiểm soát huyết áp mà không cần dùng thuốc".</p>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <a href="#" class="btn btn-link">Xem tất cả thông báo</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

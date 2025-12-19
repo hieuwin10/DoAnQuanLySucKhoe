@@ -1,0 +1,240 @@
+@model DoAnChamSocSucKhoe.Areas.Admin.Models.SettingsViewModel
+
+@{
+    ViewData["Title"] = "Cài đặt hệ thống";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-cogs me-2"></i>Cài đặt hệ thống
+            </h1>
+            <p class="text-muted mb-0">Quản lý các cài đặt chung của hệ thống</p>
+        </div>
+    </div>
+
+    <!-- Settings Navigation -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="@Url.Action("Index")">
+                                <i class="fas fa-cog me-2"></i>Tổng quan
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Email")">
+                                <i class="fas fa-envelope me-2"></i>Email
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Security")">
+                                <i class="fas fa-shield-alt me-2"></i>Bảo mật
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Backup")">
+                                <i class="fas fa-database me-2"></i>Sao lưu
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Form -->
+    <form method="post" class="row">
+        @Html.AntiForgeryToken()
+
+        <!-- General Settings -->
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Cài đặt chung</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="SystemName" class="form-label">Tên hệ thống</label>
+                            @Html.TextBoxFor(m => m.SystemName, new { @class = "form-control", placeholder = "Nhập tên hệ thống" })
+                            @Html.ValidationMessageFor(m => m.SystemName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="AdminEmail" class="form-label">Email quản trị</label>
+                            @Html.TextBoxFor(m => m.AdminEmail, new { @class = "form-control", type = "email", placeholder = "admin@example.com" })
+                            @Html.ValidationMessageFor(m => m.AdminEmail, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="SystemDescription" class="form-label">Mô tả hệ thống</label>
+                        @Html.TextAreaFor(m => m.SystemDescription, new { @class = "form-control", rows = 3, placeholder = "Mô tả về hệ thống" })
+                        @Html.ValidationMessageFor(m => m.SystemDescription, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="SupportPhone" class="form-label">Số điện thoại hỗ trợ</label>
+                            @Html.TextBoxFor(m => m.SupportPhone, new { @class = "form-control", placeholder = "0123 456 789" })
+                            @Html.ValidationMessageFor(m => m.SupportPhone, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="SupportEmail" class="form-label">Email hỗ trợ</label>
+                            @Html.TextBoxFor(m => m.SupportEmail, new { @class = "form-control", type = "email", placeholder = "support@example.com" })
+                            @Html.ValidationMessageFor(m => m.SupportEmail, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Address" class="form-label">Địa chỉ</label>
+                        @Html.TextAreaFor(m => m.Address, new { @class = "form-control", rows = 2, placeholder = "Địa chỉ công ty" })
+                        @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Settings -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Cài đặt người dùng</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="ItemsPerPage" class="form-label">Số mục trên mỗi trang</label>
+                            @Html.TextBoxFor(m => m.ItemsPerPage, new { @class = "form-control", type = "number", min = "5", max = "100" })
+                            @Html.ValidationMessageFor(m => m.ItemsPerPage, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="SessionTimeoutMinutes" class="form-label">Thời gian lưu phiên (phút)</label>
+                            @Html.TextBoxFor(m => m.SessionTimeoutMinutes, new { @class = "form-control", type = "number", min = "15", max = "1440" })
+                            @Html.ValidationMessageFor(m => m.SessionTimeoutMinutes, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-check">
+                                @Html.CheckBoxFor(m => m.AllowRegistration, new { @class = "form-check-input" })
+                                <label class="form-check-label" for="AllowRegistration">
+                                    Cho phép đăng ký tài khoản
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-check">
+                                @Html.CheckBoxFor(m => m.RequireEmailConfirmation, new { @class = "form-check-input" })
+                                <label class="form-check-label" for="RequireEmailConfirmation">
+                                    Yêu cầu xác thực email
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Settings -->
+        <div class="col-lg-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Cài đặt hệ thống</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="DefaultLanguage" class="form-label">Ngôn ngữ mặc định</label>
+                        <select class="form-select" id="DefaultLanguage" name="DefaultLanguage">
+                            <option value="vi" selected="@(Model.DefaultLanguage == "vi")">Tiếng Việt</option>
+                            <option value="en" selected="@(Model.DefaultLanguage == "en")">English</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="TimeZone" class="form-label">Múi giờ</label>
+                        <select class="form-select" id="TimeZone" name="TimeZone">
+                            <option value="SE Asia Standard Time" selected="@(Model.TimeZone == "SE Asia Standard Time")">Giờ Đông Dương</option>
+                            <option value="UTC" selected="@(Model.TimeZone == "UTC")">UTC</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(m => m.SendNotificationEmails, new { @class = "form-check-input" })
+                            <label class="form-check-label" for="SendNotificationEmails">
+                                Gửi email thông báo
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(m => m.SendReminderEmails, new { @class = "form-check-input" })
+                            <label class="form-check-label" for="SendReminderEmails">
+                                Gửi email nhắc nhở
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Login Settings -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Đăng nhập mạng xã hội</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(m => m.EnableGoogleLogin, new { @class = "form-check-input" })
+                            <label class="form-check-label" for="EnableGoogleLogin">
+                                <i class="fab fa-google me-2"></i>Cho phép đăng nhập bằng Google
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(m => m.EnableFacebookLogin, new { @class = "form-check-input" })
+                            <label class="form-check-label" for="EnableFacebookLogin">
+                                <i class="fab fa-facebook me-2"></i>Cho phép đăng nhập bằng Facebook
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-save me-2"></i>Lưu cài đặt
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title mb-3"><i class="fas fa-bell me-2 text-danger"></i>Thông báo hệ thống</h5>
+                <p class="mb-3">Quản lý nội dung, hình thức gửi thông báo cho người dùng.</p>
+                <a asp-controller="Settings" asp-action="Notifications" class="btn btn-outline-danger btn-sm"><i class="fas fa-bell me-1"></i> Quản lý thông báo</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title mb-3"><i class="fas fa-info-circle me-2 text-secondary"></i>Thông tin hệ thống</h5>
+                <p class="mb-3">Xem phiên bản, bản quyền, liên hệ hỗ trợ kỹ thuật.</p>
+                <a asp-controller="Settings" asp-action="About" class="btn btn-outline-secondary btn-sm"><i class="fas fa-info-circle me-1"></i> Thông tin hệ thống</a>
+            </div>
+        </div>
+    </div>
+</div>

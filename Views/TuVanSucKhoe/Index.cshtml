@@ -1,0 +1,159 @@
+@model IEnumerable<DoAnChamSocSucKhoe.Models.TuVanSucKhoe>
+@{
+    ViewData["Title"] = "Danh sách tư vấn sức khỏe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-1">Tư vấn sức khỏe</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                    <li class="breadcrumb-item active">Tư vấn</li>
+                </ol>
+            </nav>
+        </div>
+        <div>
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i> Tư vấn mới
+            </a>
+        </div>
+    </div>
+    
+    <!-- Danh sách tư vấn -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title mb-0">Danh sách tư vấn của bạn</h5>
+        </div>
+        <div class="card-body">
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5">
+                    <i class="fas fa-comment-medical fa-4x text-muted mb-3"></i>
+                    <h5>Bạn chưa có tư vấn nào</h5>
+                    <p class="text-muted">Hãy tạo một yêu cầu tư vấn mới để được hỗ trợ từ các chuyên gia sức khỏe</p>
+                    <a asp-action="Create" class="btn btn-primary mt-3">
+                        <i class="fas fa-plus me-2"></i> Tạo tư vấn mới
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Tiêu đề</th>
+                                <th>Chuyên gia</th>
+                                <th>Ngày tạo</th>
+                                <th>Cập nhật</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.TieuDe</td>
+                                    <td>
+                                        @if (item.ChuyenGia != null)
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <img src="@(string.IsNullOrEmpty(item.ChuyenGia.NguoiDung?.AnhDaiDien) ? "/images/default-avatar.png" : item.ChuyenGia.NguoiDung.AnhDaiDien)" 
+                                                     class="rounded-circle me-2" width="32" height="32">
+                                                <span>@(item.ChuyenGia.NguoiDung?.HoTen ?? "Không có tên")</span>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">Chưa phân công</span>
+                                        }
+                                    </td>
+                                    <td>@item.NgayTao.ToString("dd/MM/yyyy")</td>
+                                    <td>@item.NgayCapNhat.ToString("dd/MM/yyyy")</td>
+                                    <td>
+                                        @switch (item.TrangThai)
+                                        {
+                                            case 0:
+                                                <span class="badge bg-warning">Chờ tư vấn</span>
+                                                break;
+                                            case 1:
+                                                <span class="badge bg-success">Đã tư vấn</span>
+                                                break;
+                                            case 2:
+                                                <span class="badge bg-danger">Đã hủy</span>
+                                                break;
+                                            default:
+                                                <span class="badge bg-secondary">Không xác định</span>
+                                                break;
+                                        }
+                                    </td>
+                                    <td>
+                                        <a asp-action="Chat" asp-route-id="@item.TuVanSucKhoeId" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-comments"></i> Chat
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@item.TuVanSucKhoeId" class="btn btn-sm btn-info">
+                                            <i class="fas fa-info-circle"></i> Chi tiết
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+    
+    <!-- Bài viết sức khỏe -->
+    <div class="mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0">Bài viết sức khỏe dành cho bạn</h5>
+            <a href="#" class="text-primary">Xem tất cả</a>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <img src="/images/articles/heart-health.jpg" alt="Heart Health" class="rounded me-3" style="width: 100px; height: 100px; object-fit: cover;">
+                            <div>
+                                <h6 class="card-title">5 cách đơn giản để kiểm soát huyết áp mà không cần thuốc</h6>
+                                <p class="card-text text-muted small">Huyết áp cao là một trong những yếu tố nguy cơ hàng đầu gây ra bệnh tim mạch...</p>
+                                <div class="small text-muted">
+                                    <span class="me-2">Bs. Nguyễn Văn B</span>
+                                    <span class="me-2">05/04/2025</span>
+                                    <span class="badge bg-light text-primary">Tim mạch</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <img src="/images/articles/nutrition.jpg" alt="Nutrition" class="rounded me-3" style="width: 100px; height: 100px; object-fit: cover;">
+                            <div>
+                                <h6 class="card-title">Chế độ ăn DASH - Giải pháp dinh dưỡng cho người huyết áp cao</h6>
+                                <p class="card-text text-muted small">Chế độ ăn DASH (Dietary Approaches to Stop Hypertension) được thiết kế đặc biệt để giúp giảm huyết áp...</p>
+                                <div class="small text-muted">
+                                    <span class="me-2">Bs. Trần Thị C</span>
+                                    <span class="me-2">01/04/2025</span>
+                                    <span class="badge bg-light text-primary">Dinh dưỡng</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

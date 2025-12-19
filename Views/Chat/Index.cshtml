@@ -1,0 +1,196 @@
+@{
+    ViewData["Title"] = "Tư vấn sức khỏe với AI";
+}
+
+<style>
+    #chat-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 70vh;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    #chat-messages {
+        flex-grow: 1;
+        padding: 20px;
+        overflow-y: auto;
+        background-color: #f9f9f9;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .message {
+        padding: 10px 15px;
+        border-radius: 18px;
+        max-width: 70%;
+        line-height: 1.5;
+    }
+
+    .user-message {
+        background-color: #007bff;
+        color: white;
+        align-self: flex-end;
+        border-bottom-right-radius: 4px;
+    }
+
+    .ai-message {
+        background-color: #e9e9eb;
+        color: #333;
+        align-self: flex-start;
+        border-bottom-left-radius: 4px;
+    }
+
+    .typing-indicator {
+        align-self: flex-start;
+        color: #888;
+        font-style: italic;
+    }
+
+    #chat-form {
+        display: flex;
+        padding: 15px;
+        border-top: 1px solid #ddd;
+        background-color: #fff;
+    }
+
+    #message-input {
+        flex-grow: 1;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        padding: 10px 15px;
+        margin-right: 10px;
+    }
+
+    #send-button {
+        border-radius: 20px;
+    }
+</style>
+
+<div id="chat-container">
+    <div class="card-header text-center bg-primary text-white">
+        <h4>@ViewData["Title"]</h4>
+        <p class="mb-0 small">Trợ lý AI sẵn sàng trả lời các câu hỏi về sức khỏe tổng quát</p>
+    </div>
+    <div id="chat-messages">
+        <div class="message ai-message">Xin chào! Bạn cần tư vấn về vấn đề sức khỏe nào hôm nay?</div>
+    </div>
+    <form id="chat-form">
+        <input type="text" id="message-input" class="form-control" placeholder="Nhập câu hỏi của bạn..." autocomplete="off" required />
+        <button id="send-button" type="submit" class="btn btn-primary">
+            <i class="fas fa-paper-plane"></i> Gửi
+        </button>
+    </form>
+</div>
+
+@section Scripts {
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const chatForm = document.getElementById('chat-form');
+        const messageInput = document.getElementById('message-input');
+        const chatMessages = document.getElementById('chat-messages');
+        const sendButton = document.getElementById('send-button');
+
+        chatForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const userMessage = messageInput.value.trim();
+            if (!userMessage) return;
+
+            // Display user message
+            appendMessage(userMessage, 'user');
+            messageInput.value = '';
+            showTypingIndicator(true);
+            sendButton.disabled = true;
+
+            try {
+                const response = await fetch('/api/chatai/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: userMessage }),
+                });
+
+                showTypingIndicator(false);
+                sendButton.disabled = false;
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    const errorMessage = errorData.message || `Lỗi ${response.status}: Có sự cố khi kết nối với trợ lý AI. Vui lòng thử lại sau.`;
+                    appendMessage(errorMessage, 'ai', true);
+                    return;
+                }
+
+                const data = await response.json();
+                appendMessage(data.reply, 'ai');
+
+            } catch (error) {
+                console.error('Error:', error);
+                showTypingIndicator(false);
+                sendButton.disabled = false;
+                appendMessage('Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại kết nối mạng của bạn.', 'ai', true);
+            }
+        });
+
+        function appendMessage(message, sender, isError = false) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', sender + '-message');
+            if (isError) {
+                messageElement.style.backgroundColor = '#f8d7da';
+                messageElement.style.color = '#721c24';
+                messageElement.textContent = message;
+            } else if (sender === 'ai') {
+                // Parse Markdown for AI messages first
+                messageElement.innerHTML = marked.parse(message);
+                
+                // Then render KaTeX math
+                chatMessages.appendChild(messageElement);
+                renderMathInElement(messageElement, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false},
+                        {left: '\\[', right: '\\]', display: true},
+                        {left: '\\(', right: '\\)', display: false}
+                    ],
+                    throwOnError: false,
+                    errorColor: '#cc0000',
+                    strict: false
+                });
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                return; // Exit early since we already appended
+            } else {
+                messageElement.textContent = message;
+            }
+            chatMessages.appendChild(messageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTypingIndicator(show) {
+            let indicator = document.querySelector('.typing-indicator');
+            if (show) {
+                if (!indicator) {
+                    indicator = document.createElement('div');
+                    indicator.classList.add('message', 'typing-indicator');
+                    indicator.textContent = 'Trợ lý AI đang soạn câu trả lời...';
+                    chatMessages.appendChild(indicator);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            } else {
+                if (indicator) {
+                    indicator.remove();
+                }
+            }
+        }
+    });
+</script>
+}

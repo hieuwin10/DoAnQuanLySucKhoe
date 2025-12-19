@@ -1,0 +1,268 @@
+@model DoAnChamSocSucKhoe.Areas.Doctor.Models.HealthRecordDetailViewModel
+
+@{
+    ViewData["Title"] = "Chi tiết Hồ sơ Sức khỏe";
+    Layout = "~/Areas/Doctor/Views/Shared/_DoctorLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Hồ Sơ Sức Khỏe</h1>
+        <div>
+            <button type="button" class="btn btn-success shadow-sm" data-bs-toggle="modal" data-bs-target="#addReminderModal">
+                <i class="fas fa-plus fa-sm text-white-50"></i> Tạo Nhắc Nhở
+            </button>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Xuất Báo Cáo</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Thông tin cá nhân -->
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4 patient-info-card">
+                <div class="card-header py-3 bg-primary">
+                    <h6 class="m-0 font-weight-bold text-white">Thông Tin Bệnh Nhân</h6>
+                </div>
+                <div class="card-body">
+                    <img src="~/images/BN.png" alt="Patient Avatar" class="patient-avatar" />
+                    <h4 class="font-weight-bold text-gray-800">@Model.Patient?.HoTen</h4>
+                    <hr class="w-100">
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>@Model.Patient?.Email</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-birthday-cake"></i>
+                        <span>@(Model.HealthProfile?.NgaySinh?.ToString("dd/MM/yyyy") ?? "Chưa cập nhật")</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-venus-mars"></i>
+                        <span>@(Model.HealthProfile?.GioiTinh ?? "Chưa cập nhật")</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>@(Model.HealthProfile?.DiaChi ?? "Chưa cập nhật")</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-tint"></i>
+                        <span>Nhóm máu: @(Model.HealthProfile?.NhomMau ?? "Chưa cập nhật")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chỉ số sức khỏe -->
+        <div class="col-xl-8 col-lg-7">
+            <div class="row">
+                <div class="col-xl-4 col-md-6">
+                    <div class="metric-card bg-info">
+                        <div class="metric-value">@Model.HealthProfile?.NhipTim<small> bpm</small></div>
+                        <div class="metric-label">Nhịp tim</div>
+                        <i class="fas fa-heartbeat metric-icon"></i>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="metric-card bg-danger">
+                        <div class="metric-value">@Model.HealthProfile?.HuyetApTamThu/@Model.HealthProfile?.HuyetApTamTruong</div>
+                        <div class="metric-label">Huyết áp (mmHg)</div>
+                        <i class="fas fa-stethoscope metric-icon"></i>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="metric-card bg-warning">
+                        <div class="metric-value">@Model.HealthProfile?.DuongHuyet<small> mg/dL</small></div>
+                        <div class="metric-label">Đường huyết</div>
+                        <i class="fas fa-burn metric-icon"></i>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="metric-card bg-success">
+                        <div class="metric-value">@Model.HealthProfile?.CanNang<small> kg</small></div>
+                        <div class="metric-label">Cân nặng</div>
+                        <i class="fas fa-weight metric-icon"></i>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="metric-card bg-primary">
+                        <div class="metric-value">@Model.HealthProfile?.ChieuCao<small> cm</small></div>
+                        <div class="metric-label">Chiều cao</div>
+                        <i class="fas fa-ruler-vertical metric-icon"></i>
+                    </div>
+                </div>
+                 <div class="col-xl-4 col-md-6">
+                    <div class="metric-card bg-secondary">
+                        <div class="metric-value">@Model.HealthProfile?.NgayCapNhat.ToString("dd/MM/yy")</div>
+                        <div class="metric-label">Cập nhật lần cuối</div>
+                        <i class="fas fa-calendar-check metric-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lịch sử chỉ số sức khỏe -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 bg-dark">
+            <h6 class="m-0 font-weight-bold text-white">Lịch Sử Chỉ Số Sức Khỏe</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="healthMetricsTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Ngày Đo</th>
+                            <th>Chiều Cao (cm)</th>
+                            <th>Cân Nặng (kg)</th>
+                            <th>Nhịp Tim</th>
+                            <th>Đường Huyết</th>
+                            <th>Huyết Áp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.HealthMetrics)
+                        {
+                            <tr>
+                                <td>@item.NgayDo.ToString("dd/MM/yyyy")</td>
+                                <td>@item.ChieuCao</td>
+                                <td>@item.CanNang</td>
+                                <td>@item.NhipTim</td>
+                                <td>@item.DuongHuyet</td>
+                                <td>@item.HuyetAp</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kế hoạch dinh dưỡng và tập luyện -->
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 bg-success">
+                    <h6 class="m-0 font-weight-bold text-white"><i class="fas fa-utensils mr-2"></i>Kế Hoạch Dinh Dưỡng</h6>
+                </div>
+                <div class="card-body">
+                    @if(Model.NutritionPlans.Any())
+                    {
+                        foreach (var plan in Model.NutritionPlans)
+                        {
+                            <div class="mb-3 p-3 border rounded">
+                                <strong>@plan.TenKeHoach</strong> 
+                                <small class="d-block text-muted">@plan.NgayBatDau.ToString("dd/MM/yyyy") - @plan.NgayKetThuc.ToString("dd/MM/yyyy")</small>
+                                <p class="mt-2">@plan.MoTa</p>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>Chưa có kế hoạch dinh dưỡng nào.</p>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 bg-warning">
+                    <h6 class="m-0 font-weight-bold text-white"><i class="fas fa-dumbbell mr-2"></i>Kế Hoạch Tập Luyện</h6>
+                </div>
+                <div class="card-body">
+                     @if(Model.ExercisePlans.Any())
+                    {
+                        foreach (var plan in Model.ExercisePlans)
+                        {
+                            <div class="mb-3 p-3 border rounded">
+                                <strong>@plan.TenKeHoach</strong> 
+                                <small class="d-block text-muted">@plan.NgayBatDau.ToString("dd/MM/yyyy") - @plan.NgayKetThuc.ToString("dd/MM/yyyy")</small>
+                                <p class="mt-2">@plan.MoTa</p>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>Chưa có kế hoạch tập luyện nào.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nhắc nhở sức khỏe -->
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 bg-info">
+                    <h6 class="m-0 font-weight-bold text-white"><i class="fas fa-bell mr-2"></i>Nhắc Nhở Sức Khỏe</h6>
+                </div>
+                <div class="card-body">
+                    @if(Model.HealthReminders.Any())
+                    {
+                        foreach (var reminder in Model.HealthReminders)
+                        {
+                            <div class="mb-3 p-3 border rounded @(reminder.DaThucHien ? "bg-light" : "")">
+                                <strong>@reminder.NoiDung</strong>
+                                <small class="d-block text-muted">@reminder.ThoiGian.ToString("g")</small>
+                                <span class="badge @(reminder.DaThucHien ? "bg-success" : "bg-warning")">
+                                    @(reminder.DaThucHien ? "Đã thực hiện" : "Chưa thực hiện")
+                                </span>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>Chưa có nhắc nhở nào.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Reminder Modal -->
+<div class="modal fade" id="addReminderModal" tabindex="-1" aria-labelledby="addReminderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addReminderModalLabel">Tạo Nhắc Nhở Mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="CreateReminder" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="patientId" value="@Model.Patient?.Id" />
+                    <div class="mb-3">
+                        <label for="noiDung" class="form-label">Nội dung nhắc nhở</label>
+                        <input type="text" class="form-control" id="noiDung" name="noiDung" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="thoiGian" class="form-label">Thời gian</label>
+                        <input type="datetime-local" class="form-control" id="thoiGian" name="thoiGian" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Lưu Nhắc Nhở</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Page level plugins -->
+    <script src="~/lib/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script>
+        $(document).ready(function () {
+            $('#healthMetricsTable').DataTable({
+                "order": [[0, "desc"]],
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Vietnamese.json"
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,179 @@
+@model DoAnChamSocSucKhoe.Models.TuVanSucKhoe
+@{
+    ViewData["Title"] = "Chat với " + Model.ChuyenGia.HoTen;
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Chat với @Model.ChuyenGia.HoTen</h5>
+                </div>
+                <div class="card-body">
+                    <div id="chat-messages" class="chat-messages">
+                        @foreach (var message in Model.Messages)
+                        {
+                            <div class="message @(message.SenderId == User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ? "sent" : "received")">
+                                <div class="message-content">
+                                    @if (!string.IsNullOrEmpty(message.MediaUrl))
+                                    {
+                                        if (message.MediaType == "image")
+                                        {
+                                            <img src="@message.MediaUrl" alt="Media" class="media-preview" />
+                                        }
+                                        else if (message.MediaType == "video")
+                                        {
+                                            <video controls class="media-preview">
+                                                <source src="@message.MediaUrl" type="video/mp4">
+                                            </video>
+                                        }
+                                    }
+                                    @if (!string.IsNullOrEmpty(message.Content))
+                                    {
+                                        <text>@message.Content</text>
+                                    }
+                                </div>
+                                <div class="message-time">@message.SentTime.ToString("HH:mm")</div>
+                            </div>
+                        }
+                        <div id="typing-indicator" class="typing-indicator" style="display: none;">Đang gõ...</div>
+                    </div>
+                    <div class="chat-input mt-3">
+                        <form id="sendMessageForm">
+                            <div class="input-group">
+                                <input type="text" id="messageInput" class="form-control" placeholder="Nhập tin nhắn..." />
+                                <button type="button" id="emojiBtn" class="btn btn-outline-secondary">😊</button>
+                                <input type="file" id="fileInput" accept="image/*,video/*" style="display: none;" />
+                                <button type="button" id="uploadBtn" class="btn btn-outline-secondary">📎</button>
+                                <button type="submit" class="btn btn-primary">Gửi</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/microsoft-signalr/signalr.min.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl('/chatHub')
+            .build();
+
+        connection.on('ReceiveMessage', (user, message) => {
+            const messagesDiv = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message received';
+            messageDiv.innerHTML = `<div class="message-content">${message}</div><div class="message-time">${new Date().toLocaleTimeString()}</div>`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        });
+
+        connection.on('UserTyping', (user, isTyping) => {
+            const typingDiv = document.getElementById('typing-indicator');
+            typingDiv.style.display = isTyping ? 'block' : 'none';
+        });
+
+        connection.start().then(() => {
+            connection.invoke('JoinGroup', '@Model.TuVanSucKhoeId');
+        });
+
+        document.getElementById('sendMessageForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const message = document.getElementById('messageInput').value;
+            if (message) {
+                await fetch('/Patient/Chat/SendMessage', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: `consultationId=@Model.TuVanSucKhoeId&content=${encodeURIComponent(message)}`
+                });
+                document.getElementById('messageInput').value = '';
+                connection.invoke('SendMessage', '@Model.TuVanSucKhoeId', message);
+            }
+        });
+
+        document.getElementById('messageInput').addEventListener('input', () => {
+            connection.invoke('TypingIndicator', '@Model.TuVanSucKhoeId', true);
+            clearTimeout(window.typingTimeout);
+            window.typingTimeout = setTimeout(() => {
+                connection.invoke('TypingIndicator', '@Model.TuVanSucKhoeId', false);
+            }, 1000);
+        });
+
+        document.getElementById('emojiBtn').addEventListener('click', () => {
+            const emoji = prompt('Chọn emoji:', '😊');
+            if (emoji) {
+                document.getElementById('messageInput').value += emoji;
+            }
+        });
+
+        document.getElementById('fileInput').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('consultationId', '@Model.TuVanSucKhoeId');
+                formData.append('__RequestVerificationToken', document.querySelector('input[name="__RequestVerificationToken"]').value);
+
+                const response = await fetch('/Patient/Chat/UploadMedia', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                if (result.success) {
+                    connection.invoke('SendMessage', '@Model.TuVanSucKhoeId', 'Đã gửi media');
+                    // Reload messages or append
+                    location.reload();
+                } else {
+                    alert(result.message);
+                }
+            }
+        });
+    </script>
+}
+
+<style>
+    .chat-messages {
+        height: 400px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    .message {
+        margin-bottom: 10px;
+    }
+    .message.sent {
+        text-align: right;
+    }
+    .message.received {
+        text-align: left;
+    }
+    .message-content {
+        display: inline-block;
+        padding: 8px 12px;
+        border-radius: 18px;
+        background-color: #e3f2fd;
+        max-width: 70%;
+    }
+    .message.sent .message-content {
+        background-color: #007bff;
+        color: white;
+    }
+    .message-time {
+        font-size: 0.8em;
+        color: #666;
+        margin-top: 2px;
+    }
+    .media-preview {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 8px;
+    }
+</style>

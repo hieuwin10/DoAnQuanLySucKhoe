@@ -1,0 +1,748 @@
+@model IEnumerable<DoAnChamSocSucKhoe.Models.LichHen> 
+
+@{
+    ViewData["Title"] = "Quản lý lịch hẹn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-hero">
+    <div class="container">
+        <h2>Quản lý lịch hẹn</h2>
+        <p>Theo dõi và quản lý các cuộc hẹn với bác sĩ</p>
+    </div>
+</div>
+
+<div class="container main-container">
+    <div class="search-box-container">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <ul class="nav nav-pills" id="appointmentTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active rounded-pill" id="calendar-tab" data-bs-toggle="tab" data-bs-target="#calendar" type="button" role="tab">Lịch</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link rounded-pill" id="upcoming-tab" data-bs-toggle="tab" data-bs-target="#upcoming" type="button" role="tab">Sắp tới</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link rounded-pill" id="past-tab" data-bs-toggle="tab" data-bs-target="#past" type="button" role="tab">Đã qua</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link rounded-pill" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled" type="button" role="tab">Đã hủy</button>
+                </li>
+            </ul>
+            <div>
+                <button class="btn btn-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#newAppointmentModal">
+                    <i class="fas fa-plus me-2"></i> Đặt lịch hẹn mới
+                </button>
+            </div>
+        </div>
+    </div>
+        
+    <!-- Tab Content -->
+    <div class="tab-content" id="appointmentTabsContent">
+        <!-- Calendar Tab -->
+        <div class="tab-pane fade show active" id="calendar" role="tabpanel" aria-labelledby="calendar-tab">
+            <div class="feature-card">
+                <div id="appointmentCalendar"></div>
+            </div>
+        </div>
+        
+        <!-- Upcoming Appointments Tab -->
+        <div class="tab-pane fade" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
+            <div class="feature-card">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="mb-0 fw-bold">Lịch hẹn sắp tới</h5>
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle rounded-pill" type="button" data-bs-toggle="dropdown">
+                            Tất cả
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" href="#">Tất cả</a>
+                            <a class="dropdown-item" href="#">Đã xác nhận</a>
+                            <a class="dropdown-item" href="#">Chờ xác nhận</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="appointment-list">
+                    @foreach (var appointment in Model.Where(a => a.NgayGioHen >= DateTime.Today && a.TrangThai != "Đã hủy"))
+                    {
+                        <div class="card mb-3 border-0 shadow-sm appointment-item">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <div class="feature-icon-box bg-gradient-primary mb-0" style="width: 50px; height: 50px; font-size: 1.2rem; margin-left: 0; margin-right: 0;">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <h6 class="fw-bold mb-1 appointment-title">Lịch hẹn</h6>
+                                        <div class="appointment-date fw-bold">@appointment.NgayGioHen.ToString("dddd, dd/MM/yyyy")</div>
+                                        <div class="appointment-time text-muted">@appointment.NgayGioHen.ToString(@"hh\:mm") - @appointment.NgayGioHen.Add(TimeSpan.FromMinutes(30)).ToString(@"hh\:mm")</div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="d-flex align-items-center">
+                                            <img src="~/images/doctor-@(appointment.ChuyenGiaId).jpg" onerror="this.src='/images/default-avatar.png'" alt="Doctor" class="rounded-circle me-2" width="40" height="40">
+                                            <div>
+                                                <div class="fw-bold appointment-doctor-name">@(appointment.ChuyenGia?.HoTen ?? "Chưa xác định")</div>
+                                                <div class="text-muted small">Chuyên khoa</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto text-end">
+                                        <span class="badge bg-primary rounded-pill appointment-status mb-2">@appointment.TrangThai</span>
+                                        <div class="appointment-actions">
+                                            <button class="btn btn-sm btn-outline-primary rounded-pill" onclick="editAppointment(@appointment.LichHenId)">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger rounded-pill" onclick="cancelAppointment(@appointment.LichHenId)">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-2 text-muted small appointment-location-name">
+                                    <i class="fas fa-map-marker-alt me-1"></i> @appointment.DiaDiem
+                                </div>
+                                <div class="mt-1 text-muted small appointment-notes">
+                                    <i class="fas fa-sticky-note me-1"></i> @appointment.LyDo
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <!-- Past Appointments Tab -->
+        <div class="tab-pane fade" id="past" role="tabpanel" aria-labelledby="past-tab">
+            <div class="feature-card">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="mb-0 fw-bold">Lịch hẹn đã qua</h5>
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle rounded-pill" type="button" data-bs-toggle="dropdown">
+                            Tất cả
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" href="#">Tất cả</a>
+                            <a class="dropdown-item" href="#">Đã hoàn thành</a>
+                            <a class="dropdown-item" href="#">Không đến</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="appointment-list">
+                    @foreach (var appointment in Model.Where(a => a.NgayGioHen < DateTime.Today && a.TrangThai != "Đã hủy"))
+                    {
+                        <div class="card mb-3 border-0 shadow-sm appointment-item">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <div class="feature-icon-box bg-secondary mb-0" style="width: 50px; height: 50px; font-size: 1.2rem; margin-left: 0; margin-right: 0;">
+                                            <i class="fas fa-history"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <h6 class="fw-bold mb-1 appointment-title">Lịch hẹn</h6>
+                                        <div class="appointment-date fw-bold">@appointment.NgayGioHen.ToString("dddd, dd/MM/yyyy")</div>
+                                        <div class="appointment-time text-muted">@appointment.NgayGioHen.ToString(@"hh\:mm") - @appointment.NgayGioHen.Add(TimeSpan.FromMinutes(30)).ToString(@"hh\:mm")</div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="d-flex align-items-center">
+                                            <img src="~/images/doctor-@(appointment.ChuyenGiaId).jpg" onerror="this.src='/images/default-avatar.png'" alt="Doctor" class="rounded-circle me-2" width="40" height="40">
+                                            <div>
+                                                <div class="fw-bold appointment-doctor-name">@(appointment.ChuyenGia?.HoTen ?? "Chưa xác định")</div>
+                                                <div class="text-muted small">Chuyên khoa</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto text-end">
+                                        <span class="badge bg-secondary rounded-pill appointment-status mb-2">@appointment.TrangThai</span>
+                                        <div class="appointment-actions">
+                                            <button class="btn btn-sm btn-outline-primary rounded-pill">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cancelled Appointments Tab -->
+        <div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="cancelled-tab">
+            <div class="feature-card">
+                <div class="mb-4">
+                    <h5 class="mb-0 fw-bold">Lịch hẹn đã hủy</h5>
+                </div>
+                
+                <div class="appointment-list">
+                    @foreach (var appointment in Model.Where(a => a.TrangThai == "Đã hủy"))
+                    {
+                        <div class="card mb-3 border-0 shadow-sm appointment-item">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <div class="feature-icon-box bg-danger mb-0" style="width: 50px; height: 50px; font-size: 1.2rem; margin-left: 0; margin-right: 0;">
+                                            <i class="fas fa-ban"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <h6 class="fw-bold mb-1 appointment-title">Lịch hẹn</h6>
+                                        <div class="appointment-date fw-bold">@appointment.NgayGioHen.ToString("dddd, dd/MM/yyyy")</div>
+                                        <div class="appointment-time text-muted">@appointment.NgayGioHen.ToString(@"hh\:mm") - @appointment.NgayGioHen.Add(TimeSpan.FromMinutes(30)).ToString(@"hh\:mm")</div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="d-flex align-items-center">
+                                            <img src="~/images/doctor-@(appointment.ChuyenGiaId).jpg" onerror="this.src='/images/default-avatar.png'" alt="Doctor" class="rounded-circle me-2" width="40" height="40">
+                                            <div>
+                                                <div class="fw-bold appointment-doctor-name">@(appointment.ChuyenGia?.HoTen ?? "Chưa xác định")</div>
+                                                <div class="text-muted small">Chuyên khoa</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto text-end">
+                                        <span class="badge bg-danger rounded-pill appointment-status mb-2">Đã hủy</span>
+                                        <div class="appointment-actions">
+                                            <button class="btn btn-sm btn-outline-primary rounded-pill">
+                                                <i class="fas fa-calendar-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-2 text-muted small appointment-notes">
+                                    <i class="fas fa-info-circle me-1"></i> Lý do hủy: @appointment.LyDo
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Appointment Modal -->
+<div class="modal fade" id="newAppointmentModal" tabindex="-1" aria-labelledby="newAppointmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newAppointmentModalLabel">Đặt lịch hẹn mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="appointmentForm" asp-action="Create" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="appointmentType" class="form-label">Loại lịch hẹn</label>
+                                <select class="form-select" id="appointmentType" name="LoaiLichHen">
+                                    <option value="" selected disabled>Chọn loại lịch hẹn</option>
+                                    <option value="Khám tổng quát">Khám tổng quát</option>
+                                    <option value="Tái khám">Tái khám</option>
+                                    <option value="Tư vấn">Tư vấn</option>
+                                    <option value="Điều trị">Điều trị</option>
+                                    <option value="Khác">Khác</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="appointmentSpecialty" class="form-label">Chuyên khoa</label>
+                                <select class="form-select" id="appointmentSpecialty" name="ChuyenKhoa">
+                                    <option value="" selected disabled>Chọn chuyên khoa</option>
+                                    <option value="Tim mạch">Tim mạch</option>
+                                    <option value="Da liễu">Da liễu</option>
+                                    <option value="Thần kinh">Thần kinh</option>
+                                    <option value="Nhãn khoa">Nhãn khoa</option>
+                                    <option value="Chỉnh hình">Chỉnh hình</option>
+                                    <option value="Nhi khoa">Nhi khoa</option>
+                                    <option value="Tâm thần">Tâm thần</option>
+                                    <option value="Dinh dưỡng">Dinh dưỡng</option>
+                                    <option value="Khác">Khác</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Chọn chuyên gia <span class="text-danger">*</span></label>
+                                <div id="doctorList" style="min-height: 50px; max-height: 300px; overflow-y: auto;">
+                                    <div class="text-muted text-center py-3">
+                                        <i class="fas fa-info-circle"></i> Vui lòng chọn chuyên khoa để xem danh sách chuyên gia
+                                    </div>
+                                </div>
+                                <input type="hidden" id="ChuyenGiaId" name="ChuyenGiaId" required>
+                                <div class="invalid-feedback" id="doctorError" style="display: none;">
+                                    Vui lòng chọn chuyên gia
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="appointmentDate" class="form-label">Ngày hẹn <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="appointmentDate" name="NgayHen" required>
+                                <input type="hidden" id="AppointmentTime" name="GioHen">
+                                <div class="invalid-feedback" id="timeError" style="display: none;">
+                                    Vui lòng chọn giờ hẹn
+                                </div>
+                            </div>                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Thời gian</label>
+                                <div class="time-slots" id="timeSlots">
+                                    <!-- Time slots will be loaded here -->
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="appointmentLocation" class="form-label">Địa điểm</label>
+                                <select class="form-select" id="appointmentLocation" name="DiaDiem" required>
+                                    <option value="Phòng khám Đa khoa XYZ - 123 Đường ABC, Quận 1" selected>Phòng khám Đa khoa XYZ - 123 Đường ABC, Quận 1</option>
+                                    <option value="Phòng khám Mắt ABC - 456 Đường XYZ, Quận 3">Phòng khám Mắt ABC - 456 Đường XYZ, Quận 3</option>
+                                    <option value="Phòng khám Da liễu DEF - 789 Đường MNO, Quận 2">Phòng khám Da liễu DEF - 789 Đường MNO, Quận 2</option>
+                                    <option value="Tư vấn trực tuyến">Tư vấn trực tuyến</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="appointmentReason" class="form-label">Lý do khám</label>
+                                <textarea class="form-control" id="appointmentReason" name="LyDo" rows="3" required></textarea>
+                            </div>
+                            
+                            <input type="hidden" name="TrangThai" value="Chờ xác nhận">
+                            <input type="hidden" id="NguoiDungId" name="NguoiDungId" value="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value">
+                            
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="insuranceCheck" name="SuDungBHYT" value="true" checked>
+                                    <label class="form-check-label" for="insuranceCheck">
+                                        Sử dụng bảo hiểm y tế
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="reminderCheck" name="NhanNhacNho" value="true" checked>
+                                    <label class="form-check-label" for="reminderCheck">
+                                        Nhận nhắc nhở qua SMS/Email
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Xác nhận đặt lịch</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Appointment Details Modal -->
+<div class="modal fade custom-modal" id="viewAppointmentModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết lịch hẹn</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="info-details">
+                    <li>
+                        <div class="details-header">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <span class="title" id="modalAppointmentId">ID: #LH001</span>
+                                    <span class="text" id="modalAppointmentDateTime">14 Nov 2023 10:00 AM</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="text-right">
+                                        <span class="badge badge-pill bg-success-light" id="modalAppointmentStatus">Đã xác nhận</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="title">Trạng thái:</span>
+                        <span class="text" id="modalAppointmentStatusText">Đã xác nhận</span>
+                    </li>
+                    <li>
+                        <span class="title">Chuyên gia:</span>
+                        <span class="text" id="modalAppointmentDoctor">Dr. Ruby Perrin</span>
+                    </li>
+                    <li>
+                        <span class="title">Địa điểm:</span>
+                        <span class="text" id="modalAppointmentLocation">Phòng khám Đa khoa XYZ</span>
+                    </li>
+                    <li>
+                        <span class="title">Lý do:</span>
+                        <span class="text" id="modalAppointmentReason">Kiểm tra sức khỏe định kỳ</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                 <button type="button" class="btn btn-danger cancel-appointment-modal" style="display:none;" data-id="">Hủy lịch hẹn</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Initialize calendar
+            const calendarEl = document.getElementById("appointmentCalendar");
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: "dayGridMonth",
+                headerToolbar: {
+                    left: "prev,next today",
+                    center: "title",
+                    right: "dayGridMonth,timeGridWeek,timeGridDay"
+                },
+                locale: "vi",
+                events: "@Url.Action("GetCalendarEvents", "Appointment")",
+                eventClick: function(info) {
+                    alert("Lịch hẹn: " + info.event.title);
+                }
+            });
+            calendar.render();
+            
+            // Initialize date picker
+            flatpickr("#appointmentDate", {
+                dateFormat: "d/m/Y",
+                minDate: "today",
+                locale: "vn"
+            });
+            
+            // Load doctors when specialty is selected
+            $("#appointmentSpecialty").change(function() {
+                var specialty = $(this).val();
+                $.get("@Url.Action("GetDoctors", "Appointment")", { specialty: specialty }, function(doctors) {
+                    var html = "";
+                    if (doctors && doctors.length > 0) {
+                        doctors.forEach(function(doctor) {
+                            html += `
+                                <div class="doctor-card" data-id="${doctor.id}">
+                                    <img src="/images/doctor-${doctor.id}.jpg" onerror="this.src='/images/default-avatar.png'" alt="Doctor" class="doctor-avatar">
+                                    <div class="doctor-info">
+                                        <h6 class="doctor-name">${doctor.name}</h6>
+                                        <p class="doctor-specialty">${doctor.specialty}</p>
+                                        <div class="doctor-rating">
+                                            ${getRatingStars(doctor.rating)}
+                                            <span>${doctor.rating}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        html = `
+                            <div class="alert alert-warning" role="alert">
+                                <i class="fas fa-exclamation-triangle"></i> 
+                                Không tìm thấy chuyên gia nào cho chuyên khoa này. Vui lòng chọn chuyên khoa khác.
+                            </div>
+                        `;
+                    }
+                    $("#doctorList").html(html);
+                    
+                    // Add click handler for doctor cards
+                    $(".doctor-card").click(function() {
+                        $(".doctor-card").removeClass("selected");
+                        $(this).addClass("selected");
+                        $("#ChuyenGiaId").val($(this).data("id"));
+                        $("#doctorError").hide();
+                    });
+                }).fail(function() {
+                    $("#doctorList").html(`
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fas fa-times-circle"></i> 
+                            Có lỗi xảy ra khi tải danh sách chuyên gia. Vui lòng thử lại.
+                        </div>
+                    `);
+                });
+            });
+            
+            // Load time slots when date is selected
+            $("#appointmentDate").change(function() {
+                var date = $(this).val();
+                var doctorId = $(".doctor-card.selected").data("id");
+                
+                if (doctorId) {
+                    $.get("@Url.Action("GetTimeSlots", "Appointment")", { 
+                        date: date,
+                        doctorId: doctorId 
+                    }, function(slots) {
+                        var html = "";
+                        slots.forEach(function(slot) {
+                            html += `
+                                <div class="time-slot ${slot.isAvailable ? "" : "disabled"}" 
+                                     data-time="${slot.time}">
+                                    ${slot.time}
+                                </div>
+                            `;
+                        });
+                        $("#timeSlots").html(html);
+                        
+                        // Add click handler for time slots
+                        $(".time-slot:not(.disabled)").click(function() {
+                            $(".time-slot").removeClass("selected");
+                            $(this).addClass("selected");
+                            $("#AppointmentTime").val($(this).data("time"));
+                            $("#timeError").hide();
+                        });
+                    });
+                }
+            });
+            
+            // Form submission
+            $("#appointmentForm").submit(function(e) {
+                e.preventDefault();
+                
+                // Validate ChuyenGiaId
+                var chuyenGiaId = $("#ChuyenGiaId").val();
+                if (!chuyenGiaId) {
+                    $("#doctorError").show();
+                    alert("Vui lòng chọn chuyên gia");
+                    return false;
+                }
+                
+                // Validate GioHen
+                var gioHen = $("#AppointmentTime").val();
+                if (!gioHen) {
+                    $("#timeError").show();
+                    alert("Vui lòng chọn giờ hẹn");
+                    return false;
+                }
+                
+                $.ajax({
+                    url: $(this).attr("action"),
+                    method: "POST",
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        if (response.success) {
+                            $("#newAppointmentModal").modal("hide");
+                            alert("Đặt lịch hẹn thành công!");
+                            location.reload();
+                        } else {
+                            var errorMsg = "Có lỗi xảy ra:\n";
+                            if (response.errors && Array.isArray(response.errors)) {
+                                errorMsg += response.errors.join("\n");
+                            } else {
+                                errorMsg += response.errors || "Lỗi không xác định";
+                            }
+                            alert(errorMsg);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert("Có lỗi xảy ra khi kết nối đến server. Vui lòng thử lại.");
+                        console.error("Error:", error);
+                    }
+                });
+            });
+            
+            // Helper function to generate rating stars
+            function getRatingStars(rating) {
+                var stars = "";
+                var fullStars = Math.floor(rating);
+                var hasHalfStar = rating % 1 !== 0;
+                
+                for (var i = 0; i < fullStars; i++) {
+                    stars += "<i class=\"fas fa-star\"></i>";
+                }
+                
+                if (hasHalfStar) {
+                    stars += "<i class=\"fas fa-star-half-alt\"></i>";
+                }
+                
+                for (var i = 0; i < 5 - Math.ceil(rating); i++) {
+                    stars += "<i class=\"far fa-star\"></i>";
+                }
+                
+                return stars;
+            }
+        });
+        
+        // Function to edit appointment
+        function editAppointment(id) {
+            // Implement edit functionality
+        }
+        
+        // Function to cancel appointment
+        function cancelAppointment(id) {
+            if (confirm("Bạn có chắc chắn muốn hủy lịch hẹn này?")) {
+                var reason = prompt("Vui lòng nhập lý do hủy:");
+                if (reason) {
+                    $.post("@Url.Action("Cancel", "Appointment")", { 
+                        id: id,
+                        reason: reason 
+                    }, function(response) {
+                        if (response.success) {
+                            location.reload();
+                        } else {
+                            alert("Có lỗi xảy ra khi hủy lịch hẹn");
+                        }
+                    });
+                }
+            }
+        }
+
+        $(document).ready(function () {
+            // ... existing datatable init ...
+
+            // View Appointment Click
+            $(".datatable, .appointment-item").on("click", ".view-appointment, .btn-outline-primary", function () {
+                var appointmentId;
+                
+                // Determine if click came from datatable or appointment item
+                if ($(this).hasClass("btn-outline-primary")) {
+                    // From appointment item
+                    appointmentId = $(this).data("id") || $(this).attr("onclick").match(/\d+/)[0];
+                    var item = $(this).closest(".appointment-item");
+                    var statusText = item.find(".appointment-status").text();
+                    var doctorName = item.find(".appointment-doctor-name").text(); 
+                    var location = item.find(".appointment-location-name").text();
+                    var reason = item.find(".appointment-notes").text();
+                    var dateTimeText = item.find(".appointment-date").text() + " " + 
+                                     item.find(".appointment-time").text();
+                    
+                    // Populate modal
+                    $("#modalAppointmentId").text("ID: #" + appointmentId);
+                    $("#modalAppointmentDateTime").text(dateTimeText);
+                    $("#modalAppointmentStatus").text(statusText).removeClass().addClass("badge badge-pill " + GetStatusBadgeClass(statusText));
+                    $("#modalAppointmentStatusText").text(statusText);
+                    $("#modalAppointmentDoctor").text(doctorName);
+                    $("#modalAppointmentLocation").text(location);
+                    $("#modalAppointmentReason").text(reason);
+                } else {
+                    // From datatable (old code path - might need adjustment)
+                    appointmentId = $(this).data("id");
+                    var row = $(this).closest("tr");
+                    var doctorName = row.find("td:eq(1) a:last-child").text().split(" ")[0];
+                    var dateTime = row.find("td:eq(2)").html().replace("<span class=\"d-block text-info\">", " ").replace("</span>","");
+                    var reason = row.find("td:eq(3)").text();
+                    var statusText = row.find("td:eq(4) span").text();
+                    var statusClass = row.find("td:eq(4) span").attr("class");
+                    var location = "Không có thông tin";
+                    
+                    // Populate modal
+                    $("#modalAppointmentId").text("ID: #" + appointmentId);
+                    $("#modalAppointmentDateTime").html(dateTime);
+                    $("#modalAppointmentStatus").text(statusText).removeClass().addClass("badge badge-pill " + statusClass);
+                    $("#modalAppointmentStatusText").text(statusText);
+                    $("#modalAppointmentDoctor").text(doctorName);
+                    $("#modalAppointmentLocation").text(location);
+                    $("#modalAppointmentReason").text(reason);
+                }
+
+                // Show/hide cancel button in modal based on status
+                if (statusText && statusText.toLowerCase() === "chờ xác nhận") {
+                    $(".cancel-appointment-modal").data("id", appointmentId).show();
+                } else {
+                    $(".cancel-appointment-modal").hide();
+                }
+
+                $("#viewAppointmentModal").modal("show");
+            });
+
+            // Cancel Appointment Click (from table row)
+            $(".datatable").on("click", ".cancel-appointment", function () {
+                var appointmentId = $(this).data("id");
+                // Show confirmation or directly call cancel function
+                 handleCancel(appointmentId);
+            });
+
+             // Cancel Appointment Click (from modal)
+            $(".cancel-appointment-modal").on("click", function () {
+                var appointmentId = $(this).data("id");
+                $("#viewAppointmentModal").modal("hide"); // Hide details modal first
+                handleCancel(appointmentId);
+            });
+
+
+            function handleCancel(appointmentId) {
+                 // Use SweetAlert for confirmation
+                Swal.fire({
+                    title: "Bạn chắc chắn muốn hủy?",
+                    text: "Bạn không thể hoàn tác hành động này!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Vâng, hủy nó!",
+                    cancelButtonText: "Không"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Prompt for reason
+                        Swal.fire({
+                            title: "Lý do hủy",
+                            input: "text",
+                            inputPlaceholder: "Nhập lý do hủy...",
+                            showCancelButton: true,
+                            confirmButtonText: "Xác nhận hủy",
+                            cancelButtonText: "Bỏ qua",
+                            inputValidator: (value) => {
+                                if (!value) {
+                                    return "Bạn cần nhập lý do hủy!"
+                                }
+                            }
+                        }).then((reasonResult) => {
+                             if (reasonResult.isConfirmed && reasonResult.value) {
+                                $.ajax({
+                                    url: "@Url.Action("Cancel", "Appointment")", // Correct controller/action
+                                    type: "POST",
+                                    data: { id: appointmentId, reason: reasonResult.value }, // Pass reason
+                                    success: function (response) {
+                                        if (response.success) {
+                                            Swal.fire(
+                                                "Đã hủy!",
+                                                "Lịch hẹn của bạn đã được hủy.",
+                                                "success"
+                                            ).then(() => {
+                                                location.reload(); // Reload page to see changes
+                                            });
+                                        } else {
+                                            Swal.fire(
+                                                "Lỗi!",
+                                                response.message || "Không thể hủy lịch hẹn.",
+                                                "error"
+                                            );
+                                        }
+                                    },
+                                    error: function () {
+                                        Swal.fire(
+                                            "Lỗi!",
+                                            "Đã xảy ra lỗi khi cố gắng hủy lịch hẹn.",
+                                            "error"
+                                        );
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+
+        });
+
+        // Helper function to determine badge class based on status text
+        function GetStatusBadgeClass(status) {
+            if (!status) return "bg-secondary-light"; // Default or unknown
+            status = status.toLowerCase();
+            if (status === "đã xác nhận") return "bg-success-light";
+            if (status === "đã hủy") return "bg-danger-light";
+            if (status === "chờ xác nhận") return "bg-warning-light";
+            // Add more cases if needed
+            return "bg-info-light"; // Default for other statuses
+        }
+    </script>
+}
+
+

@@ -1,0 +1,58 @@
+@model IEnumerable<DoAnChamSocSucKhoe.Models.NhacNhoSucKhoe>
+
+@{
+    ViewData["Title"] = "Quản lý nhắc nhở cho bệnh nhân";
+    Layout = "~/Views/Shared/_DoctorLayout.cshtml"; // Assuming you have a layout for doctors
+}
+
+<div class="container mt-4">
+    <h3>Quản lý nhắc nhở cho bệnh nhân: <strong>@ViewData["PatientName"]</strong></h3>
+    <hr />
+
+    <table class="table table-hover table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th>Loại nhắc nhở</th>
+                <th>Nội dung</th>
+                <th>Thời gian</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.LoaiNhacNho)</td>
+                    <td>@Html.DisplayFor(modelItem => item.NoiDung)</td>
+                    <td>@item.ThoiGian.ToString("g")</td>
+                    <td>
+                        @if (item.DaThucHien)
+                        {
+                            <span class="badge bg-success text-white">Đã hoàn thành</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning">Chưa hoàn thành</span>
+                        }
+                    </td>
+                    <td>
+                        @if (!item.DaThucHien)
+                        {
+                            <form asp-action="MarkAsCompleted" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@item.NhacNhoSucKhoeId" />
+                                <input type="hidden" name="patientId" value="@ViewData["PatientId"]" />
+                                <button type="submit" class="btn btn-sm btn-outline-primary">Đánh dấu hoàn thành</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="mt-3">
+        <a asp-action="Index" asp-controller="Dashboard" asp-area="Doctor" class="btn btn-secondary">Quay lại Dashboard</a>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+@using DoAnChamSocSucKhoe.Models
+@model HoSoSucKhoe
+
+@{
+    ViewData["Title"] = "Cập Nhật Hồ Sơ Bệnh Nhân";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Cập Nhật Hồ Sơ Sức Khỏe - @Model?.NguoiDung?.HoTen</h2>
+
+    <form asp-action="Update" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="HoSoSucKhoeId" />
+        <input type="hidden" asp-for="NguoiDungId" />
+
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0"><i class="fas fa-stethoscope"></i> Thông Tin Y Khoa</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="TrangThai" class="form-label">Trạng Thái</label>
+                            <select asp-for="TrangThai" class="form-control">
+                                <option value="">Chọn trạng thái</option>
+                                <option value="Tốt">Tốt</option>
+                                <option value="Cần chú ý">Cần chú ý</option>
+                                <option value="Nguy hiểm">Nguy hiểm</option>
+                            </select>
+                            <span asp-validation-for="TrangThai" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="ChanDoan" class="form-label">Chẩn Đoán</label>
+                            <textarea asp-for="ChanDoan" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="ChanDoan" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="PhuongPhapDieuTri" class="form-label">Phương Pháp Điều Trị</label>
+                            <textarea asp-for="PhuongPhapDieuTri" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="PhuongPhapDieuTri" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="GhiChu" class="form-label">Ghi Chú Bác Sĩ</label>
+                            <textarea asp-for="GhiChu" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="GhiChu" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-save"></i> Lưu Thay Đổi
+            </button>
+            <a asp-action="Details" asp-route-id="@Model?.NguoiDungId" class="btn btn-secondary btn-lg">
+                <i class="fas fa-times"></i> Hủy
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        // Add any client-side validation or enhancements here
+    </script>
+}

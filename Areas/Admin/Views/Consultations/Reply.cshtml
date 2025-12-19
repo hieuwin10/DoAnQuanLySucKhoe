@@ -1,0 +1,198 @@
+@model DoAnChamSocSucKhoe.Areas.Admin.Models.ReplyConsultationViewModel
+
+@{
+    ViewData["Title"] = "Trả lời tư vấn";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-reply me-2"></i>Trả lời tư vấn
+            </h1>
+            <p class="text-muted mb-0">Trả lời yêu cầu tư vấn từ bệnh nhân</p>
+        </div>
+        <div>
+            <a href="@Url.Action("Details", new { id = Model.Id })" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Quay lại chi tiết
+            </a>
+        </div>
+    </div>
+
+    <!-- Reply Form -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-edit me-2"></i>Soạn trả lời
+                    </h6>
+                </div>
+                <form method="post" asp-action="Reply" asp-route-id="@Model.Id">
+                    @Html.AntiForgeryToken()
+                    <div class="card-body">
+                        <!-- Original Consultation -->
+                        <div class="original-consultation mb-4">
+                            <h6 class="text-muted mb-3">
+                                <i class="fas fa-comment me-2"></i>Yêu cầu tư vấn gốc
+                            </h6>
+                            <div class="bg-light p-3 rounded">
+                                <h6 class="mb-2">@Model.TieuDe</h6>
+                                <div class="text-muted mb-2">
+                                    <strong>Từ:</strong> @Model.PatientName (@Model.PatientEmail)
+                                </div>
+                                <div class="consultation-content">
+                                    @Html.Raw(Model.NoiDung.Replace("\n", "<br>"))
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <!-- Reply Section -->
+                        <div class="reply-section">
+                            <h6 class="text-success mb-3">
+                                <i class="fas fa-reply me-2"></i>Nội dung trả lời
+                            </h6>
+
+                            @if (!string.IsNullOrEmpty(Model.CurrentReply))
+                            {
+                                <div class="alert alert-info">
+                                    <strong>Lưu ý:</strong> Tư vấn này đã có trả lời trước đó. Việc gửi trả lời mới sẽ thay thế nội dung cũ.
+                                </div>
+                                <div class="current-reply mb-3">
+                                    <h6 class="text-muted">Trả lời hiện tại:</h6>
+                                    <div class="bg-light p-3 rounded">
+                                        @Html.Raw(Model.CurrentReply.Replace("\n", "<br>"))
+                                    </div>
+                                </div>
+                            }
+
+                            <div class="form-group">
+                                <label for="Reply" class="form-label">
+                                    Nội dung trả lời <span class="text-danger">*</span>
+                                </label>
+                                <textarea class="form-control" id="Reply" name="Reply" rows="8"
+                                          placeholder="Nhập nội dung trả lời cho bệnh nhân..."
+                                          required>@Model.Reply</textarea>
+                                <div class="form-text">
+                                    Hãy trả lời một cách chuyên nghiệp và hữu ích để hỗ trợ bệnh nhân tốt nhất.
+                                </div>
+                                <div class="invalid-feedback">
+                                    Vui lòng nhập nội dung trả lời.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-paper-plane me-2"></i>Gửi trả lời
+                        </button>
+                        <a href="@Url.Action("Details", new { id = Model.Id })" class="btn btn-secondary ms-2">
+                            <i class="fas fa-times me-2"></i>Hủy
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- Guidelines -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-lightbulb me-2"></i>Hướng dẫn trả lời
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Chuyên nghiệp:</strong> Sử dụng ngôn ngữ lịch sự, dễ hiểu
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Đầy đủ:</strong> Trả lời tất cả các vấn đề được nêu ra
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Hữu ích:</strong> Cung cấp thông tin bổ sung nếu cần
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Khuyến khích:</strong> Khuyến khích bệnh nhân theo dõi sức khỏe
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-cogs me-2"></i>Thao tác khác
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="@Url.Action("Index")" class="btn btn-outline-primary">
+                            <i class="fas fa-list me-2"></i>Xem tất cả tư vấn
+                        </a>
+                        <a href="@Url.Action("Pending")" class="btn btn-outline-warning">
+                            <i class="fas fa-clock me-2"></i>Xem tư vấn chờ trả lời
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Form validation
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+
+        // Auto-resize textarea
+        document.getElementById('Reply').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        });
+    </script>
+}
+
+<style>
+    .original-consultation .consultation-content {
+        line-height: 1.6;
+        white-space: pre-wrap;
+    }
+
+    .reply-section {
+        border-left: 4px solid #28a745;
+        padding-left: 1rem;
+    }
+
+    .current-reply .bg-light {
+        border-left: 3px solid #17a2b8;
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 120px;
+    }
+</style>
