@@ -4,101 +4,157 @@
     Layout = "_AdminLayout";
 }
 
-<style>
-    .dashboard-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 20px;
-        padding: 2rem;
-        color: white;
-        margin-bottom: 2rem;
-        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-    }
-    
-    .stat-card {
-        background: white;
-        border-radius: 20px;
-        padding: 2rem;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        border: none;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .stat-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 150px;
-        height: 150px;
-        background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
-        border-radius: 50%;
-        transform: translate(30%, -30%);
-    }
-    
-    .stat-card:hover {
-        transform: translateY(-10px) scale(1.02);
-        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-    }
-    
-    .stat-icon {
-        width: 70px;
-        height: 70px;
-        border-radius: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    
-    .stat-card:hover .stat-icon {
-        transform: rotate(10deg) scale(1.1);
-    }
-    
-    .icon-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-    
-    .icon-success {
-        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-    }
-    
-    .icon-info {
-        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-    }
-    
-    .icon-warning {
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    }
-    
-    .stat-number {
-        font-size: 2.5rem;
-        font-weight: 700;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-    
-    .growth-badge {
-        padding: 0.4rem 1rem;
-        border-radius: 20px;
-        font-weight: 600;
-        font-size: 0.85rem;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.3rem;
-    }
-    
-    .chart-card {
-        background: white;
-        border-radius: 20px;
-        border: none;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        transition: all 0.3s ease;
+<div class="container-fluid p-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="display-5 fw-bold text-dark mb-2">Tổng quan hệ thống</h1>
+            <p class="lead text-muted">Chào mừng trở lại, Quản trị viên!</p>
+        </div>
+        <div class="d-flex gap-3">
+            <button class="btn btn-light btn-lg shadow-sm border">
+                <i class="fas fa-download me-2"></i> Xuất báo cáo
+            </button>
+            <button class="btn btn-primary btn-lg shadow-sm">
+                <i class="fas fa-sync-alt me-2"></i> Cập nhật
+            </button>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-5">
+        <!-- Total Users -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                <div class="card-body p-4 position-relative">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <h6 class="text-uppercase text-muted fw-bold mb-1">Tổng người dùng</h6>
+                            <h2 class="display-4 fw-bold text-primary mb-0">@Model.Stats.TotalUsers</h2>
+                        </div>
+                        <div class="bg-primary bg-opacity-10 p-3 rounded-4">
+                            <i class="fas fa-users fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill me-2">
+                            <i class="fas fa-arrow-up me-1"></i> @Model.Stats.UserGrowthRate%
+                        </span>
+                        <span class="text-muted small">so với tháng trước</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Doctors -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                <div class="card-body p-4 position-relative">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <h6 class="text-uppercase text-muted fw-bold mb-1">Bác sĩ</h6>
+                            <h2 class="display-4 fw-bold text-info mb-0">@Model.Stats.TotalDoctors</h2>
+                        </div>
+                        <div class="bg-info bg-opacity-10 p-3 rounded-4">
+                            <i class="fas fa-user-md fa-2x text-info"></i>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="badge bg-info bg-opacity-10 text-info px-3 py-2 rounded-pill me-2">
+                            <i class="fas fa-user-plus me-1"></i> @Model.Stats.NewDoctors
+                        </span>
+                        <span class="text-muted small">bác sĩ mới</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Appointments -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                <div class="card-body p-4 position-relative">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <h6 class="text-uppercase text-muted fw-bold mb-1">Lịch hẹn</h6>
+                            <h2 class="display-4 fw-bold text-warning mb-0">@Model.Stats.TotalAppointments</h2>
+                        </div>
+                        <div class="bg-warning bg-opacity-10 p-3 rounded-4">
+                            <i class="fas fa-calendar-check fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="badge bg-warning bg-opacity-10 text-warning px-3 py-2 rounded-pill me-2">
+                            <i class="fas fa-clock me-1"></i> @Model.Stats.PendingAppointments
+                        </span>
+                        <span class="text-muted small">đang chờ xử lý</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Revenue (Example) -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                <div class="card-body p-4 position-relative">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <h6 class="text-uppercase text-muted fw-bold mb-1">Đánh giá</h6>
+                            <h2 class="display-4 fw-bold text-success mb-0">4.8</h2>
+                        </div>
+                        <div class="bg-success bg-opacity-10 p-3 rounded-4">
+                            <i class="fas fa-star fa-2x text-success"></i>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill me-2">
+                            <i class="fas fa-arrow-up me-1"></i> 12%
+                        </span>
+                        <span class="text-muted small">tăng trưởng</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-header bg-white border-0 py-4 px-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="fw-bold mb-0">Thống kê truy cập</h4>
+                        <select class="form-select w-auto border-0 bg-light fw-bold">
+                            <option>7 ngày qua</option>
+                            <option>Tháng này</option>
+                            <option>Năm nay</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body px-4 pb-4">
+                    <canvas id="visitorsChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-header bg-white border-0 py-4 px-4">
+                    <h4 class="fw-bold mb-0">Phân bố người dùng</h4>
+                </div>
+                <div class="card-body px-4 pb-4 d-flex align-items-center justify-content-center">
+                    <canvas id="userDistributionChart" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Chart configurations would go here
+        // Keeping it simple for now as per request
+    </script>
+}        transition: all 0.3s ease;
         min-height: 400px;
         max-height: 500px;
         overflow: hidden;

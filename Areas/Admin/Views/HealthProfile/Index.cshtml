@@ -1,96 +1,45 @@
 @{
     ViewData["Title"] = "Dashboard Hồ Sơ Sức Khỏe";
+    Layout = "_AdminLayout";
 }
-
-<style>
-    .card-dashboard {
-        border: none;
-        border-radius: 15px;
-        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.05);
-        transition: all 0.3s ease;
-        background: #fff;
-        overflow: hidden;
-    }
-    .card-dashboard:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
-    }
-    .icon-box {
-        width: 50px;
-        height: 50px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-    }
-    .bg-gradient-primary { background: linear-gradient(45deg, #4e73df, #224abe); }
-    .bg-gradient-success { background: linear-gradient(45deg, #1cc88a, #13855c); }
-    .bg-gradient-warning { background: linear-gradient(45deg, #f6c23e, #dda20a); }
-    .bg-gradient-danger { background: linear-gradient(45deg, #e74a3b, #be2617); }
-    
-    .stat-label { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #8898aa; }
-    .stat-value { font-size: 1.75rem; font-weight: 700; color: #32325d; }
-    
-    .timeline-item {
-        padding-left: 2rem;
-        position: relative;
-        padding-bottom: 1.5rem;
-        border-left: 2px solid #e9ecef;
-    }
-    .timeline-item::before {
-        content: '';
-        position: absolute;
-        left: -9px;
-        top: 0;
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        background: #fff;
-        border: 3px solid #4e73df;
-    }
-    .action-card {
-        cursor: pointer;
-        text-decoration: none;
-        color: inherit;
-        display: block;
-    }
-    .action-card:hover { text-decoration: none; color: inherit; }
-</style>
 
 <div class="container-fluid py-4">
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1 class="h3 mb-1 text-gray-800 font-weight-bold">Hồ Sơ Sức Khỏe</h1>
-            <p class="text-muted mb-0">Tổng quan tình hình sức khỏe bệnh nhân</p>
+            <h1 class="display-6 fw-bold text-primary">
+                <i class="fas fa-heartbeat me-2"></i>Hồ Sơ Sức Khỏe
+            </h1>
+            <p class="text-muted lead mb-0">Tổng quan tình hình sức khỏe bệnh nhân</p>
         </div>
         <div class="d-flex gap-2">
-            <a href="@Url.Action("ViewAll", "HealthProfile")" class="btn btn-primary shadow-sm rounded-pill px-4">
+            <a href="@Url.Action("ViewAll", "HealthProfile")" class="btn btn-primary btn-lg shadow-sm rounded-pill">
                 <i class="fas fa-list me-2"></i>Danh sách hồ sơ
             </a>
-            <a href="@Url.Action("Statistics", "HealthProfile")" class="btn btn-white shadow-sm rounded-pill px-4 text-primary">
+            <a href="@Url.Action("Statistics", "HealthProfile")" class="btn btn-light btn-lg shadow-sm rounded-pill text-primary">
                 <i class="fas fa-chart-pie me-2"></i>Báo cáo thống kê
             </a>
         </div>
     </div>
 
     <!-- Stats Row -->
-    <div class="row g-4 mb-5">
+    <div class="row g-4 mb-4">
         <!-- Total Patients -->
         <div class="col-xl-3 col-md-6">
-            <div class="card-dashboard h-100 p-4">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <div class="stat-label mb-1">Tổng Hồ Sơ</div>
-                        <div class="stat-value">@ViewBag.TotalProfiles</div>
-                        <div class="mt-2 text-success small">
-                            <i class="fas fa-arrow-up me-1"></i>
-                            <span>+@ViewBag.TodayUpdates hôm nay</span>
+            <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="text-muted small text-uppercase fw-bold mb-1">Tổng Hồ Sơ</div>
+                            <div class="h2 mb-0 fw-bold text-dark">@ViewBag.TotalProfiles</div>
+                            <div class="mt-2 text-success small fw-bold">
+                                <i class="fas fa-arrow-up me-1"></i>
+                                <span>+@ViewBag.TodayUpdates hôm nay</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="icon-box bg-gradient-primary text-white shadow">
-                        <i class="fas fa-users"></i>
+                        <div class="flex-shrink-0 bg-primary bg-opacity-10 p-3 rounded-4">
+                            <i class="fas fa-users fa-2x text-primary"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -98,18 +47,20 @@
 
         <!-- Complete Profiles -->
         <div class="col-xl-3 col-md-6">
-            <div class="card-dashboard h-100 p-4">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <div class="stat-label mb-1">Hoàn Thiện</div>
-                        <div class="stat-value">@ViewBag.CompleteProfiles</div>
-                        <div class="mt-2 text-muted small">
-                            <i class="fas fa-percentage me-1"></i>
-                            @(ViewBag.TotalProfiles > 0 ? ((decimal)ViewBag.CompleteProfiles / ViewBag.TotalProfiles * 100).ToString("F0") : "0")% tổng số
+            <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="text-muted small text-uppercase fw-bold mb-1">Hoàn Thiện</div>
+                            <div class="h2 mb-0 fw-bold text-dark">@ViewBag.CompleteProfiles</div>
+                            <div class="mt-2 text-muted small">
+                                <i class="fas fa-percentage me-1"></i>
+                                @(ViewBag.TotalProfiles > 0 ? ((decimal)ViewBag.CompleteProfiles / ViewBag.TotalProfiles * 100).ToString("F0") : "0")% tổng số
+                            </div>
                         </div>
-                    </div>
-                    <div class="icon-box bg-gradient-success text-white shadow">
-                        <i class="fas fa-check-circle"></i>
+                        <div class="flex-shrink-0 bg-success bg-opacity-10 p-3 rounded-4">
+                            <i class="fas fa-check-circle fa-2x text-success"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -117,17 +68,19 @@
 
         <!-- Updates -->
         <div class="col-xl-3 col-md-6">
-            <div class="card-dashboard h-100 p-4">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <div class="stat-label mb-1">Cập Nhật Mới</div>
-                        <div class="stat-value">@ViewBag.TodayUpdates</div>
-                        <div class="mt-2 text-info small">
-                            <i class="fas fa-clock me-1"></i>24h qua
+            <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="text-muted small text-uppercase fw-bold mb-1">Cập Nhật Mới</div>
+                            <div class="h2 mb-0 fw-bold text-dark">@ViewBag.TodayUpdates</div>
+                            <div class="mt-2 text-info small fw-bold">
+                                <i class="fas fa-clock me-1"></i>24h qua
+                            </div>
                         </div>
-                    </div>
-                    <div class="icon-box bg-gradient-warning text-white shadow">
-                        <i class="fas fa-sync-alt"></i>
+                        <div class="flex-shrink-0 bg-warning bg-opacity-10 p-3 rounded-4">
+                            <i class="fas fa-sync-alt fa-2x text-warning"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -135,17 +88,19 @@
 
         <!-- Alerts -->
         <div class="col-xl-3 col-md-6">
-            <div class="card-dashboard h-100 p-4">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <div class="stat-label mb-1">Cần Chú Ý</div>
-                        <div class="stat-value text-danger">@ViewBag.AlertsCount</div>
-                        <div class="mt-2 text-danger small">
-                            <i class="fas fa-exclamation-circle me-1"></i>Chỉ số bất thường
+            <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="text-muted small text-uppercase fw-bold mb-1">Cần Chú Ý</div>
+                            <div class="h2 mb-0 fw-bold text-danger">@ViewBag.AlertsCount</div>
+                            <div class="mt-2 text-danger small fw-bold">
+                                <i class="fas fa-exclamation-circle me-1"></i>Chỉ số bất thường
+                            </div>
                         </div>
-                    </div>
-                    <div class="icon-box bg-gradient-danger text-white shadow">
-                        <i class="fas fa-heart-broken"></i>
+                        <div class="flex-shrink-0 bg-danger bg-opacity-10 p-3 rounded-4">
+                            <i class="fas fa-heart-broken fa-2x text-danger"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -153,19 +108,26 @@
     </div>
 
     <!-- Main Content Row -->
-    <div class="row g-4 mb-5">
+    <div class="row g-4 mb-4">
         <!-- Chart -->
         <div class="col-lg-8">
-            <div class="card-dashboard h-100">
-                <div class="card-header bg-transparent border-0 py-3 px-4 d-flex justify-content-between align-items-center">
-                    <h6 class="m-0 font-weight-bold text-primary">Xu Hướng Sức Khỏe</h6>
-                    <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown">
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold text-primary">
+                        <i class="fas fa-chart-line me-2"></i>Xu Hướng Sức Khỏe
+                    </h5>
+                    <div class="dropdown">
+                        <button class="btn btn-light btn-sm rounded-circle" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-ellipsis-v text-muted"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
+                            <li><a class="dropdown-item" href="#">Tuần này</a></li>
+                            <li><a class="dropdown-item" href="#">Tháng này</a></li>
+                            <li><a class="dropdown-item" href="#">Năm nay</a></li>
+                        </ul>
                     </div>
                 </div>
-                <div class="card-body px-4 pb-4">
+                <div class="card-body p-4">
                     <div class="chart-container" style="height: 350px;">
                         <canvas id="healthProfileChart"></canvas>
                     </div>
@@ -175,31 +137,61 @@
 
         <!-- Activity Feed -->
         <div class="col-lg-4">
-            <div class="card-dashboard h-100">
-                <div class="card-header bg-transparent border-0 py-3 px-4">
-                    <h6 class="m-0 font-weight-bold text-primary">Hoạt Động Gần Đây</h6>
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-header bg-white py-3 border-0">
+                    <h5 class="mb-0 fw-bold text-primary">
+                        <i class="fas fa-history me-2"></i>Hoạt Động Gần Đây
+                    </h5>
                 </div>
-                <div class="card-body px-4">
-                    <div class="timeline mt-2">
-                        <div class="timeline-item">
-                            <h6 class="font-weight-bold mb-1">Hồ sơ mới được tạo</h6>
-                            <p class="text-muted small mb-0">Nguyễn Văn A vừa cập nhật hồ sơ</p>
-                            <small class="text-muted">15 phút trước</small>
+                <div class="card-body p-4">
+                    <div class="timeline">
+                        <div class="d-flex mb-4">
+                            <div class="flex-shrink-0">
+                                <div class="avatar-sm bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <i class="fas fa-file-medical text-primary"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-1 fw-bold">Hồ sơ mới được tạo</h6>
+                                <p class="text-muted small mb-1">Nguyễn Văn A vừa cập nhật hồ sơ</p>
+                                <small class="text-muted"><i class="far fa-clock me-1"></i>15 phút trước</small>
+                            </div>
                         </div>
-                        <div class="timeline-item">
-                            <h6 class="font-weight-bold mb-1 text-danger">Cảnh báo chỉ số</h6>
-                            <p class="text-muted small mb-0">Phát hiện huyết áp cao ở 3 bệnh nhân</p>
-                            <small class="text-muted">2 giờ trước</small>
+                        <div class="d-flex mb-4">
+                            <div class="flex-shrink-0">
+                                <div class="avatar-sm bg-danger bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <i class="fas fa-exclamation-triangle text-danger"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-1 fw-bold text-danger">Cảnh báo chỉ số</h6>
+                                <p class="text-muted small mb-1">Phát hiện huyết áp cao ở 3 bệnh nhân</p>
+                                <small class="text-muted"><i class="far fa-clock me-1"></i>2 giờ trước</small>
+                            </div>
                         </div>
-                        <div class="timeline-item">
-                            <h6 class="font-weight-bold mb-1 text-success">Hoàn thành khám</h6>
-                            <p class="text-muted small mb-0">5 bệnh nhân đã hoàn tất cập nhật</p>
-                            <small class="text-muted">5 giờ trước</small>
+                        <div class="d-flex mb-4">
+                            <div class="flex-shrink-0">
+                                <div class="avatar-sm bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <i class="fas fa-check text-success"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-1 fw-bold text-success">Hoàn thành khám</h6>
+                                <p class="text-muted small mb-1">5 bệnh nhân đã hoàn tất cập nhật</p>
+                                <small class="text-muted"><i class="far fa-clock me-1"></i>5 giờ trước</small>
+                            </div>
                         </div>
-                        <div class="timeline-item border-0 pb-0">
-                            <h6 class="font-weight-bold mb-1 text-info">Đồng bộ dữ liệu</h6>
-                            <p class="text-muted small mb-0">Hệ thống đã sao lưu dữ liệu</p>
-                            <small class="text-muted">1 ngày trước</small>
+                        <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <div class="avatar-sm bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <i class="fas fa-database text-info"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-1 fw-bold text-info">Đồng bộ dữ liệu</h6>
+                                <p class="text-muted small mb-1">Hệ thống đã sao lưu dữ liệu</p>
+                                <small class="text-muted"><i class="far fa-clock me-1"></i>1 ngày trước</small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -208,54 +200,64 @@
     </div>
 
     <!-- Quick Actions -->
-    <h5 class="mb-4 text-gray-800 font-weight-bold px-1">Truy Cập Nhanh</h5>
+    <h5 class="mb-4 fw-bold text-dark px-1">Truy Cập Nhanh</h5>
     <div class="row g-4">
         <div class="col-md-6 col-xl-3">
-            <a href="@Url.Action("ViewAll", "HealthProfile")" class="card-dashboard action-card p-4 h-100">
-                <div class="text-center">
-                    <div class="icon-box bg-light text-primary mx-auto mb-3 rounded-circle">
-                        <i class="fas fa-search"></i>
+            <a href="@Url.Action("ViewAll", "HealthProfile")" class="card border-0 shadow-sm rounded-4 h-100 text-decoration-none hover-lift transition-all">
+                <div class="card-body p-4 text-center">
+                    <div class="avatar-lg bg-primary bg-opacity-10 rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <i class="fas fa-search fa-lg text-primary"></i>
                     </div>
-                    <h6 class="font-weight-bold mb-2">Tra Cứu Hồ Sơ</h6>
+                    <h6 class="fw-bold text-dark mb-2">Tra Cứu Hồ Sơ</h6>
                     <p class="text-muted small mb-0">Tìm kiếm và xem chi tiết hồ sơ bệnh nhân</p>
                 </div>
             </a>
         </div>
         <div class="col-md-6 col-xl-3">
-            <div class="card-dashboard action-card p-4 h-100" onclick="alert('Tính năng đang phát triển')">
-                <div class="text-center">
-                    <div class="icon-box bg-light text-success mx-auto mb-3 rounded-circle">
-                        <i class="fas fa-user-plus"></i>
+            <div class="card border-0 shadow-sm rounded-4 h-100 text-decoration-none hover-lift transition-all" style="cursor: pointer;" onclick="alert('Tính năng đang phát triển')">
+                <div class="card-body p-4 text-center">
+                    <div class="avatar-lg bg-success bg-opacity-10 rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <i class="fas fa-user-plus fa-lg text-success"></i>
                     </div>
-                    <h6 class="font-weight-bold mb-2">Thêm Mới</h6>
+                    <h6 class="fw-bold text-dark mb-2">Thêm Mới</h6>
                     <p class="text-muted small mb-0">Tạo hồ sơ sức khỏe cho bệnh nhân mới</p>
                 </div>
             </div>
         </div>
         <div class="col-md-6 col-xl-3">
-            <a href="@Url.Action("Export", "HealthProfile")" class="card-dashboard action-card p-4 h-100">
-                <div class="text-center">
-                    <div class="icon-box bg-light text-info mx-auto mb-3 rounded-circle">
-                        <i class="fas fa-file-export"></i>
+            <a href="@Url.Action("Export", "HealthProfile")" class="card border-0 shadow-sm rounded-4 h-100 text-decoration-none hover-lift transition-all">
+                <div class="card-body p-4 text-center">
+                    <div class="avatar-lg bg-info bg-opacity-10 rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <i class="fas fa-file-export fa-lg text-info"></i>
                     </div>
-                    <h6 class="font-weight-bold mb-2">Xuất Báo Cáo</h6>
+                    <h6 class="fw-bold text-dark mb-2">Xuất Báo Cáo</h6>
                     <p class="text-muted small mb-0">Tải xuống dữ liệu dạng Excel/PDF</p>
                 </div>
             </a>
         </div>
         <div class="col-md-6 col-xl-3">
-            <a href="@Url.Action("ManageAccess", "HealthProfile")" class="card-dashboard action-card p-4 h-100">
-                <div class="text-center">
-                    <div class="icon-box bg-light text-secondary mx-auto mb-3 rounded-circle">
-                        <i class="fas fa-shield-alt"></i>
+            <a href="@Url.Action("ManageAccess", "HealthProfile")" class="card border-0 shadow-sm rounded-4 h-100 text-decoration-none hover-lift transition-all">
+                <div class="card-body p-4 text-center">
+                    <div class="avatar-lg bg-secondary bg-opacity-10 rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <i class="fas fa-shield-alt fa-lg text-secondary"></i>
                     </div>
-                    <h6 class="font-weight-bold mb-2">Phân Quyền</h6>
+                    <h6 class="fw-bold text-dark mb-2">Phân Quyền</h6>
                     <p class="text-muted small mb-0">Quản lý quyền truy cập hồ sơ</p>
                 </div>
             </a>
         </div>
     </div>
 </div>
+
+<style>
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    }
+    .transition-all {
+        transition: all .3s ease-in-out;
+    }
+</style>
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -293,7 +295,15 @@
                     },
                     scales: {
                         y: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            grid: {
+                                borderDash: [2, 2]
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
                         }
                     }
                 }

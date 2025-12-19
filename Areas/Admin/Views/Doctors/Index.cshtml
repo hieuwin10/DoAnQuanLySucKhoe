@@ -4,345 +4,182 @@
     Layout = "_AdminLayout";
 }
 
-<div class="page-header-modern mb-4">
-    <div class="d-flex justify-content-between align-items-center">
+<div class="container-fluid p-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1 class="mb-2">Quản lý bác sĩ</h1>
-            <p class="mb-0 opacity-75">Quản lý thông tin và hoạt động của các bác sĩ trong hệ thống</p>
+            <h1 class="display-6 fw-bold text-dark mb-2">Quản lý bác sĩ</h1>
+            <p class="text-muted fs-5">Quản lý thông tin và lịch làm việc của bác sĩ</p>
         </div>
         <div class="d-flex gap-2">
-            <button class="btn btn-light action-btn-modern" id="exportDoctorButton">
+            <button class="btn btn-light btn-lg border shadow-sm" id="exportDoctorButton">
                 <i class="fas fa-download me-2"></i> Xuất danh sách
             </button>
-            <a asp-action="Create" class="btn btn-warning action-btn-modern">
-                <i class="fas fa-plus-circle me-2"></i> Thêm bác sĩ mới
+            <a asp-action="Create" class="btn btn-primary btn-lg shadow-sm">
+                <i class="fas fa-user-md me-2"></i> Thêm bác sĩ
             </a>
         </div>
     </div>
-</div>
 
-<!-- Thông báo -->
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger alert-modern alert-dismissible fade show animate-fade-in-up" role="alert">
-        <i class="fas fa-exclamation-circle me-2"></i>
-        @TempData["ErrorMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-}
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success alert-modern alert-dismissible fade show animate-fade-in-up" role="alert">
-        <i class="fas fa-check-circle me-2"></i>
-        @TempData["SuccessMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-}
-
-<!-- Thống kê tổng quan -->
-<div class="row g-4 mb-4">
-    <div class="col-md-6 col-xl-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon icon-primary me-3">
-                    <i class="fas fa-user-md text-white"></i>
-                </div>
-                <div class="flex-grow-1">
-                    <h6 class="text-muted mb-1 small">Tổng số bác sĩ</h6>
-                    <div class="stat-number">@Model.Stats.TotalDoctors</div>
-                    <small class="text-muted">Đang làm việc</small>
+    <!-- Stats Overview -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4 d-flex align-items-center">
+                    <div class="bg-info bg-opacity-10 p-3 rounded-4 me-3">
+                        <i class="fas fa-user-md fa-2x text-info"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted text-uppercase fw-bold mb-1">Tổng số bác sĩ</h6>
+                        <h2 class="mb-0 fw-bold">@Model.Stats.TotalDoctors</h2>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-6 col-xl-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon icon-success me-3">
-                    <i class="fas fa-user-plus text-white"></i>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4 d-flex align-items-center">
+                    <div class="bg-success bg-opacity-10 p-3 rounded-4 me-3">
+                        <i class="fas fa-calendar-check fa-2x text-success"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted text-uppercase fw-bold mb-1">Lịch hẹn hôm nay</h6>
+                        <h2 class="mb-0 fw-bold">@Model.Stats.AppointmentsToday</h2>
+                    </div>
                 </div>
-                <div class="flex-grow-1">
-                    <h6 class="text-muted mb-1 small">Bác sĩ mới</h6>
-                    <div class="stat-number">@Model.Stats.NewDoctors</div>
-                    <div class="growth-badge bg-success bg-opacity-10 text-success mt-2">
-                        <i class="fas fa-arrow-up"></i>
-                        @Model.Stats.NewDoctorsGrowthRate.ToString("0.0")%
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4 d-flex align-items-center">
+                    <div class="bg-warning bg-opacity-10 p-3 rounded-4 me-3">
+                        <i class="fas fa-star fa-2x text-warning"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted text-uppercase fw-bold mb-1">Đánh giá trung bình</h6>
+                        <h2 class="mb-0 fw-bold">@Model.Stats.AverageRating.ToString("0.0") <small class="text-muted fs-6">/ 5.0</small></h2>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-xl-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon icon-info me-3">
-                    <i class="fas fa-user-check text-white"></i>
-                </div>
-                <div class="flex-grow-1">
-                    <h6 class="text-muted mb-1 small">Đang hoạt động</h6>
-                    <div class="stat-number">@Model.Stats.ActiveDoctors</div>
-                    <div class="growth-badge bg-info bg-opacity-10 text-info mt-2">
-                        <i class="fas fa-arrow-up"></i>
-                        @Model.Stats.ActiveDoctorsGrowthRate.ToString("0.0")%
+
+    <!-- Search & Filter -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+        <div class="card-body p-4">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-text bg-white border-end-0"><i class="fas fa-search text-muted"></i></span>
+                        <input type="text" class="form-control border-start-0 ps-0" name="searchTerm" placeholder="Tìm kiếm bác sĩ..." value="@Model.SearchTerm">
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6 col-xl-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon icon-warning me-3">
-                    <i class="fas fa-user-times text-white"></i>
-                </div>
-                <div class="flex-grow-1">
-                    <h6 class="text-muted mb-1 small">Tạm nghỉ</h6>
-                    <div class="stat-number">@Model.Stats.InactiveDoctors</div>
-                    <div class="growth-badge bg-warning bg-opacity-10 text-warning mt-2">
-                        <i class="fas fa-arrow-down"></i>
-                        @Model.Stats.InactiveDoctorsGrowthRate.ToString("0.0")%
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- Tìm kiếm và lọc -->
-<div class="card border-0 shadow-sm mb-4 animate-fade-in-up">
-    <div class="card-body">
-        <form id="searchDoctorForm" asp-action="Index" method="get" class="row g-3 align-items-center">
-            <div class="col-md-5">
-                <div class="search-box-modern">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="form-control ps-5" placeholder="Tìm kiếm theo tên, email, chuyên khoa..." 
-                           name="searchTerm" value="@Model.SearchTerm">
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="filter-select-modern">
-                    <i class="fas fa-filter filter-icon"></i>
-                    <select class="form-select ps-5" name="statusFilter" onchange="document.getElementById('searchDoctorForm').submit()">
-                        <option value="all" selected="@(Model.StatusFilter == "all")">Tất cả trạng thái</option>
-                        <option value="active" selected="@(Model.StatusFilter == "active")">Đang hoạt động</option>
-                        <option value="inactive" selected="@(Model.StatusFilter == "inactive")">Tạm nghỉ</option>
-                        <option value="new" selected="@(Model.StatusFilter == "new")">Bác sĩ mới</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-4 text-end">
-                <button type="submit" class="btn btn-primary action-btn-modern me-2">
-                    <i class="fas fa-search me-2"></i> Tìm kiếm
-                </button>
-                <a asp-action="Index" class="btn btn-light action-btn-modern">
-                    <i class="fas fa-redo-alt me-2"></i> Làm mới
-                </a>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- Danh sách bác sĩ -->
-<div class="card border-0 shadow-sm animate-fade-in-up">
-    <div class="card-header bg-white border-0 py-3">
-        <div class="d-flex justify-content-between align-items-center">
-            <h5 class="mb-0 fw-bold">Danh sách bác sĩ</h5>
-            <span class="badge bg-light text-dark px-3 py-2">
-                <i class="fas fa-users me-2"></i>
-                @((Model.PageNumber-1)*Model.PageSize + 1) - @(Math.Min(Model.PageNumber*Model.PageSize, Model.TotalPages*Model.PageSize)) / @(Model.TotalPages*Model.PageSize)
-            </span>
-        </div>
-    </div>
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <table class="table table-modern mb-0">
-                <thead>
-                    <tr>
-                        <th><i class="fas fa-user me-2"></i>Bác sĩ</th>
-                        <th><i class="fas fa-stethoscope me-2"></i>Chuyên khoa</th>
-                        <th><i class="fas fa-envelope me-2"></i>Email</th>
-                        <th><i class="fas fa-phone me-2"></i>Số điện thoại</th>
-                        <th><i class="fas fa-circle-notch me-2"></i>Trạng thái</th>
-                        <th class="text-center"><i class="fas fa-cog me-2"></i>Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.Doctors != null && Model.Doctors.Any())
-                    {
-                        foreach (var doctor in Model.Doctors)
+                <div class="col-md-3">
+                    <select class="form-select form-select-lg" name="specialtyFilter">
+                        <option value="">Tất cả chuyên khoa</option>
+                        @foreach (var specialty in Model.Specialties)
                         {
-                            <tr class="table-row-modern">
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="avatar-modern me-3" style="width: 50px; height: 50px; min-width: 50px;">
-                                            <img src="@doctor.Avatar" alt="@doctor.FullName" class="rounded-circle" style="width: 100%; height: 100%; object-fit: cover;">
-                                        </div>
-                                        <div>
-                                            <h6 class="mb-0 fw-semibold">@doctor.FullName</h6>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="badge bg-light text-dark px-3 py-2">
-                                        <i class="fas fa-stethoscope me-1"></i>@doctor.Specialty
-                                    </span>
-                                </td>
-                                <td>@doctor.Email</td>
-                                <td>@doctor.PhoneNumber</td>
-                                <td>
-                                    <span class="badge-modern badge-@doctor.StatusClass">
-                                        @doctor.Status
-                                    </span>
-                                </td>
-                                <td>
-                                    <div class="d-flex gap-2 justify-content-center">
-                                        <a href="@Url.Action("Details", new { id = doctor.Id })" 
-                                           class="action-btn-modern btn-sm" 
-                                           data-bs-toggle="tooltip" 
-                                           title="Xem chi tiết">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <a href="@Url.Action("Edit", new { id = doctor.Id })" 
-                                           class="action-btn-modern btn-sm" 
-                                           data-bs-toggle="tooltip" 
-                                           title="Chỉnh sửa">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <button type="button" 
-                                                class="action-btn-modern btn-sm change-status-btn" 
-                                                data-doctor-id="@doctor.Id" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#changeDoctorStatusModal"
-                                                title="Thay đổi trạng thái">
-                                            <i class="fas fa-exchange-alt"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                            <option value="@specialty" selected="@(specialty == Model.SpecialtyFilter)">@specialty</option>
                         }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="6" class="text-center py-5">
-                                <div class="empty-state">
-                                    <div class="empty-state-icon icon-primary mb-3">
-                                        <i class="fas fa-user-md"></i>
-                                    </div>
-                                    <h5 class="mb-2">Không tìm thấy bác sĩ nào</h5>
-                                    <p class="text-muted">Hãy thử tìm kiếm với từ khóa khác hoặc xóa bộ lọc</p>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-    @if (Model.TotalPages > 1)
-    {
-        <div class="card-footer bg-white border-0 py-3">
-            <nav aria-label="Pagination">
-                <ul class="pagination pagination-modern justify-content-center mb-0">
-                    <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
-                        <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber - 1)" asp-route-searchTerm="@Model.SearchTerm" asp-route-statusFilter="@Model.StatusFilter">
-                            <i class="fas fa-chevron-left"></i>
-                        </a>
-                    </li>
-                    @for (int i = 1; i <= Model.TotalPages; i++)
-                    {
-                        <li class="page-item @(Model.PageNumber == i ? "active" : "")">
-                            <a class="page-link" asp-action="Index" asp-route-pageNumber="@i" asp-route-searchTerm="@Model.SearchTerm" asp-route-statusFilter="@Model.StatusFilter">@i</a>
-                        </li>
-                    }
-                    <li class="page-item @(Model.PageNumber == Model.TotalPages ? "disabled" : "")">
-                        <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageNumber + 1)" asp-route-searchTerm="@Model.SearchTerm" asp-route-statusFilter="@Model.StatusFilter">
-                            <i class="fas fa-chevron-right"></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    }
-    </div>
-</div>
-
-
-<!-- Modal thay đổi trạng thái -->
-<div class="modal fade" id="changeDoctorStatusModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold">
-                    <i class="fas fa-exchange-alt me-2 text-primary"></i>
-                    Thay đổi trạng thái bác sĩ
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body pt-2">
-                <input type="hidden" id="doctorIdInput" value="" />
-                <div class="mb-3">
-                    <label for="doctorStatusSelect" class="form-label">Chọn trạng thái mới</label>
-                    <select class="form-select form-select-modern" id="doctorStatusSelect">
-                        <option value="Đang hoạt động">Đang hoạt động</option>
-                        <option value="Tạm nghỉ">Tạm nghỉ</option>
-                        <option value="Mới">Mới</option>
                     </select>
                 </div>
-            </div>
-            <div class="modal-footer border-0 pt-0">
-                <button type="button" class="btn btn-light action-btn-modern" data-bs-dismiss="modal">
-                    <i class="fas fa-times me-2"></i>Hủy
-                </button>
-                <button type="button" class="btn btn-primary action-btn-modern" id="saveDoctorStatusButton">
-                    <i class="fas fa-save me-2"></i>Lưu thay đổi
-                </button>
-            </div>
+                <div class="col-md-3">
+                    <select class="form-select form-select-lg" name="statusFilter">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="Available" selected="@(Model.StatusFilter == "Available")">Đang làm việc</option>
+                        <option value="Busy" selected="@(Model.StatusFilter == "Busy")">Đang bận</option>
+                        <option value="Off" selected="@(Model.StatusFilter == "Off")">Nghỉ phép</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary btn-lg w-100">Lọc</button>
+                </div>
+            </form>
         </div>
     </div>
+
+    <!-- Doctors Grid -->
+    <div class="row g-4">
+        @foreach (var doctor in Model.Doctors)
+        {
+            <div class="col-md-6 col-xl-4">
+                <div class="card border-0 shadow-sm rounded-4 h-100 hover-shadow transition-all">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="position-relative">
+                                <img src="@(string.IsNullOrEmpty(doctor.AvatarUrl) ? "/images/default-doctor.png" : doctor.AvatarUrl)" 
+                                     class="rounded-circle border" width="80" height="80" alt="Doctor Avatar" style="object-fit: cover;">
+                                <span class="position-absolute bottom-0 end-0 p-2 bg-success border border-light rounded-circle">
+                                    <span class="visually-hidden">Online</span>
+                                </span>
+                            </div>
+                            <div class="ms-3">
+                                <h5 class="fw-bold text-dark mb-1 fs-4">@doctor.FullName</h5>
+                                <p class="text-muted mb-1 fs-5">@doctor.Specialty</p>
+                                <div class="d-flex align-items-center">
+                                    <div class="text-warning me-2">
+                                        @for (int i = 0; i < 5; i++)
+                                        {
+                                            if (i < Math.Floor(doctor.Rating))
+                                            {
+                                                <i class="fas fa-star"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="far fa-star"></i>
+                                            }
+                                        }
+                                    </div>
+                                    <span class="text-muted small">(@doctor.ReviewCount đánh giá)</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-4 p-3 bg-light rounded-3">
+                            <div class="text-center">
+                                <small class="text-muted d-block mb-1">Kinh nghiệm</small>
+                                <span class="fw-bold text-dark">@doctor.YearsOfExperience năm</span>
+                            </div>
+                            <div class="vr"></div>
+                            <div class="text-center">
+                                <small class="text-muted d-block mb-1">Bệnh nhân</small>
+                                <span class="fw-bold text-dark">@doctor.TotalPatients+</span>
+                            </div>
+                            <div class="vr"></div>
+                            <div class="text-center">
+                                <small class="text-muted d-block mb-1">Trạng thái</small>
+                                @if (doctor.IsAvailable)
+                                {
+                                    <span class="text-success fw-bold">Sẵn sàng</span>
+                                }
+                                else
+                                {
+                                    <span class="text-danger fw-bold">Bận</span>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <a asp-action="Details" asp-route-id="@doctor.Id" class="btn btn-outline-primary rounded-pill">
+                                Xem hồ sơ
+                            </a>
+                            <div class="d-flex gap-2">
+                                <a asp-action="Schedule" asp-route-id="@doctor.Id" class="btn btn-light flex-grow-1 rounded-pill">
+                                    <i class="fas fa-calendar-alt me-2"></i> Lịch
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@doctor.Id" class="btn btn-light flex-grow-1 rounded-pill">
+                                    <i class="fas fa-edit me-2"></i> Sửa
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center mt-5">
+        <!-- Pagination logic would go here -->
+    </div>
 </div>
-
-@section Scripts {
-    <script>
-        $(document).ready(function() {
-            // Initialize tooltips
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl);
-            });
-
-            // Handle change status
-            $('.change-status-btn').click(function() {
-                var doctorId = $(this).data('doctor-id');
-                $('#doctorIdInput').val(doctorId);
-            });
-
-            $('#saveDoctorStatusButton').click(function() {
-                var doctorId = $('#doctorIdInput').val();
-                var status = $('#doctorStatusSelect').val();
-
-                $.ajax({
-                    url: '@Url.Action("ChangeStatus")',
-                    type: 'POST',
-                    data: {
-                        doctorId: doctorId,
-                        status: status
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            alert(response.message);
-                            $('#changeDoctorStatusModal').modal('hide');
-                            location.reload();
-                        } else {
-                            alert(response.message);
-                        }
-                    },
-                    error: function() {
-                        alert('Có lỗi xảy ra khi thay đổi trạng thái');
-                    }
-                });
-            });
-        });
-    </script>
-}

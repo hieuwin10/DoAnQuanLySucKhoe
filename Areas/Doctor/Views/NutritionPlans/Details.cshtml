@@ -1,0 +1,96 @@
+@model DoAnChamSocSucKhoe.Models.KeHoachDinhDuong
+
+@{
+    ViewData["Title"] = "Chi tiết Kế hoạch Dinh dưỡng";
+    Layout = "~/Areas/Doctor/Views/Shared/_DoctorLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Chi tiết Kế hoạch Dinh dưỡng</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Thông tin kế hoạch</h6>
+            <div>
+                <a asp-action="Edit" asp-route-id="@Model.KeHoachDinhDuongId" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Chỉnh sửa</a>
+                <a asp-action="Index" class="btn btn-secondary btn-sm">Quay lại</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.TenKeHoach)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.TenKeHoach)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.NguoiDung)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.NguoiDung.HoTen)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.MoTa)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.MoTa)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.NgayBatDau)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.NgayBatDau)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.NgayKetThuc)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.NgayKetThuc)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.TrangThai)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.TrangThai)
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Chi tiết thực đơn</h6>
+        </div>
+        <div class="card-body">
+            @if (Model.ChiTietKeHoachDinhDuongs != null && Model.ChiTietKeHoachDinhDuongs.Any())
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Bữa ăn</th>
+                            <th>Món ăn</th>
+                            <th>Năng lượng (Kcal)</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ChiTietKeHoachDinhDuongs)
+                        {
+                            <tr>
+                                <td>@item.BuaAn</td>
+                                <td>@item.MonAn</td>
+                                <td>@item.NangLuong</td>
+                                <td>@item.GhiChu</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>Chưa có chi tiết thực đơn nào.</p>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+@{
+    ViewData["Title"] = "Cài đặt";
+    Layout = "~/Areas/Doctor/Views/Shared/_DoctorLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800 fw-bold">Cài đặt</h1>
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card shadow mb-4 border-0 rounded-3">
+                <div class="card-header py-3 bg-white">
+                    <h5 class="m-0 font-weight-bold text-primary">Cài đặt chung</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form>
+                        <div class="mb-4">
+                            <label class="form-label fs-5 fw-bold">Ngôn ngữ</label>
+                            <select class="form-select form-select-lg">
+                                <option>Tiếng Việt</option>
+                                <option>English</option>
+                            </select>
+                        </div>
+                        <div class="mb-4 form-check form-switch">
+                            <input type="checkbox" class="form-check-input" id="darkMode" style="width: 3em; height: 1.5em;">
+                            <label class="form-check-label fs-5 ms-3 pt-1" for="darkMode">Chế độ tối</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg w-100">Lưu thay đổi</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow mb-4 border-0 rounded-3">
+                <div class="card-header py-3 bg-white">
+                    <h5 class="m-0 font-weight-bold text-primary">Thông báo</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form>
+                        <div class="mb-4 form-check form-switch">
+                            <input type="checkbox" class="form-check-input" id="emailNotif" checked style="width: 3em; height: 1.5em;">
+                            <label class="form-check-label fs-5 ms-3 pt-1" for="emailNotif">Nhận thông báo qua Email</label>
+                        </div>
+                        <div class="mb-4 form-check form-switch">
+                            <input type="checkbox" class="form-check-input" id="smsNotif" style="width: 3em; height: 1.5em;">
+                            <label class="form-check-label fs-5 ms-3 pt-1" for="smsNotif">Nhận thông báo qua SMS</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg w-100">Lưu thay đổi</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

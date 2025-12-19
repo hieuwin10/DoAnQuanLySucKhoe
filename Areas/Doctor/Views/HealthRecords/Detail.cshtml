@@ -8,45 +8,44 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Hồ Sơ Sức Khỏe</h1>
+        <h1 class="h3 mb-0 text-gray-800 fw-bold">Hồ Sơ Sức Khỏe</h1>
         <div>
-            <button type="button" class="btn btn-success shadow-sm" data-bs-toggle="modal" data-bs-target="#addReminderModal">
-                <i class="fas fa-plus fa-sm text-white-50"></i> Tạo Nhắc Nhở
+            <button type="button" class="btn btn-success shadow-sm btn-lg" data-bs-toggle="modal" data-bs-target="#addReminderModal">
+                <i class="fas fa-plus fa-sm text-white-50 me-2"></i> Tạo Nhắc Nhở
             </button>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Xuất Báo Cáo</a>
+            <a href="#" class="d-none d-sm-inline-block btn btn-lg btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50 me-2"></i> Xuất Báo Cáo</a>
         </div>
     </div>
 
     <div class="row">
         <!-- Thông tin cá nhân -->
         <div class="col-xl-4 col-lg-5">
-            <div class="card shadow mb-4 patient-info-card">
-                <div class="card-header py-3 bg-primary">
-                    <h6 class="m-0 font-weight-bold text-white">Thông Tin Bệnh Nhân</h6>
+            <div class="card shadow mb-4 patient-info-card border-0 rounded-3">
+                <div class="card-header py-3 bg-primary text-white rounded-top-3">
+                    <h5 class="m-0 font-weight-bold">Thông Tin Bệnh Nhân</h5>
                 </div>
-                <div class="card-body">
-                    <img src="~/images/BN.png" alt="Patient Avatar" class="patient-avatar" />
-                    <h4 class="font-weight-bold text-gray-800">@Model.Patient?.HoTen</h4>
-                    <hr class="w-100">
-                    <div class="info-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>@Model.Patient?.Email</span>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-birthday-cake"></i>
-                        <span>@(Model.HealthProfile?.NgaySinh?.ToString("dd/MM/yyyy") ?? "Chưa cập nhật")</span>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-venus-mars"></i>
-                        <span>@(Model.HealthProfile?.GioiTinh ?? "Chưa cập nhật")</span>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>@(Model.HealthProfile?.DiaChi ?? "Chưa cập nhật")</span>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-tint"></i>
-                        <span>Nhóm máu: @(Model.HealthProfile?.NhomMau ?? "Chưa cập nhật")</span>
+                <div class="card-body text-center">
+                    <img src="~/images/BN.png" alt="Patient Avatar" class="patient-avatar rounded-circle mb-3 border border-3 border-primary p-1" style="width: 120px; height: 120px; object-fit: cover;" />
+                    <h3 class="font-weight-bold text-gray-800 mb-1">@Model.Patient?.HoTen</h3>
+                    <p class="text-muted mb-3">@Model.Patient?.Email</p>
+                    <hr class="w-100 my-3">
+                    <div class="text-start px-3">
+                        <div class="info-item mb-3 fs-5">
+                            <i class="fas fa-birthday-cake me-3 text-primary" style="width: 25px;"></i>
+                            <span>@(Model.HealthProfile?.NgaySinh?.ToString("dd/MM/yyyy") ?? "Chưa cập nhật")</span>
+                        </div>
+                        <div class="info-item mb-3 fs-5">
+                            <i class="fas fa-venus-mars me-3 text-primary" style="width: 25px;"></i>
+                            <span>@(Model.HealthProfile?.GioiTinh ?? "Chưa cập nhật")</span>
+                        </div>
+                        <div class="info-item mb-3 fs-5">
+                            <i class="fas fa-map-marker-alt me-3 text-primary" style="width: 25px;"></i>
+                            <span>@(Model.HealthProfile?.DiaChi ?? "Chưa cập nhật")</span>
+                        </div>
+                        <div class="info-item mb-3 fs-5">
+                            <i class="fas fa-tint me-3 text-danger" style="width: 25px;"></i>
+                            <span>Nhóm máu: <span class="fw-bold">@(Model.HealthProfile?.NhomMau ?? "Chưa cập nhật")</span></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -54,47 +53,47 @@
 
         <!-- Chỉ số sức khỏe -->
         <div class="col-xl-8 col-lg-7">
-            <div class="row">
+            <div class="row g-3 mb-4">
                 <div class="col-xl-4 col-md-6">
-                    <div class="metric-card bg-info">
-                        <div class="metric-value">@Model.HealthProfile?.NhipTim<small> bpm</small></div>
-                        <div class="metric-label">Nhịp tim</div>
-                        <i class="fas fa-heartbeat metric-icon"></i>
+                    <div class="metric-card bg-info text-white p-4 rounded-3 shadow-sm position-relative overflow-hidden h-100">
+                        <div class="metric-value display-4 fw-bold">@Model.HealthProfile?.NhipTim<small class="fs-6"> bpm</small></div>
+                        <div class="metric-label fs-5">Nhịp tim</div>
+                        <i class="fas fa-heartbeat metric-icon position-absolute top-50 end-0 translate-middle-y me-3 opacity-25 fa-4x"></i>
                     </div>
                 </div>
                 <div class="col-xl-4 col-md-6">
-                    <div class="metric-card bg-danger">
-                        <div class="metric-value">@Model.HealthProfile?.HuyetApTamThu/@Model.HealthProfile?.HuyetApTamTruong</div>
-                        <div class="metric-label">Huyết áp (mmHg)</div>
-                        <i class="fas fa-stethoscope metric-icon"></i>
+                    <div class="metric-card bg-danger text-white p-4 rounded-3 shadow-sm position-relative overflow-hidden h-100">
+                        <div class="metric-value display-4 fw-bold">@Model.HealthProfile?.HuyetApTamThu/@Model.HealthProfile?.HuyetApTamTruong</div>
+                        <div class="metric-label fs-5">Huyết áp (mmHg)</div>
+                        <i class="fas fa-stethoscope metric-icon position-absolute top-50 end-0 translate-middle-y me-3 opacity-25 fa-4x"></i>
                     </div>
                 </div>
                 <div class="col-xl-4 col-md-6">
-                    <div class="metric-card bg-warning">
-                        <div class="metric-value">@Model.HealthProfile?.DuongHuyet<small> mg/dL</small></div>
-                        <div class="metric-label">Đường huyết</div>
-                        <i class="fas fa-burn metric-icon"></i>
+                    <div class="metric-card bg-warning text-white p-4 rounded-3 shadow-sm position-relative overflow-hidden h-100">
+                        <div class="metric-value display-4 fw-bold">@Model.HealthProfile?.DuongHuyet<small class="fs-6"> mg/dL</small></div>
+                        <div class="metric-label fs-5">Đường huyết</div>
+                        <i class="fas fa-burn metric-icon position-absolute top-50 end-0 translate-middle-y me-3 opacity-25 fa-4x"></i>
                     </div>
                 </div>
                 <div class="col-xl-4 col-md-6">
-                    <div class="metric-card bg-success">
-                        <div class="metric-value">@Model.HealthProfile?.CanNang<small> kg</small></div>
-                        <div class="metric-label">Cân nặng</div>
-                        <i class="fas fa-weight metric-icon"></i>
+                    <div class="metric-card bg-success text-white p-4 rounded-3 shadow-sm position-relative overflow-hidden h-100">
+                        <div class="metric-value display-4 fw-bold">@Model.HealthProfile?.CanNang<small class="fs-6"> kg</small></div>
+                        <div class="metric-label fs-5">Cân nặng</div>
+                        <i class="fas fa-weight metric-icon position-absolute top-50 end-0 translate-middle-y me-3 opacity-25 fa-4x"></i>
                     </div>
                 </div>
                 <div class="col-xl-4 col-md-6">
-                    <div class="metric-card bg-primary">
-                        <div class="metric-value">@Model.HealthProfile?.ChieuCao<small> cm</small></div>
-                        <div class="metric-label">Chiều cao</div>
-                        <i class="fas fa-ruler-vertical metric-icon"></i>
+                    <div class="metric-card bg-primary text-white p-4 rounded-3 shadow-sm position-relative overflow-hidden h-100">
+                        <div class="metric-value display-4 fw-bold">@Model.HealthProfile?.ChieuCao<small class="fs-6"> cm</small></div>
+                        <div class="metric-label fs-5">Chiều cao</div>
+                        <i class="fas fa-ruler-vertical metric-icon position-absolute top-50 end-0 translate-middle-y me-3 opacity-25 fa-4x"></i>
                     </div>
                 </div>
                  <div class="col-xl-4 col-md-6">
-                    <div class="metric-card bg-secondary">
-                        <div class="metric-value">@Model.HealthProfile?.NgayCapNhat.ToString("dd/MM/yy")</div>
-                        <div class="metric-label">Cập nhật lần cuối</div>
-                        <i class="fas fa-calendar-check metric-icon"></i>
+                    <div class="metric-card bg-secondary text-white p-4 rounded-3 shadow-sm position-relative overflow-hidden h-100">
+                        <div class="metric-value display-4 fw-bold">@Model.HealthProfile?.NgayCapNhat.ToString("dd/MM/yy")</div>
+                        <div class="metric-label fs-5">Cập nhật lần cuối</div>
+                        <i class="fas fa-calendar-check metric-icon position-absolute top-50 end-0 translate-middle-y me-3 opacity-25 fa-4x"></i>
                     </div>
                 </div>
             </div>

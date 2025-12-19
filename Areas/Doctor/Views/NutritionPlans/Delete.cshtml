@@ -1,0 +1,62 @@
+@model DoAnChamSocSucKhoe.Models.KeHoachDinhDuong
+
+@{
+    ViewData["Title"] = "Xóa Kế hoạch Dinh dưỡng";
+    Layout = "~/Areas/Doctor/Views/Shared/_DoctorLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Xóa Kế hoạch Dinh dưỡng</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-danger">Bạn có chắc chắn muốn xóa kế hoạch này?</h6>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.TenKeHoach)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.TenKeHoach)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.NguoiDung)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.NguoiDung.HoTen)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.MoTa)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.MoTa)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.NgayBatDau)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.NgayBatDau)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.NgayKetThuc)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.NgayKetThuc)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.TrangThai)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.TrangThai)
+                </dd>
+            </dl>
+            
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="KeHoachDinhDuongId" />
+                <input type="submit" value="Xóa" class="btn btn-danger" />
+                <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+            </form>
+        </div>
+    </div>
+</div>

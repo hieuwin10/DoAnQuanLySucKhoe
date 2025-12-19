@@ -285,6 +285,26 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRG9jdG9yXFZpZXdzXERhc2hib2FyZFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Hieu-HUTECH/Desktop/DoAnChamSocSucKhoe/Areas/Doctor/Views/ExercisePlans/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRG9jdG9yXFZpZXdzXEV4ZXJjaXNlUGxhbnNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hieu-HUTECH/Desktop/DoAnChamSocSucKhoe/Areas/Doctor/Views/ExercisePlans/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRG9jdG9yXFZpZXdzXEV4ZXJjaXNlUGxhbnNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hieu-HUTECH/Desktop/DoAnChamSocSucKhoe/Areas/Doctor/Views/ExercisePlans/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRG9jdG9yXFZpZXdzXEV4ZXJjaXNlUGxhbnNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hieu-HUTECH/Desktop/DoAnChamSocSucKhoe/Areas/Doctor/Views/ExercisePlans/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRG9jdG9yXFZpZXdzXEV4ZXJjaXNlUGxhbnNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hieu-HUTECH/Desktop/DoAnChamSocSucKhoe/Areas/Doctor/Views/ExercisePlans/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRG9jdG9yXFZpZXdzXEV4ZXJjaXNlUGxhbnNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Hieu-HUTECH/Desktop/DoAnChamSocSucKhoe/Areas/Doctor/Views/HealthProfile/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRG9jdG9yXFZpZXdzXEhlYWx0aFByb2ZpbGVcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -309,12 +329,40 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRG9jdG9yXFZpZXdzXEhlYWx0aFJlY29yZHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Hieu-HUTECH/Desktop/DoAnChamSocSucKhoe/Areas/Doctor/Views/NutritionPlans/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRG9jdG9yXFZpZXdzXE51dHJpdGlvblBsYW5zXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hieu-HUTECH/Desktop/DoAnChamSocSucKhoe/Areas/Doctor/Views/NutritionPlans/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRG9jdG9yXFZpZXdzXE51dHJpdGlvblBsYW5zXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hieu-HUTECH/Desktop/DoAnChamSocSucKhoe/Areas/Doctor/Views/NutritionPlans/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRG9jdG9yXFZpZXdzXE51dHJpdGlvblBsYW5zXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hieu-HUTECH/Desktop/DoAnChamSocSucKhoe/Areas/Doctor/Views/NutritionPlans/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRG9jdG9yXFZpZXdzXE51dHJpdGlvblBsYW5zXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hieu-HUTECH/Desktop/DoAnChamSocSucKhoe/Areas/Doctor/Views/NutritionPlans/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRG9jdG9yXFZpZXdzXE51dHJpdGlvblBsYW5zXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Hieu-HUTECH/Desktop/DoAnChamSocSucKhoe/Areas/Doctor/Views/Patients/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRG9jdG9yXFZpZXdzXFBhdGllbnRzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Hieu-HUTECH/Desktop/DoAnChamSocSucKhoe/Areas/Doctor/Views/Reminder/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRG9jdG9yXFZpZXdzXFJlbWluZGVyXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hieu-HUTECH/Desktop/DoAnChamSocSucKhoe/Areas/Doctor/Views/Reports/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRG9jdG9yXFZpZXdzXFJlcG9ydHNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hieu-HUTECH/Desktop/DoAnChamSocSucKhoe/Areas/Doctor/Views/Settings/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcRG9jdG9yXFZpZXdzXFNldHRpbmdzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Hieu-HUTECH/Desktop/DoAnChamSocSucKhoe/Areas/Doctor/Views/Shared/_DoctorLayout.cshtml]

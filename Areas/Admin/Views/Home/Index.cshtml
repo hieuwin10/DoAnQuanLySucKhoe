@@ -1,110 +1,256 @@
 @{
-    ViewData["Title"] = "Admin Dashboard";
+    ViewData["Title"] = "Tổng quan";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
-    <style>
-        body { background: #f4f6f9; }
-        .sidebar {
-            min-height: 100vh;
-            background: #343a40;
-            color: #fff;
-        }
-        .sidebar a {
-            color: #fff;
-            text-decoration: none;
-            display: block;
-            padding: 12px 20px;
-            border-radius: 4px;
-            margin-bottom: 4px;
-        }
-        .sidebar a.active, .sidebar a:hover {
-            background: #495057;
-        }
-        .sidebar .sidebar-title {
-            font-size: 1.3rem;
-            font-weight: bold;
-            padding: 24px 20px 12px 20px;
-        }
-        .content {
-            padding: 32px;
-        }
-        .card {
-            margin-bottom: 24px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <nav class="col-md-2 d-none d-md-block sidebar">
-                <div class="sidebar-title">Admin</div>
-                <a href="#" class="active"><i class="fa fa-user-md me-2"></i>Quản lý Bác sĩ</a>
-                <a href="#"><i class="fa fa-users me-2"></i>Quản lý Bệnh nhân</a>
-                <a href="#"><i class="fa fa-calendar-check me-2"></i>Quản lý Lịch hẹn</a>
-                <a href="#"><i class="fa fa-comments me-2"></i>Phản hồi</a>
-                <a href="#"><i class="fa fa-cog me-2"></i>Cài đặt</a>
-            </nav>
-            <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4 content">
-                <h1 class="mb-4">Bảng điều khiển Admin</h1>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card text-bg-primary">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="fa fa-user-md"></i> Bác sĩ</h5>
-                                <p class="card-text">Quản lý thông tin, thêm/xóa/sửa bác sĩ.</p>
-                                <a href="#" class="btn btn-light">Xem chi tiết</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card text-bg-success">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="fa fa-users"></i> Bệnh nhân</h5>
-                                <p class="card-text">Quản lý thông tin, thêm/xóa/sửa bệnh nhân.</p>
-                                <a href="#" class="btn btn-light">Xem chi tiết</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card text-bg-warning">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="fa fa-calendar-check"></i> Lịch hẹn</h5>
-                                <p class="card-text">Xem & duyệt lịch hẹn, quản lý trạng thái.</p>
-                                <a href="#" class="btn btn-light">Xem chi tiết</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card text-bg-info">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="fa fa-comments"></i> Phản hồi</h5>
-                                <p class="card-text">Xem và phản hồi ý kiến từ người dùng.</p>
-                                <a href="#" class="btn btn-light">Xem chi tiết</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card text-bg-secondary">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="fa fa-cog"></i> Cài đặt</h5>
-                                <p class="card-text">Cấu hình hệ thống, phân quyền, ...</p>
-                                <a href="#" class="btn btn-light">Xem chi tiết</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main>
+
+<div class="container-fluid py-4">
+    <!-- Welcome Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="display-6 fw-bold text-primary">
+                <i class="fas fa-tachometer-alt me-2"></i>Tổng quan
+            </h1>
+            <p class="text-muted lead mb-0">Chào mừng trở lại, Quản trị viên!</p>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-light shadow-sm">
+                <i class="fas fa-download me-2"></i>Tải báo cáo
+            </button>
+            <button class="btn btn-primary shadow-sm">
+                <i class="fas fa-plus me-2"></i>Thêm mới
+            </button>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="flex-shrink-0 bg-primary bg-opacity-10 p-3 rounded-4">
+                            <i class="fas fa-user-md fa-2x text-primary"></i>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
+                                <li><a class="dropdown-item" href="@Url.Action("Index", "Doctors")">Quản lý</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Create", "Doctors")">Thêm mới</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h5 class="text-muted text-uppercase small fw-bold mb-1">Bác sĩ</h5>
+                    <div class="d-flex align-items-baseline">
+                        <h2 class="mb-0 fw-bold text-dark">24</h2>
+                        <span class="ms-2 text-success small fw-bold">
+                            <i class="fas fa-arrow-up"></i> +12%
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="flex-shrink-0 bg-success bg-opacity-10 p-3 rounded-4">
+                            <i class="fas fa-users fa-2x text-success"></i>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
+                                <li><a class="dropdown-item" href="@Url.Action("Index", "Patients")">Quản lý</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h5 class="text-muted text-uppercase small fw-bold mb-1">Bệnh nhân</h5>
+                    <div class="d-flex align-items-baseline">
+                        <h2 class="mb-0 fw-bold text-dark">1,250</h2>
+                        <span class="ms-2 text-success small fw-bold">
+                            <i class="fas fa-arrow-up"></i> +5.2%
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="flex-shrink-0 bg-warning bg-opacity-10 p-3 rounded-4">
+                            <i class="fas fa-calendar-check fa-2x text-warning"></i>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
+                                <li><a class="dropdown-item" href="@Url.Action("Index", "Appointments")">Quản lý</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h5 class="text-muted text-uppercase small fw-bold mb-1">Lịch hẹn hôm nay</h5>
+                    <div class="d-flex align-items-baseline">
+                        <h2 class="mb-0 fw-bold text-dark">48</h2>
+                        <span class="ms-2 text-danger small fw-bold">
+                            <i class="fas fa-arrow-down"></i> -2.5%
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="flex-shrink-0 bg-info bg-opacity-10 p-3 rounded-4">
+                            <i class="fas fa-comments fa-2x text-info"></i>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
+                                <li><a class="dropdown-item" href="@Url.Action("Index", "Feedbacks")">Quản lý</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h5 class="text-muted text-uppercase small fw-bold mb-1">Phản hồi mới</h5>
+                    <div class="d-flex align-items-baseline">
+                        <h2 class="mb-0 fw-bold text-dark">12</h2>
+                        <span class="ms-2 text-muted small fw-bold">
+                            Chưa đọc
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity & Charts -->
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold text-primary">Thống kê truy cập</h5>
+                    <select class="form-select form-select-sm w-auto border-0 bg-light">
+                        <option>7 ngày qua</option>
+                        <option>Tháng này</option>
+                        <option>Năm nay</option>
+                    </select>
+                </div>
+                <div class="card-body">
+                    <canvas id="visitorsChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0 fw-bold text-primary">Hoạt động gần đây</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item border-0 px-4 py-3">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-sm bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                    <i class="fas fa-user-plus text-primary"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1 text-dark fw-bold">Bệnh nhân mới đăng ký</h6>
+                                    <small class="text-muted">Nguyễn Văn A - 5 phút trước</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item border-0 px-4 py-3">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-sm bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                    <i class="fas fa-calendar-check text-success"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1 text-dark fw-bold">Lịch hẹn hoàn thành</h6>
+                                    <small class="text-muted">BS. Trần Thị B - 15 phút trước</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item border-0 px-4 py-3">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-sm bg-warning bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                    <i class="fas fa-star text-warning"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1 text-dark fw-bold">Đánh giá mới</h6>
+                                    <small class="text-muted">5 sao cho BS. Lê Văn C - 1 giờ trước</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item border-0 px-4 py-3">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-sm bg-danger bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                    <i class="fas fa-exclamation-triangle text-danger"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1 text-dark fw-bold">Báo cáo vi phạm</h6>
+                                    <small class="text-muted">Spam tin nhắn - 2 giờ trước</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-white border-0 text-center py-3">
+                    <a href="#" class="text-decoration-none fw-bold text-primary">Xem tất cả <i class="fas fa-arrow-right ms-1"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Dummy Chart Data
+        const ctx = document.getElementById('visitorsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+                datasets: [{
+                    label: 'Truy cập',
+                    data: [65, 59, 80, 81, 56, 55, 40],
+                    fill: true,
+                    borderColor: '#0d6efd',
+                    backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            borderDash: [2, 2]
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}
